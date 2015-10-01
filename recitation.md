@@ -27,4 +27,13 @@ How is the GUI updated after a command has completed execution?
 
 The backend logic can pass the completed instruction into a buffer, and when the GUI steps during animation, the frontend logic will execute the instruction within the buffer. 
 
+API Development 
+
+Frontend-to-backend API 
+
+Backend-to-developers API 
+
+Frontend-to-developers API 
+
+Backend-to-frontend API 
 
