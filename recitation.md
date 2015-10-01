@@ -27,13 +27,39 @@ How is the GUI updated after a command has completed execution?
 
 The backend logic can pass the completed instruction into a buffer, and when the GUI steps during animation, the frontend logic will execute the instruction within the buffer. 
 
-API Development 
+###API Development 
 
-Frontend-to-backend API 
+#####Frontend-to-backend API 
+go method (sends the text input to the backend , probably just to the parser to parse)
 
-Backend-to-developers API 
+hard reset -- reinitiliaze everything on back end (history, user-added methods, clear the screen)
 
-Frontend-to-developers API 
+#####Backend-to-frontend API 
+msendError (error)
 
-Backend-to-frontend API 
+updateHistory
+
+updateTurtlePosition
+
+#####Backend-to-developers API 
+
+parseStringToCommand
+
+makeNewCommand
+
+
+#####Frontend-to-developers API 
+
+makeErrorBox
+
+makebutton
+
+getTurtle
+
+addTurtle
+
+styleTurtle
+
+
+
 
