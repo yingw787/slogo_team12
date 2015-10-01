@@ -16,5 +16,15 @@ The result of parsing, a coherent sequential list of functions (which will be ac
 The back engine 
 
 When are errors detected and how are they reported?
+
+Depending on whether the parser will create function objects or not, that object will be the one to detect whether or not to throw an exception because it will be reading from a set of legitimate function calls and relevant parameters. They will be reported as specific exceptions and pass it back to the frontend logic to display. 
+
 What do commands know, when do they know it, and how do they get it?
+
+Commands will know how many and what type of parameters they will pass in. They will know the operations being executed on those parameters, and ----- It will also know all relevant information needed to pass to the backend engine. They will know it their requirements before the user types in the command into the text field. 
+
 How is the GUI updated after a command has completed execution?
+
+The backend logic can pass the completed instruction into a buffer, and when the GUI steps during animation, the frontend logic will execute the instruction within the buffer. 
+
+
