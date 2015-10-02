@@ -1,0 +1,63 @@
+###Introduction
+
+###Overview
+
+
+##API Design:
+##External Front-end
+* go() -> passes text input string to back-end
+* reset() -> completely reinitializes all values (history, user-added methods, clear the screen, etc.)
+
+##External Back-end
+* sendError() -> throws exception and prompts front-end to launch error message
+* updateHistory() -> updates data structure that keeps track of command history
+* updateTurtle() -> updates turtle's position and style according to commands
+
+##Internal Front-end
+* makeErrorBox() -> displays error message
+* makeButton()
+* Turtle {
+	* boolean penDown;
+	* getTurtle()
+	* addTurtle()
+	* styleTurtle()
+	* moveTurtle()
+  }
+* displayHistory() -> displays whatever is stored in the "history" data structure in back-end
+
+##Internal Back-end
+* parseStringToCommand() -> parses string of code into commands
+* makeNewCommand() -> creates user-defined command
+* Function class -> knows function command, parameters; contains run() method to perform relevant operations
+* FunctionFactory -> given a command, return the operations called in run() for that function (or something along those lines...)
+
+###User Interface
+Components:
+* turtle graphics window 
+	* should the turtle be able to go off the screen?
+* history window (maybe on the right, like in the example) -> shows past commands
+	* should this have a separate clear history button?
+	* should be some kind of scroll pane
+* console/input below the turtle window
+	* should be some kind of scroll pane
+* VBox next to (to the right of ?) console with "RUN" and "CLEAR" controls
+* button to load simulation; when clicked, launches a pop-up to type in file name
+	* not sure where this should be located
+	* needs to have appropriate error handling
+* a way to configure turtle speed (or is that a command that would be typed into the console?)
+
+###Design Details
+
+###API Example code
+
+###Design Considerations
+* How do we store all of the functions? Should each command have its own class (subclass of Function), or should each command just be an instance of the Function class? Should we store all of them in some kind of data structure? If so, which data structure?
+	I'm leaning towards each command being a subclass that extends Function super class. We could keep them all in one package to try and keep things organized. And for user-created functions, maybe those could just be instances of some UserFunction subclass that also extends Function. (Unless we figure out a way to create a method that creates subclasses....)
+* How will we get the commands to actually operate on the turtle in the front-end?
+	I think that all of the operations performed in the run() method of each Function/Command object should be turtle-specific functions. Maybe there should be an additional class containing all of the turtle operations (like the nitty-gritty aspects of getting the turtle to move to a specifc place), and the run() function in each command would exclusively call those turtle-moving and -styling operations.
+* Where do we do error-checking for the console input?
+	Maybe in the parser.
+
+###Team Responsibilities
+
+I worked pretty much exclusively on front-end for Cell Society, so I am pretty comfortable with the UI side of JavaFX. That said, I also have some ideas for how to implement the back-end for this project, so I am totally happy to take on whatever needs to be done! Also, I'm TAing a class on functional programming, so I would be comfortable trying to work with some of that (I think that would be mostly back-end).
