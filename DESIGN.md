@@ -16,9 +16,9 @@ Logically it follows that we must have a set of classes to deal with everything 
 ###User Interface
 Components:
 * turtle graphics window 
-	* should the turtle be able to go off the screen?
+	* turtle should not be allowed off screen
 * history window (maybe on the right, like in the example) -> shows past commands
-	* should this have a separate clear history button?
+	* separate clear history button
 	* should be some kind of scroll pane
 * console/input below the turtle window
 	* should be some kind of scroll pane
@@ -26,7 +26,6 @@ Components:
 * button to load simulation; when clicked, launches a pop-up to type in file name
 	* not sure where this should be located
 	* needs to have appropriate error handling
-* a way to configure turtle speed (or is that a command that would be typed into the console?)
 
 ###Design Details
 
