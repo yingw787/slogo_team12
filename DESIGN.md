@@ -83,4 +83,24 @@ Frontend
 
 Front-end: Dan and Shari
 Back-end: Elizabeth and Ying
-I worked pretty much exclusively on front-end for Cell Society, so I am pretty comfortable with the UI side of JavaFX. That said, I also have some ideas for how to implement the back-end for this project, so I am totally happy to take on whatever needs to be done! Also, I'm TAing a class on functional programming, so I would be comfortable trying to work with some of that (I think that would be mostly back-end).
+
+Front-end responsibilities: 
+- develop the text field for the user to add in the program 
+- develop the canvas/tiled grid option for the turtle 
+- initialize the environment (set the turtle to position (0,0), etc.)
+- add in flexibility for user-created features in the front-end, and be able to pass those user-created features to the backend in a way that will modify the public API the least
+- update this feature list as the project progresses
+
+Back-end responsibilities: 
+- read information from the text field from the front-end
+- parse the information into different command objects 
+- be flexible enough in order to read different languages upon the submission of a .properties file (do not hardcode any commands)
+- use sequential development of command objects to create sequential list of commands for turtle
+- throw exceptions based on correctness of SLogo program, and communicate those exceptions to the front-end in a user-friendly way
+- send information about any state changes from the back-end to the front-end
+- update this feature list as the project progresses
+
+Team-scope responsibilities:
+- development of any public API changes between the front-end to back-end, back-end to front-end, front-end to developers, back-end to developers
+- update this feature list as the project progresses
+
