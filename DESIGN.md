@@ -1,5 +1,4 @@
 ###Introduction
-*This section describes the problem your team is trying to solve by writing this program, the primary design goals of the project (i.e., where is it most flexible), and the primary architecture of the design (i.e., what is closed and what is open). It should be approximately 200-300 words long and discuss the program at a high-level (i.e., without referencing specific classes, data structures, or code).*
 
 Our goal of writing SLogo is to enable anybody to use and extend SLogo and be able to see their results in real time. This serves the purpose of enpowering people to learn coding and to expand their coding capabilities. 
 
@@ -10,8 +9,7 @@ We will achieve this objective by implementing a model-view-controller (MVC) arc
 ###Overview
 
 In this project, users will enter commands in a GUI and will see a turtle on the screen move as a result of their commands. 
-Logically it follows that we must have a set of classes to deal with everything displayed to the user, and a set of classes to deal with processing the user's command, storing command history, and deciding what actions need to occur to the objects on the screen. Half of the public methods of the main "view" class (which will instantiate all the front-end component classes) will serve as the API for communication from front-end to backend, with the ability to send inputed text 
-
+Logically it follows that we must have a set of classes to deal with everything displayed to the user, and a set of classes to deal with processing the user's command, storing command history, and deciding what actions need to occur to the objects on the screen. It seems to us that the Model-View-Controller approach will best suit the needs of the project. The four APIs described in the introduction will exist as public menthods in the controller and a few counterpart public methods in the front-end and back-end, which will only be used to communicate with the controller. 
 
 
 
