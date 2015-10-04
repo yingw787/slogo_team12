@@ -10,20 +10,31 @@ We will achieve this objective by implementing a model-view-controller (MVC) arc
 ###Overview
 *This section serves as a map of your design for other programmers to gain a general understanding of how and why the program was divided up, and how the individual parts work together to provide the desired functionality. As such, it should describe the four APIs you intend to create (their purpose with regards to the program's functionality, and how they collaborate with each other) focusing specifically on the behavior, not the internal state. It should also include a picture of how the components are related (these pictures can be hand drawn and scanned in, created with a standard drawing program, or screen shots from a UML design program). This section should be approximately 1200-1600 words long and discuss specific classes, methods, and data structures, but not individual lines of code.*
 
-We broke down our understanding of this problem in terms of what the user sees and expects our program to do. 
+We broke down our understanding of this problem in terms of what the user sees and expects our program to do. There are multiple steps of how the user will interface with the program, and how the program will react to the user's inputs. 
+
+*Initialization of program*
+When the user launches the program, the program will automatically initialize into a default state. The Main class present will launch a Controller object, which initializes a front-end object and a back-end object.
+
+The front-end object will initialize a previously defined default state for the graphical user interface (GUI). For the Basic implementation, this will include setting the turtle's position, setting a default color for the pen the turtle is carrying, and set a default image of the turtle. The back-end object will initialize a default language (ex. English.properties) and load it into the parser to understand. 
+
+*User Interaction*
+When the program is initialized, the user will be presented with the GUI, which will contain the following information for the Basic implementation: a canvas with a default set of coordinates and a default background color, a text field for entering in the SLogo program, and a toolbar or set of buttons that can display commands previously run in the environment, variables currently available in the environment, user-defined commands available, a language dropdown menu for choosing which language the SLogo program will be written in, and access to an HTML help page for Slogo syntax. Finally, the user should have access to the run button to load the program into the back-end. The user can interact with the text field as well as the toolbar directly, and accesses the GUI indirectly through the SLogo program. The front-end should be flexible enough so that it can be styled with a CSS stylesheet. 
+
+*User Input*
+The user should be able to write programs directly within the text editor. The user should also be able to cut and paste programs written in another editor into the text editor. The user should not need to save the program in order to run it. 
+
+*Upon run action*
+When the run button is clicked, the program should be loaded in, syntactically correct, into the parser for development into command objects. The back-end should also be able to load in any other information from the GUI that is relevant to exception handling logic or return logic. For the Basic implementation, the program can be written all at once to the parser in a text file; later implementations may take advantage of writing to the parser line-by-line for more parallelism and greater performance. 
+
+*Upon exception*
+The parser will compare the commands and parameters from the SLogo program loaded in with a dictionary of recognized commands; if the command is not within that dictionary, the back-end should return an exception that indicates the command is not supported back to the front-end, which should raise a popup, and stop the execution of the program. If the command has an improper number of parameters, or the parameters are not the correct data types, the back-end should return the proper exception and cease execution of the SLogo program. The back-end should not return any other logic to the front-end besides what is needed for the exception handler to operate; thus the current state of the front-end should be unchanged from when before the SLogo program was loaded. 
 
 
-- Initialization of program 
-A main class launches a Controller object, which has a run method to initialize a front end GUI/View class (which in itself initializes the various graphical objects) and a Backend/Model class.
-- What does the user see? What can the user interact with? (languages, styling, etc.) How are these defined in classes?
-The user sees the GUI/View class's graphical components displayed on the screen (the turtle, its canvas, a text field, a go button, a reset program button, a reset history button, and a clickable history section). The user can type things into the text field and submit them with the go button. The user can click on the 
-- How does the user input programs? How does the user run programs? 
-- How does the backend take in information from the frontend? (text, GUI information, other stuff) 
+
 - Where does the API come into play? 
 - How does the back-end return information to the front-end? 
 - How do multiple events within this loop interact through time? 
 
-In this project, users will enter commands in a GUI and will see a turtle on the screen move as a result of their commands. 
 Logically it follows that we must have a set of classes to deal with everything displayed to the user, and a set of classes to deal with processing the user's command, storing command history, and deciding what actions need to occur to the objects on the screen. It seems to us that the Model-View-Controller approach will best suit the needs of the project. The four APIs described in the introduction will exist as public menthods in the controller and a few counterpart public methods in the front-end and back-end, which will only be used to communicate with the controller. 
 
 ####UML Design
