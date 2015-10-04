@@ -12,8 +12,11 @@ We will achieve this objective by implementing a model-view-controller (MVC) arc
 
 We broke down our understanding of this problem in terms of what the user sees and expects our program to do. 
 
+
 - Initialization of program 
+A main class launches a Controller object, which has a run method to initialize a front end GUI/View class (which in itself initializes the various graphical objects) and a Backend/Model class.
 - What does the user see? What can the user interact with? (languages, styling, etc.) How are these defined in classes?
+The user sees the GUI/View class's graphical components displayed on the screen (the turtle, its canvas, a text field, a go button, a reset program button, a reset history button, and a clickable history section). The user can type things into the text field and submit them with the go button. The user can click on the 
 - How does the user input programs? How does the user run programs? 
 - How does the backend take in information from the frontend? (text, GUI information, other stuff) 
 - Where does the API come into play? 
