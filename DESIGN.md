@@ -1,24 +1,41 @@
 ###Introduction
+*This section describes the problem your team is trying to solve by writing this program, the primary design goals of the project (i.e., where is it most flexible), and the primary architecture of the design (i.e., what is closed and what is open). It should be approximately 200-300 words long and discuss the program at a high-level (i.e., without referencing specific classes, data structures, or code).*
 
 Our goal of writing SLogo is to enable anybody to use and extend SLogo and be able to see their results in real time. This serves the purpose of enpowering people to learn coding and to expand their coding capabilities. 
 
 The primary design objective of this project is to develop an integrated development environment (IDE) to support the SLogo language. We also want the user to be able to extend our IDE with minimum hassle, both on the front-end side and the back-end side. 
 
-We will achieve this objective by implementing a model-view-controller (MVC) architectural pattern. This includes a distinct front-end (View), back-end (Model), and API communications logic (Controller). We intend to communicate through the controller through public APIs, for third-party extensibility. With our public APIs, any future extensions will only require the use of the APIs without having to modify existing classes, thus adhering to the Open-Closed Principle (OCP). We intend for all existing classes to be closed for modification to preserve backwards compatibility. We intend to build upon abstract classes and interfaces in order to provide maximum extensibility. 
+We will achieve this objective by implementing a model-view-controller (MVC) architectural pattern. This includes a distinct front-end (View), back-end (Model), and API communications logic (Controller). We intend to communicate through the controller through public APIs, for third-party extensibility. With our public APIs, any future extensions will only require the use of the APIs without having to modify existing classes, thus adhering to the Open-Closed Principle (OCP). We intend for all existing classes to be closed for modification to preserve backwards compatibility. We intend to build upon abstract classes and interfaces in order to provide maximum extensibility. Design patterns such as Factories for the intended inclusion of different commands and Singletons for the production of unique objects will help abstract features away from lower-level logic and decrease development time. 
 
 ###Overview
+*This section serves as a map of your design for other programmers to gain a general understanding of how and why the program was divided up, and how the individual parts work together to provide the desired functionality. As such, it should describe the four APIs you intend to create (their purpose with regards to the program's functionality, and how they collaborate with each other) focusing specifically on the behavior, not the internal state. It should also include a picture of how the components are related (these pictures can be hand drawn and scanned in, created with a standard drawing program, or screen shots from a UML design program). This section should be approximately 1200-1600 words long and discuss specific classes, methods, and data structures, but not individual lines of code.*
+
+We broke down our understanding of this problem in terms of what the user sees and expects our program to do. 
+
+
+- Initialization of program 
+A main class launches a Controller object, which has a run method to initialize a front end GUI/View class (which in itself initializes the various graphical objects) and a Backend/Model class.
+- What does the user see? What can the user interact with? (languages, styling, etc.) How are these defined in classes?
+The user sees the GUI/View class's graphical components displayed on the screen (the turtle, its canvas, a text field, a go button, a reset program button, a reset history button, and a clickable history section). The user can type things into the text field and submit them with the go button. The user can click on the 
+- How does the user input programs? How does the user run programs? 
+- How does the backend take in information from the frontend? (text, GUI information, other stuff) 
+- Where does the API come into play? 
+- How does the back-end return information to the front-end? 
+- How do multiple events within this loop interact through time? 
 
 In this project, users will enter commands in a GUI and will see a turtle on the screen move as a result of their commands. 
 Logically it follows that we must have a set of classes to deal with everything displayed to the user, and a set of classes to deal with processing the user's command, storing command history, and deciding what actions need to occur to the objects on the screen. It seems to us that the Model-View-Controller approach will best suit the needs of the project. The four APIs described in the introduction will exist as public menthods in the controller and a few counterpart public methods in the front-end and back-end, which will only be used to communicate with the controller. 
 
+####UML Design
+![Image of UML](https://github.com/duke-compsci308-fall2015/slogo_team12/blob/master/UML%20Design.PNG)
 
 
 ###User Interface
 Components:
 * turtle graphics window 
-	* should the turtle be able to go off the screen?
+	* turtle should not be allowed off screen
 * history window (maybe on the right, like in the example) -> shows past commands
-	* should this have a separate clear history button?
+	* separate clear history button
 	* should be some kind of scroll pane
 * console/input below the turtle window
 	* should be some kind of scroll pane
@@ -26,7 +43,6 @@ Components:
 * button to load simulation; when clicked, launches a pop-up to type in file name
 	* not sure where this should be located
 	* needs to have appropriate error handling
-* a way to configure turtle speed (or is that a command that would be typed into the console?)
 
 ###Design Details
 
