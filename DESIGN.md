@@ -45,6 +45,7 @@ Components:
 	* needs to have appropriate error handling
 
 ###Design Details
+*This section describes each API introduced in the Overview in detail. It should describe how each API supports specific features given in the assignment specification, what resources it might use, how it is intended to be used, and how it could be extended to include additional requirements (from the assignment specification or discussed by your team). Finally, justify the decision to create each class introduced with respect to the design's key goals, principles, and abstractions. This section may be as long as it needs to be and go into as much detail as necessary to cover all your team wants to say.*
 
 #####API Design:
 #####External Front-end
