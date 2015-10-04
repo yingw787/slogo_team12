@@ -1,10 +1,11 @@
 ###Introduction
+*This section describes the problem your team is trying to solve by writing this program, the primary design goals of the project (i.e., where is it most flexible), and the primary architecture of the design (i.e., what is closed and what is open). It should be approximately 200-300 words long and discuss the program at a high-level (i.e., without referencing specific classes, data structures, or code).*
 
 Our goal of writing SLogo is to enable anybody to use and extend SLogo and be able to see their results in real time. This serves the purpose of enpowering people to learn coding and to expand their coding capabilities. 
 
 The primary design objective of this project is to develop an integrated development environment (IDE) to support the SLogo language. We also want the user to be able to extend our IDE with minimum hassle, both on the front-end side and the back-end side. 
 
-We will achieve this objective by implementing a model-view-controller (MVC) architectural pattern. This includes a distinct front-end (View), back-end (Model), and API communications logic (Controller). We intend to communicate through the controller through public APIs, for third-party extensibility. With our public APIs, any future extensions will only require the use of the APIs without having to modify existing classes, thus adhering to the Open-Closed Principle (OCP). We intend for all existing classes to be closed for modification to preserve backwards compatibility. We intend to build upon abstract classes and interfaces in order to provide maximum extensibility. 
+We will achieve this objective by implementing a model-view-controller (MVC) architectural pattern. This includes a distinct front-end (View), back-end (Model), and API communications logic (Controller). We intend to communicate through the controller through public APIs, for third-party extensibility. With our public APIs, any future extensions will only require the use of the APIs without having to modify existing classes, thus adhering to the Open-Closed Principle (OCP). We intend for all existing classes to be closed for modification to preserve backwards compatibility. We intend to build upon abstract classes and interfaces in order to provide maximum extensibility. Design patterns such as Factories for the intended inclusion of different commands and Singletons for the production of unique objects will help abstract features away from lower-level logic and decrease development time. 
 
 ###Overview
 
