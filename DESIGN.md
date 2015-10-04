@@ -36,15 +36,10 @@ The toolbar should interact with the backend separately from the text editor and
 The API is the composition of all public methods available, broken up into the front-end to back-end, back-end to front-end, back-end to developers, and front-end to developers. The front-end back-end communications as it is currently envisioned is passed through the Controller module in order to isolate any points of failure and to abstract it away from the core back-end and front-end logic. This way, if the API needs to be changed later on that affect back-end to front-end communications, the developers will know to change the Controller module alone. Any methods made public in the back-end or front-end logic should not affect any other methods running in the program unless there is an explicit change.
 
 *Back-end Logic - canvas*
-
-
+When the user hits the run button, the text from the text editor goes into the parser and becomes a series of command objects. These command objects are loaded into a queue or a kind of FIFO data structure where it is sent into a buffer. Every time the animation steps, the front-end logic can look at the buffer and update the state if it changes, then clears the buffer for the next animation step. The back-end and front-end logic will have to be synchronized in order to pass state changes efficiently.
 
 *Back-end logic - toolbar*
-
-
-- How does the back-end return information to the front-end? 
-- How do multiple events within this loop interact through time? 
-
+Unlike the back-end logic for the canvas, the back-end logic for the toolbar should return as soon as it has the correct result. An abstracted event handler can be passed through to the back-end logic, which will determine which event handler it is and thus what type of information needs to be sent over to the front-end display. Ideally a Factory-like design pattern can assist in adding handlers in easily. 
 
 ####UML Design
 ![Image of UML](https://github.com/duke-compsci308-fall2015/slogo_team12/blob/master/UML%20Design.PNG)
