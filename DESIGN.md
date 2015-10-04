@@ -29,13 +29,22 @@ When the run button is clicked, the program should be loaded in, syntactically c
 *Upon exception*
 The parser will compare the commands and parameters from the SLogo program loaded in with a dictionary of recognized commands; if the command is not within that dictionary, the back-end should return an exception that indicates the command is not supported back to the front-end, which should raise a popup, and stop the execution of the program. If the command has an improper number of parameters, or the parameters are not the correct data types, the back-end should return the proper exception and cease execution of the SLogo program. The back-end should not return any other logic to the front-end besides what is needed for the exception handler to operate; thus the current state of the front-end should be unchanged from when before the SLogo program was loaded. 
 
+*Toolbar*
+The toolbar should interact with the backend separately from the text editor and the run button; essentially it should not change the state of the GUI beyond returning the requisite information. There can be a sidebar that can display the state of the variables in play in the program, previous programs that can be run, and other information displayed to the GUI that is not in the canvas. The HTML page can open within a browser instead of displaying in the GUI, or it can display within the sidebar. Regardless these series of commands should operate independently of the canvas. 
+
+*API*
+The API is the composition of all public methods available, broken up into the front-end to back-end, back-end to front-end, back-end to developers, and front-end to developers. The front-end back-end communications as it is currently envisioned is passed through the Controller module in order to isolate any points of failure and to abstract it away from the core back-end and front-end logic. This way, if the API needs to be changed later on that affect back-end to front-end communications, the developers will know to change the Controller module alone. Any methods made public in the back-end or front-end logic should not affect any other methods running in the program unless there is an explicit change.
+
+*Back-end Logic - canvas*
 
 
-- Where does the API come into play? 
+
+*Back-end logic - toolbar*
+
+
 - How does the back-end return information to the front-end? 
 - How do multiple events within this loop interact through time? 
 
-Logically it follows that we must have a set of classes to deal with everything displayed to the user, and a set of classes to deal with processing the user's command, storing command history, and deciding what actions need to occur to the objects on the screen. It seems to us that the Model-View-Controller approach will best suit the needs of the project. The four APIs described in the introduction will exist as public menthods in the controller and a few counterpart public methods in the front-end and back-end, which will only be used to communicate with the controller. 
 
 ####UML Design
 ![Image of UML](https://github.com/duke-compsci308-fall2015/slogo_team12/blob/master/UML%20Design.PNG)
