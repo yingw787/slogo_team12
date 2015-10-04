@@ -50,11 +50,11 @@ Components:
 *This section describes each API introduced in the Overview in detail. It should describe how each API supports specific features given in the assignment specification, what resources it might use, how it is intended to be used, and how it could be extended to include additional requirements (from the assignment specification or discussed by your team). Finally, justify the decision to create each class introduced with respect to the design's key goals, principles, and abstractions. This section may be as long as it needs to be and go into as much detail as necessary to cover all your team wants to say.*
 
 #####API Design:
-#####External Front-end
+#####External Front-end: This API is how a user enters a command into the GUI and it is sent for action to be taken. 
 * go() -> passes text input string to back-end (includes an exception for catching invalid text)
 * reset() -> completely reinitializes all values (history, user-added methods, clear the screen, etc.)
 
-#####External Back-end
+#####External Back-end: This communicates the display changes that need to happen for the turtle after commands have been processed
 * sendError() -> throws exception and prompts front-end to launch error message
 * updateHistory() -> updates data structure that keeps track of command history
 * updateTurtle() -> updates turtle's position and style according to commands
