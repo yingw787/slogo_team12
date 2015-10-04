@@ -60,12 +60,24 @@ Components:
 ###API Example code
 
 ###Design Considerations
-* How do we store all of the functions? Should each command have its own class (subclass of Function), or should each command just be an instance of the Function class? Should we store all of them in some kind of data structure? If so, which data structure?
-	I'm leaning towards each command being a subclass that extends Function super class. We could keep them all in one package to try and keep things organized. And for user-created functions, maybe those could just be instances of some UserFunction subclass that also extends Function. (Unless we figure out a way to create a method that creates subclasses....)
-* How will we get the commands to actually operate on the turtle in the front-end?
-	I think that all of the operations performed in the run() method of each Function/Command object should be turtle-specific functions. Maybe there should be an additional class containing all of the turtle operations (like the nitty-gritty aspects of getting the turtle to move to a specifc place), and the run() function in each command would exclusively call those turtle-moving and -styling operations.
-* Where do we do error-checking for the console input?
-	Maybe in the parser.
+
+
+Backend
+
+* Should each command have its own class extending from a Function superclass, or should each command just be an instance of the Function class? Is there a better method? How does the eventual choice impact the flexibility of the Function class?
+* Should we store all of these functions in some kind of data structure? If so, which data structure? What kind of design pattern would maximize the flexibility and extensibility of this program?
+* How can/would users add in their own functions into the SLogo program? Should they be granted that power in the first place? How would allowing this into the API impact the design of the parser? 
+* What if there are additional commands the backend needs to send to the frontend? How can we send additional commands without stretching the API?
+* How would the command classes be organized within the larger project? Would this impact its accessibility by other classes, and if so, how?
+* What kind of error checking will be built in to the backend? How will this error checking interface with the frontend? What class/where does this error checking happen? 
+
+Frontend
+
+* How should the frontend send the SLogo information to the backend? Should it send it as one giant chunk of text, or should it send it line by line? Should it have some method of recognizing the code itself so that it can intelligently split up commands to feed to the backend? What impact would these different solutions have on runtime and memory? 
+* Should the frontend send additional information about itself to the backend? For example, if the frontend turtle environment was a tiled grid vs. a pixeled canvas, or if there are additional buttons in a toolbar? 
+* What kind of features can users extend on the frontend? What kind of features/Are there features should the user not be able to modify or extend? How will this impact the flexibility of the frontend classes? How will any additional functionality be integrated with the backend? Should it all be stored in one class, or broken up into "frontend" and "backend" classes?
+* What kind of additional functionality can be integrated into the frontend without editing classes? For example, colorizing the program text in the frontend using a CSS stylesheet upon function recognition? What about writing in different languages using a resource file? 
+* How can the user add in or modify parts of the environment to suit their style? How can the user upload different turtle .png files for example? What about obstacle courses (or files describing obstacle courses? Should the underlying functionality be expected to be extensible to prepare for this eventuality? 
 
 ###Team Responsibilities
 
