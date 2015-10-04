@@ -1,35 +1,9 @@
 ###Introduction
+The goal of this project is to develop IDE to support a simplified version of the Logo language. Our primary design goal is to implement distinct front-end and back-end compenents that comunicate through public APIs. The goal is that after we have completed our project, any future feature addition will require only the use of the APIs, without having to modify previously closed classes. Essentially we wish to adhere to the open-closed principle. We will develop 4 APIs - one for communication between front-end to back-end, one for communication from back-end to front-end, one for the front-end that is designed for future programmers to develop their own uses, and one for the backend for future programmers to develop their own uses. 
+
+The open arcithecture will consist of abstract classes that are open to be impemented in closed subclasses. The API interface will consist of public method mehtods to communicate between a front-end set of classes (which are closed) and a back-end set of classes (also closed).
 
 ###Overview
-
-
-##API Design:
-##External Front-end
-* go() -> passes text input string to back-end
-* reset() -> completely reinitializes all values (history, user-added methods, clear the screen, etc.)
-
-##External Back-end
-* sendError() -> throws exception and prompts front-end to launch error message
-* updateHistory() -> updates data structure that keeps track of command history
-* updateTurtle() -> updates turtle's position and style according to commands
-
-##Internal Front-end
-* makeErrorBox() -> displays error message
-* makeButton()
-* Turtle {
-	* boolean penDown;
-	* getTurtle()
-	* addTurtle()
-	* styleTurtle()
-	* moveTurtle()
-  }
-* displayHistory() -> displays whatever is stored in the "history" data structure in back-end
-
-##Internal Back-end
-* parseStringToCommand() -> parses string of code into commands
-* makeNewCommand() -> creates user-defined command
-* Function class -> knows function command, parameters; contains run() method to perform relevant operations
-* FunctionFactory -> given a command, return the operations called in run() for that function (or something along those lines...)
 
 ###User Interface
 Components:
@@ -48,6 +22,35 @@ Components:
 
 ###Design Details
 
+#####API Design:
+#####External Front-end
+* go() -> passes text input string to back-end (includes an EXCEPTION for catching invalid text)
+* reset() -> completely reinitializes all values (history, user-added methods, clear the screen, etc.)
+
+#####External Back-end
+* sendError() -> throws exception and prompts front-end to launch error message
+* updateHistory() -> updates data structure that keeps track of command history
+* updateTurtle() -> updates turtle's position and style according to commands
+
+#####Internal Front-end
+* makeErrorBox() -> displays error message
+* makeButton()
+* Turtle {
+	* boolean penDown;
+	* getTurtle()
+	* addTurtle()
+	* styleTurtle()
+	* moveTurtle()
+  }
+* displayHistory() -> displays whatever is stored in the "history" data structure in back-end
+
+####Internal Back-end
+* parseStringToCommand() -> parses string of code into commands
+* makeNewCommand() -> creates user-defined command
+* Function class -> knows function command, parameters; contains run() method to perform relevant operations
+* FunctionFactory -> given a command, return the operations called in run() for that function (or something along those lines...)
+* 
+
 ###API Example code
 
 ###Design Considerations
@@ -60,4 +63,6 @@ Components:
 
 ###Team Responsibilities
 
+Front-end: Dan and Shari
+Back-end: Elizabeth and Ying
 I worked pretty much exclusively on front-end for Cell Society, so I am pretty comfortable with the UI side of JavaFX. That said, I also have some ideas for how to implement the back-end for this project, so I am totally happy to take on whatever needs to be done! Also, I'm TAing a class on functional programming, so I would be comfortable trying to work with some of that (I think that would be mostly back-end).
