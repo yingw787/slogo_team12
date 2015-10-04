@@ -12,6 +12,8 @@ We will achieve this objective by implementing a model-view-controller (MVC) arc
 In this project, users will enter commands in a GUI and will see a turtle on the screen move as a result of their commands. 
 Logically it follows that we must have a set of classes to deal with everything displayed to the user, and a set of classes to deal with processing the user's command, storing command history, and deciding what actions need to occur to the objects on the screen. It seems to us that the Model-View-Controller approach will best suit the needs of the project. The four APIs described in the introduction will exist as public menthods in the controller and a few counterpart public methods in the front-end and back-end, which will only be used to communicate with the controller. 
 
+####UML Design
+![Image of UML](https://github.com/duke-compsci308-fall2015/slogo_team12/blob/master/UML%20Design.PNG)
 
 
 ###User Interface
