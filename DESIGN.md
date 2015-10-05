@@ -87,7 +87,7 @@ Components:
 * displayHistory() -> displays whatever is stored in the "history" data structure in back-end
 
 
-####Internal Back-end: These methods will create the necessary objects to add to a buffer that the updateTurtle() command will read from
+#####Internal Back-end: These methods will create the necessary objects to add to a buffer that the updateTurtle() command will read from.
 * parseStringToCommand() -> parses string of code into commands
 * makeNewCommand() -> creates user-defined command
 * Function class -> knows function command, parameters; contains run() method to perform relevant operations
