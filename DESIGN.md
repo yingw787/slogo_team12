@@ -100,6 +100,7 @@ The classes discussed in the Overview UML Design are a basis for the MVC style p
 
 ###API Example code
 
+Upon the user typing in 'fd 50' into the command window they would hit the enter key or the go button which would trigger a method in the UI class called go(). This go method would then call its public counterpart in the Controller class also called go() but public. The Controller's go() would then call a private counterpart method in the backend class which would run a method that would parse the data. The results of the parsing would be an array of strings returned back to the backend class. This array of strings would then be iterated over and relevant Command objects would be created by the CommandFactory class. In this case the forward command would be created with parameter 50. This command would then be returned to the backend class and a private method would call the run function from the command. The result of this command would be the distance to move the turtle and it would then call a private method which would call a public method in Controller called updateTurtle(). This update method would then call a private method in UI which would then update the turtle. Those are the public methods that would have to be called. The rest of the rendering would happen in the UI without the need to call additional public methods.
 ###Design Considerations
 
 
