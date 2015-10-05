@@ -13,21 +13,21 @@ We will achieve this objective by implementing a model-view-controller (MVC) arc
 We broke down our understanding of this problem in terms of what the user sees and expects our program to do. There are multiple steps of how the user will interface with the program, and how the program will react to the user's inputs. 
 
 *Initialization of program*
-When the user launches the program, the program will automatically initialize into a default state. The Main class present will launch a Controller object, which initializes a front-end object and a back-end object.
+When the user launches the program, the program will automatically initialize into a default state. The Main class will launch a Controller object which will, upon its initializaition, initialize a front-end object and a back-end object.
 
-The front-end object will initialize a previously defined default state for the graphical user interface (GUI). For the Basic implementation, this will include setting the turtle's position, setting a default color for the pen the turtle is carrying, and set a default image of the turtle. The back-end object will initialize a default language from a properties file (ex. English.properties) and load it into the parser to understand. 
+The front-end object will initialize a previously defined default state for the graphical user interface (GUI) to be presented to the user. For the Basic implementation, this will include setting the turtle's position, setting a default color for the pen the turtle is carrying, and set a default image of the turtle. The back-end object will initialize a default language from a properties file (ex. English.properties) and will initialize a singleton parsing object and a data structure to hold command history. 
 
 *User Interaction*
-When the program is initialized, the user will be presented with the GUI, which will contain the following information for the Basic implementation: a canvas with a default set of coordinates and a default background color, a text field for entering in the SLogo program, and a toolbar or set of buttons that can display commands previously run in the environment, variables currently available in the environment, user-defined commands available, options to reset the history and canvas, a language dropdown menu for choosing which language the SLogo program will be written in, and access to an HTML help page for Slogo syntax. Finally, the user should have access to the run button to load the program into the back-end. The user can interact with the text field as well as the toolbar directly, and accesses the GUI indirectly through the SLogo program. The front-end should be flexible enough so that it can be styled with a CSS stylesheet. 
+When the program is initialized, the user will be presented with the GUI, which will contain the following information for the Basic implementation: a canvas with a default set of coordinates and a default background color, a text field for entering in the SLogo program, and a toolbar or set of buttons that can display commands previously run in the environment, variables currently available in the environment, user-defined commands available, options to reset the history and canvas, a language dropdown menu for choosing which language the SLogo program will be written in, and access to a detailed HTML help page for Slogo syntax to assist confused users. Finally, the user should have access to the run button to load the program into the back-end. The user can interact with the text field as well as the toolbar directly, and accesses the GUI indirectly through the SLogo program. The front-end should be flexible enough so that it can be styled with a CSS stylesheet and so that additional buttons or other modifications can be added modularly and without changes to the current code.  
 
 *User Input*
 The user should be able to write programs directly within the text editor. The user should also be able to cut and paste programs written in another editor into the text editor. The user should not need to save the program in order to run it. The programs should be able to span multiple lines. 
 
 *Upon run action*
-When the run button is clicked the program should be loaded in, syntactically correct, into the parser for development into command objects. If the program is written incorrectly, an exception will be thrown and a relevant error message will be presented to the user. The back-end should also be able to load in any other information from the GUI that is relevant to exception handling logic or return logic. For the Basic implementation, the program can be written all at once to the parser in a text file; later implementations may take advantage of writing to the parser line-by-line for more parallelism and greater performance. 
+When the run button is clicked the program (written in the text field) should be loaded in, syntactically correct, into the parser for development into command objects. If the program is written incorrectly, an exception will be thrown and a relevant error message will be presented to the user. The text field will only clear upon successful completion of a program. Otherwise the text will remain in place so that the user can modify it to the proper syntax without having to retype the command. Along with the text from the text field, the back-end should also be able to load in any other information from the GUI that is relevant to exception handling logic or return logic. For the Basic implementation, the program can be written all at once to the parser in a text file; later implementations may take advantage of writing to the parser line-by-line for more parallelism and greater performance. 
 
 *Upon exception*
-The parser will compare the commands and parameters from the SLogo program loaded in with a dictionary of recognized commands; if the command is not within that dictionary, the back-end should return an exception that indicates the command is not supported back to the front-end, which should raise a popup, and stop the execution of the program. If the command has an improper number of parameters, or the parameters are not the correct data types, the back-end should return the proper exception which should display a relevant error message to the user and cease execution of the SLogo program. The back-end should not return any other logic to the front-end besides what is needed for the exception handler to operate; thus the current state of the front-end should be unchanged from when before the SLogo program was loaded. 
+The parser will compare the commands and parameters from the SLogo program loaded in with a dictionary of recognized commands; if the command is not within that dictionary, the back-end should return an exception that indicates the command is not supported back to the front-end, which should raise a popup, and stop the execution of the program. If the command has an improper number of parameters, or the parameters are not the correct data types, the back-end should return the proper exception which should display a relevant error message to the user and cease execution of the SLogo program, leaving then text field containing the text that was submitted so that it can be modified to the proper syntax. The back-end should not return any other logic to the front-end besides what is needed for the exception handler to operate; thus the current state of the front-end should be unchanged from when before the SLogo program was loaded. 
 
 *Toolbar*
 The toolbar should interact with the backend separately from the text editor and the run button; essentially it should not change the state of the GUI beyond returning the requisite information. There can be a sidebar that can display the state of the variables in play in the program, previous programs that can be run upon clicking (or at least upon clicking the contents of the program are entered into the text field and run from there), and other information displayed to the GUI that is not in the canvas. The HTML page can open within a browser instead of displaying in the GUI, or it can display within the sidebar. Regardless these series of commands should operate independently of the canvas. 
@@ -74,7 +74,7 @@ Components:
 * updateHistory() -> updates data structure that keeps track of command history
 * updateTurtle() -> updates turtle's position and style according to commands
 
-#####Internal Front-end
+#####Internal Front-end: These functions can be useful beyond our basic implementation, to deisgn building blocks for future features
 * makeErrorBox() -> displays error message
 * makeButton()
 * Turtle {
@@ -86,12 +86,17 @@ Components:
   }
 * displayHistory() -> displays whatever is stored in the "history" data structure in back-end
 
-####Internal Back-end
+
+####Internal Back-end: These methods will create the necessary objects to add to a buffer that the updateTurtle() command will read from
 * parseStringToCommand() -> parses string of code into commands
 * makeNewCommand() -> creates user-defined command
 * Function class -> knows function command, parameters; contains run() method to perform relevant operations
 * FunctionFactory -> given a command, return the operations called in run() for that function (or something along those lines...)
-* 
+
+
+The APIs can be extended with the addition of more public methods, or developing features that employ a variety of the existing methods. 
+
+The classes discussed in the Overview UML Design are a basis for the MVC style program we want to create. Each class describes an important and different function within the design (explored very thoroughly in the Overview) and it seems that this design is the optimal solution for the program we want to develop.
 
 ###API Example code
 
