@@ -11,6 +11,15 @@ public class Controller extends Application {
 	private Backend myBackend;
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
+		
+		//discussed in lecture -- Observable!
+		//sets up observable relationships
+		//for making modular, for instace, history pane, canvas, both 
+		//want to know when something has changed (something obervable)
+		//then act everytime change
+
+		
 		myGUI = new GUI(this, "English");
 		myBackend = new Backend(this);
 		
