@@ -1,17 +1,29 @@
 package view;
 
+import java.util.ResourceBundle;
+
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class GUIfactory {
 
-	public GUIfactory(){
+	
+	private ResourceBundle myResources;
+	
+	public GUIfactory(ResourceBundle bundle){
 		
-			
+			myResources = bundle;
 	}
 	
-	public Button makeButton(String name){
+	public BorderPane makeBorderPane(){
 		
+		return new BorderPane();
+		
+		}
+	
+	public Button makeButton(String name){
+		//if tree for all the different types of buttons
 		
 		return null;
 	}
