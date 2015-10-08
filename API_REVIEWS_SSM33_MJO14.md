@@ -29,6 +29,7 @@ gui layout
 user wants to change variables by clicking
 invalid text entered, what is returned to the screen?
 want to redo layout 
+want to run saved file
 want to add another turtle
 
 ###What feature/design problem are you most excited to work on?
