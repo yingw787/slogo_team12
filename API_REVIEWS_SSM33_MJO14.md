@@ -26,11 +26,11 @@ good means wont have to chagne it to add features. open-closed principle.
 gui layout
 
 ###Come up with at least four use cases for your part (it is absolutely fine if they are useful for both teams).
-user wants to change variables by clicking
-invalid text entered, what is returned to the screen?
-want to redo layout 
-want to run saved file
-want to add another turtle
+- user wants to change variables by clicking
+- invalid text entered, what is returned to the screen?
+- want to redo layout 
+- want to run saved file
+- want to add another turtle
 
 ###What feature/design problem are you most excited to work on?
 setting up observer/observable relationships
