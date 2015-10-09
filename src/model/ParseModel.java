@@ -9,103 +9,74 @@ import commands.Command;
 
 public class ParseModel {
 	public static final String WHITESPACE = "\\s+";
+	public static final String[] BRACES = { "(", ")", "[", "]" };
 	
-	private RegExUtil myRegEx;
+	private RegExUtil myRegExUtil;
 	private ArrayList<String> myInput;
 	private Map<String,Command> myCommands;
 	private List<ExpressionNode> myCommandList;
 	
 	public ParseModel(String input, Map<String,Command> functionMap, String languageFile) {
 		myInput = initInput(input);
+		System.out.println(myInput);
 		myCommands = functionMap;
-		myRegEx = new RegExUtil(languageFile);
+		myRegExUtil = new RegExUtil(languageFile);
 	}
 	
 	public List<ExpressionNode> createParseModel() {
-		parse();
-		return myCommandList;
-	}
-	
-	private void parse() {
 		myCommandList = new ArrayList<ExpressionNode>();
 		while (myInput.size() > 0) {
 			ExpressionNode nextNode = readNextNode();
 			buildSubTree(nextNode);
 			myCommandList.add(nextNode);
 		}
+		return myCommandList;
 	}
 
 	private ExpressionNode buildSubTree(ExpressionNode parentNode) {
 		Command parentCommand = myCommands.get(parentNode.getCommand());
-		if (myInput.size() == 0 || parentNode.getChildren().size() == parentCommand.getNumParameters()) {
+		int numChildren = getNumChildren(parentNode.getCommand(), parentCommand);
+		if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
 			return parentNode;
 		}
-		while (parentNode.getChildren().size() < parentCommand.getNumParameters()) {
+		while (parentNode.getChildren().size() < numChildren) {
 			ExpressionNode nextNode = readNextNode();
 			parentNode.addChild(buildSubTree(nextNode));
 		}
 		return parentNode;
 	}
+	
+	private int getNumChildren(String command, Command parentCommand) {
+		if (myRegExUtil.getTurtleCommandKeys().contains(command)) {
+			return parentCommand.getNumParameters();
+		} else if (command.equals("GroupStart")) {
+			return findEndBrace(")");
+		} else if (command.equals("ListStart")) {
+			return findEndBrace("]");
+		} else if (command.equals("Constant")) {
+			return 0;
+		} else if (command.equals("Variable")) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	private int findEndBrace(String endBrace) {
+		int endBraceIndex = myInput.indexOf(endBrace);
+		myInput.remove(endBraceIndex);
+		return endBraceIndex;
+	}
 
 	private ExpressionNode readNextNode() {
 		String nextExpr = myInput.get(0);
 		myInput.remove(nextExpr);
-		ExpressionNode nextNode = new ExpressionNode(nextExpr, myRegEx.matchPattern(nextExpr));
+		ExpressionNode nextNode = new ExpressionNode(nextExpr, myRegExUtil.matchPattern(nextExpr));
 		return nextNode;
 	}
 	
-//	private ExpressionNode parse(ExpressionNode parentNode) {
-//		if (myInput.size() == 0) {
-//			return null;
-//		}
-//		String curExpr = myInput.get(0);
-//        if (curExpr.trim().length() > 0) {
-//            try {
-//            	String token = myRegEx.matchPattern(curExpr);
-//            	ExpressionNode curNode = new ExpressionNode(curExpr, token);
-//            	parseToken(parentNode, curNode);
-//                return curNode;
-//            } catch (NullPointerException e) {
-//            	//TODO change this exception
-//            	//unrecognized syntax
-//            	e.printStackTrace();
-//            }
-//        }
-//        return null;
-//	}
-//	
-//	private void parseToken(ExpressionNode parentNode, ExpressionNode curNode) {
-//		myInput.remove(0);
-//		//System.out.println(curNode.getExpression());
-//		switch (parentNode.getRegEx()) {
-//		case VARIABLE:
-//			parentNode.addChild(parse(parentNode));
-//			break;
-//		case COMMAND:
-//			for (int i=0; i < myFunctions.get(parentNode.getExpression()).getNumParameters(); i++) {
-//				parentNode.addChild(parse(parentNode));
-//			}
-//			break;
-//		case LIST_START:
-//			lookForEndBrace(parentNode, curNode, LIST_END);
-//			break;
-//		case GROUP_START:
-//			lookForEndBrace(parentNode, curNode, GROUP_END);
-//			break;
-//		}
-//		parse(curNode);
-//	}
-//	
-//	private void lookForEndBrace(ExpressionNode parentNode, ExpressionNode curNode, String endBrace) {
-//		if (myInput.size() == 0) {
-//			//throw exception
-//		}
-//		while (!curNode.getRegEx().equals(endBrace)) {
-//			parentNode.addChild(parse(parentNode));
-//		}
-//	}
-	
-	// pre-process the input to remove comments
+	/**
+	 * Pre-process input before parsing to remove comments and add spaces after beginning braces
+	 */
 	private ArrayList<String> initInput(String input) {
 		while (input.length() > 0) {
 			int idx = input.indexOf("#");
@@ -118,7 +89,24 @@ public class ParseModel {
 				input = input.substring(0, idx) + input.substring(upperBound, input.length());
 			}
 		}
+		for (String brace: BRACES) {
+			input = findBraces(input, brace);
+		}
 		return new ArrayList(Arrays.asList(input.split(WHITESPACE)));
+	}
+	
+	private String findBraces(String input, String brace) {
+		int index = 0;
+		int braceIdx = input.indexOf(brace, index);
+		while (braceIdx > 0) {
+			if (braceIdx == input.length()-1) {
+				input = input.substring(0, braceIdx) + " " + input.substring(braceIdx, braceIdx+1);
+				break;
+			}
+			input = input.substring(0, braceIdx) + " " + input.substring(braceIdx, braceIdx+1) + " " + input.substring(braceIdx+1, input.length()); 
+			braceIdx = input.indexOf(brace, braceIdx+2);
+		}
+		return input;
 	}
 	
 	//FOR DEBUGGING

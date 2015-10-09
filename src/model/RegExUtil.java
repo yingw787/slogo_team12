@@ -1,20 +1,26 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class RegExUtil {
 	public static final String REG_EX_SYNTAX_FILE = "resources/languages/Syntax";
 	
 	private List<Entry<String, Pattern>> myPatterns;
+	private List<Entry<String, Pattern>> myTurtleCommandPatterns;
+	private List<Entry<String, Pattern>> myBasicSyntaxPatterns;
 	
 	public RegExUtil(String languageFile) {
-		myPatterns = makePatterns(languageFile);
+		myTurtleCommandPatterns = makePatterns(languageFile);
+		myPatterns = new ArrayList<Entry<String, Pattern>>();
+		myPatterns.addAll(myTurtleCommandPatterns);
 		myPatterns.addAll(makePatterns(REG_EX_SYNTAX_FILE));
 	}
 	
@@ -25,6 +31,12 @@ public class RegExUtil {
             }
         }
 		return null;
+	}
+	
+	public List<String> getTurtleCommandKeys() {
+		return myTurtleCommandPatterns.stream()
+				.map(entry -> entry.getKey())
+				.collect(Collectors.toList());
 	}
 	
 	//from Professor Duvall's code
