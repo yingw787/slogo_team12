@@ -13,26 +13,21 @@ public class ParseModel {
 	private RegExUtil myRegEx;
 	private ArrayList<String> myInput;
 	private Map<String,Command> myCommands;
-	private ExpressionNode myRoot;
 	private List<ExpressionNode> myCommandList;
 	
 	public ParseModel(String input, Map<String,Command> functionMap, String languageFile) {
 		myInput = initInput(input);
 		myCommands = functionMap;
 		myRegEx = new RegExUtil(languageFile);
-		initRoot();
-		//System.out.println(myRoot.getExpression());
 	}
 	
-	public ExpressionNode createParseModel() {
+	public List<ExpressionNode> createParseModel() {
 		parse();
-		return myRoot;
+		return myCommandList;
 	}
 	
 	private void parse() {
 		myCommandList = new ArrayList<ExpressionNode>();
-		buildSubTree(myRoot);
-		myCommandList.add(myRoot);
 		while (myInput.size() > 0) {
 			ExpressionNode nextNode = readNextNode();
 			buildSubTree(nextNode);
@@ -42,9 +37,7 @@ public class ParseModel {
 
 	private ExpressionNode buildSubTree(ExpressionNode parentNode) {
 		Command parentCommand = myCommands.get(parentNode.getCommand());
-		if (myInput.size() == 0) {
-			return parentNode;
-		} else if (parentNode.getChildren().size() == parentCommand.getNumParameters()) {
+		if (myInput.size() == 0 || parentNode.getChildren().size() == parentCommand.getNumParameters()) {
 			return parentNode;
 		}
 		while (parentNode.getChildren().size() < parentCommand.getNumParameters()) {
@@ -111,18 +104,6 @@ public class ParseModel {
 //			parentNode.addChild(parse(parentNode));
 //		}
 //	}
-	
-	private void initRoot() {
-		try {
-			myRoot = new ExpressionNode(myInput.get(0), myRegEx.matchPattern(myInput.get(0)));
-			myInput.remove(myRoot.getExpression());
-			//TODO maybe add check here to make myRoot is command
-		} catch (NullPointerException e) {
-			//TODO change this exception
-			//no string passed in
-			e.printStackTrace();
-		}
-	}
 	
 	private ArrayList<String> initInput(String input) {
 		while (input.length() > 0) {
