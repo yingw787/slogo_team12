@@ -4,7 +4,7 @@ public class Forward extends Command {
 
 	@Override
 	public int getNumParameters() {
-		return 2;
+		return 1;
 	}
 
 	@Override

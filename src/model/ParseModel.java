@@ -44,7 +44,7 @@ public class ParseModel {
 			ExpressionNode nextNode = readNextNode();
 			parentNode.addChild(buildSubTree(nextNode));
 		}
-		return null;
+		return parentNode;
 	}
 
 	private ExpressionNode readNextNode() {
@@ -105,6 +105,7 @@ public class ParseModel {
 //		}
 //	}
 	
+	// pre-process the input to remove comments
 	private ArrayList<String> initInput(String input) {
 		while (input.length() > 0) {
 			int idx = input.indexOf("#");

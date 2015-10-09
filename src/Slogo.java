@@ -14,7 +14,7 @@ public class Slogo extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		String input = "forward 50 23 forward 20 20";
+		String input = "forward forward 50 forward 20";
 		Map<String,Command> funcMap = new HashMap<String,Command>();
 		funcMap.put("Forward", new Forward());
 		funcMap.put("Constant", new Constant());
