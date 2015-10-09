@@ -31,6 +31,20 @@ public class Controller extends Application {
 		
 	}
 	
+	public void reset(){
+		System.out.println("reset");
+		//clear history, reset turtle, clear everythibg.
+		//just make new Gui object and set it?
+		
+		
+	}
+	
+	public void submit(){
+		System.out.println("");
+		//myGui.getText();
+	}
+	
+
 	
 	
 
