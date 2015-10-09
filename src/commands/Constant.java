@@ -1,10 +1,10 @@
 package commands;
 
-public class Forward extends Command {
+public class Constant extends Command {
 
 	@Override
 	public int getNumParameters() {
-		return 2;
+		return 0;
 	}
 
 	@Override

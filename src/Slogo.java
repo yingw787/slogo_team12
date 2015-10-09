@@ -5,7 +5,9 @@ import model.ParseModel;
 import java.util.HashMap;
 import java.util.Map;
 
-import commands.Function;
+import commands.Command;
+import commands.Constant;
+import commands.Forward;
 
 
 public class Slogo extends Application {
@@ -13,9 +15,10 @@ public class Slogo extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		String input = "forward 50 23 forward 20 20";
-		Map<String,Function> funcMap = new HashMap<String,Function>();
-		funcMap.put("forward", new Forward());
-		ParseModel parser = new ParseModel(input, funcMap);
+		Map<String,Command> funcMap = new HashMap<String,Command>();
+		funcMap.put("Forward", new Forward());
+		funcMap.put("Constant", new Constant());
+		ParseModel parser = new ParseModel(input, funcMap, "resources/languages/English");
 		parser.createParseModel();
 		parser.printParseModel();
 	}

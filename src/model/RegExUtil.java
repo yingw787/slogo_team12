@@ -13,8 +13,9 @@ public class RegExUtil {
 	
 	private List<Entry<String, Pattern>> myPatterns;
 	
-	public RegExUtil() {
-		myPatterns = makePatterns(REG_EX_SYNTAX_FILE);
+	public RegExUtil(String languageFile) {
+		myPatterns = makePatterns(languageFile);
+		myPatterns.addAll(makePatterns(REG_EX_SYNTAX_FILE));
 	}
 	
 	public String matchPattern(String expression) {

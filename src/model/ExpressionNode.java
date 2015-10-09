@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ExpressionNode {
 	private String myExpression;
-	private String myRegEx;
+	private String myCommand;
 	private List<ExpressionNode> myChildren;
 	
 	public ExpressionNode() {
@@ -14,7 +14,7 @@ public class ExpressionNode {
 	
 	public ExpressionNode(String s, String p) {
 		myExpression = s;
-		myRegEx = p;
+		myCommand = p;
 		myChildren = new ArrayList<ExpressionNode>();
 	}
 
@@ -22,8 +22,8 @@ public class ExpressionNode {
 		return myExpression;
 	}
 	
-	public String getRegEx() {
-		return myRegEx;
+	public String getCommand() {
+		return myCommand;
 	}
 	
 	public List<ExpressionNode> getChildren() {
@@ -31,7 +31,9 @@ public class ExpressionNode {
 	}
 	
 	public void addChild(ExpressionNode child) {
-		myChildren.add(child);
+		if (child != null) {
+			myChildren.add(child);
+		}
 	}
 	
 	public void setChild(ExpressionNode child, int index) {

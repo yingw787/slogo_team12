@@ -1,6 +1,6 @@
 package commands;
 
-public abstract class Function {
+public abstract class Command {
 	
 	public abstract int getNumParameters();
 	
