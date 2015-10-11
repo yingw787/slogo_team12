@@ -9,6 +9,7 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 import commands.Command;
+import commands.CommandFactory;
 
 public class ParseModel {
 	public static final String VARIABLE = "Variable";
@@ -22,12 +23,12 @@ public class ParseModel {
 	
 	private RegExUtil myRegExUtil;
 	private ArrayList<String> myInput;
-	private Map<String,Command> myCommands;
+	private CommandFactory myCommandFactory;
 	private List<ExpressionNode> myCommandList;
 	
-	public ParseModel(String input, Map<String,Command> functionMap, String languageFile) {
+	public ParseModel(String input, String languageFile) {
 		myInput = initInput(input);
-		myCommands = functionMap;
+		myCommandFactory = new CommandFactory();
 		myRegExUtil = new RegExUtil(languageFile);
 	}
 	
@@ -47,7 +48,7 @@ public class ParseModel {
 	}
 
 	private ExpressionNode buildSubTree(List<String> input, ExpressionNode parentNode) {
-		Command parentCommand = myCommands.get(parentNode.getCommand());
+		Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand());
 		int numChildren = getNumChildren(input, parentNode, parentCommand);
 		if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
 			return parentNode;
