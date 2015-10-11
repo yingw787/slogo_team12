@@ -1,6 +1,16 @@
 package commands;
 
+import java.util.List;
+
 public class Constant extends Command {
+	
+	public Constant() {
+		super();
+	}
+	
+	public Constant(String expression, List<Command> parameters) {
+		super(expression, parameters);
+	}
 
 	@Override
 	public int getNumParameters() {
@@ -8,9 +18,13 @@ public class Constant extends Command {
 	}
 
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
+	public int returnInt() {
+		return Integer.parseInt(this.getValue());
+	}
+
+	@Override
+	public void execute() {
+		//do nothing
 	}
 
 }
