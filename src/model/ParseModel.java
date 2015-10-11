@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 import commands.Command;
@@ -47,7 +48,7 @@ public class ParseModel {
 
 	private ExpressionNode buildSubTree(List<String> input, ExpressionNode parentNode) {
 		Command parentCommand = myCommands.get(parentNode.getCommand());
-		int numChildren = getNumChildren(parentNode, parentCommand);
+		int numChildren = getNumChildren(input, parentNode, parentCommand);
 		if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
 			return parentNode;
 		}
@@ -58,33 +59,51 @@ public class ParseModel {
 		return parentNode;
 	}
 	
-	private int getNumChildren(ExpressionNode parentNode, Command parentCommand) {
+	private int getNumChildren(List<String> input, ExpressionNode parentNode, Command parentCommand) {
 		String command = parentNode.getCommand();
 		if (myRegExUtil.getTurtleCommandKeys().contains(command)) {
 			return parentCommand.getNumParameters();
 		} else {
 			switch (command) {
 			case GROUP_START:
-				findEndBrace(parentNode, ")");
-				readNextNode(myInput);
+				findEndBrace(input, parentNode, "(", ")");
+				readNextNode(input);
 				return 0;
 			case LIST_START:
-				findEndBrace(parentNode, "]");
-				readNextNode(myInput);
+				findEndBrace(input, parentNode, "[", "]");
+				readNextNode(input);
 				return 0;
 			case CONSTANT:
 				return 0;
 			case VARIABLE:
-				return 1;
+				return 0;
 			}
 		}
 		return 0;
 	}
 	
-	private void findEndBrace(ExpressionNode parentNode, String endBrace) {
-		int endBraceIndex = myInput.indexOf(endBrace);
-		List<String> listSegment = myInput.subList(0, endBraceIndex);
+	private void findEndBrace(List<String> input, ExpressionNode parentNode, String startBrace, String endBrace) {
+		String[] inputArray = new String[input.size()];
+		inputArray = input.toArray(inputArray);
+		int endBraceIndex = getEndBraceIndex(inputArray, startBrace, endBrace);
+		List<String> listSegment = input.subList(0, endBraceIndex);
 		parentNode.setChildren(createSubParseModel(listSegment));
+	}
+	
+	private int getEndBraceIndex(String[] input, String startBrace, String endBrace) {
+		Stack<String> braces = new Stack<String>();
+		for (int i=0; i < input.length; i++) {
+			String s = input[i];
+			if (s.equals(startBrace)) {
+				braces.push(s);
+			} else if (s.equals(endBrace)) {
+				if (braces.isEmpty()) {
+					return i;
+				}
+				braces.pop();
+			}
+		}
+		return -1;
 	}
 
 	private ExpressionNode readNextNode(List<String> input) {
