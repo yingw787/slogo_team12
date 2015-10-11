@@ -36,7 +36,7 @@ public class ExpressionNode {
 		}
 	}
 	
-	public void setChild(ExpressionNode child, int index) {
-		myChildren.add(index, child);
+	public void setChildren(List<ExpressionNode> children) {
+		myChildren = children;
 	}
 }

@@ -14,7 +14,7 @@ public class Slogo extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		String input = "#noianofdivnaoidv\nforward :myVar forward 50 forward ( 20 30 40)\n";
+		String input = "#noianofdivnaoidv\nforward :myVar [forward 50] forward ( forward 20 30 40) forward 33\n";
 		Map<String,Command> funcMap = new HashMap<String,Command>();
 		funcMap.put("Forward", new Forward());
 		funcMap.put("Constant", new Constant());

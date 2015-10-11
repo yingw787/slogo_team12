@@ -13,7 +13,9 @@ public class ParseModel {
 	public static final String VARIABLE = "Variable";
 	public static final String CONSTANT = "Constant";
 	public static final String LIST_START = "ListStart";
+	public static final String LIST_END = "ListEnd";
 	public static final String GROUP_START = "GroupStart";
+	public static final String GROUP_END = "GroupEnd";
 	public static final String WHITESPACE = "\\s+";
 	public static final String[] BRACES = { "(", ")", "[", "]" };
 	
@@ -29,37 +31,47 @@ public class ParseModel {
 	}
 	
 	public List<ExpressionNode> createParseModel() {
-		myCommandList = new ArrayList<ExpressionNode>();
-		while (myInput.size() > 0) {
-			ExpressionNode nextNode = readNextNode();
-			buildSubTree(nextNode);
-			myCommandList.add(nextNode);
-		}
+		myCommandList = createSubParseModel(myInput);
 		return myCommandList;
 	}
+	
+	private List<ExpressionNode> createSubParseModel(List<String> input) {
+		List<ExpressionNode> commandList = new ArrayList<ExpressionNode>();
+		while (input.size() > 0) {
+			ExpressionNode nextNode = readNextNode(input);
+			buildSubTree(input, nextNode);
+			commandList.add(nextNode);
+		}
+		return commandList;
+	}
 
-	private ExpressionNode buildSubTree(ExpressionNode parentNode) {
+	private ExpressionNode buildSubTree(List<String> input, ExpressionNode parentNode) {
 		Command parentCommand = myCommands.get(parentNode.getCommand());
-		int numChildren = getNumChildren(parentNode.getCommand(), parentCommand);
+		int numChildren = getNumChildren(parentNode, parentCommand);
 		if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
 			return parentNode;
 		}
 		while (parentNode.getChildren().size() < numChildren) {
-			ExpressionNode nextNode = readNextNode();
-			parentNode.addChild(buildSubTree(nextNode));
+			ExpressionNode nextNode = readNextNode(input);
+			parentNode.addChild(buildSubTree(input, nextNode));
 		}
 		return parentNode;
 	}
 	
-	private int getNumChildren(String command, Command parentCommand) {
+	private int getNumChildren(ExpressionNode parentNode, Command parentCommand) {
+		String command = parentNode.getCommand();
 		if (myRegExUtil.getTurtleCommandKeys().contains(command)) {
 			return parentCommand.getNumParameters();
 		} else {
 			switch (command) {
 			case GROUP_START:
-				return findEndBrace(")");
+				findEndBrace(parentNode, ")");
+				readNextNode(myInput);
+				return 0;
 			case LIST_START:
-				return findEndBrace("]");
+				findEndBrace(parentNode, "]");
+				readNextNode(myInput);
+				return 0;
 			case CONSTANT:
 				return 0;
 			case VARIABLE:
@@ -69,15 +81,15 @@ public class ParseModel {
 		return 0;
 	}
 	
-	private int findEndBrace(String endBrace) {
+	private void findEndBrace(ExpressionNode parentNode, String endBrace) {
 		int endBraceIndex = myInput.indexOf(endBrace);
-		myInput.remove(endBraceIndex);
-		return endBraceIndex;
+		List<String> listSegment = myInput.subList(0, endBraceIndex);
+		parentNode.setChildren(createSubParseModel(listSegment));
 	}
 
-	private ExpressionNode readNextNode() {
-		String nextExpr = myInput.get(0);
-		myInput.remove(nextExpr);
+	private ExpressionNode readNextNode(List<String> input) {
+		String nextExpr = input.get(0);
+		input.remove(nextExpr);
 		ExpressionNode nextNode = new ExpressionNode(nextExpr, myRegExUtil.matchPattern(nextExpr));
 		return nextNode;
 	}
