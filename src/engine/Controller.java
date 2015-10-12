@@ -55,4 +55,8 @@ public class Controller extends Application {
 		//TODO returns x,y position of turtle
 		return new int[2];
 	}
+	
+	public void setTurtlePosition(int[] newPos) {
+		//TODO sets turtle's x,y position
+	}
 }

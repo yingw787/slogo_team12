@@ -59,4 +59,8 @@ public abstract class Command {
 	protected int convertRadiansToDegrees(double radianValue) {
 		return (int)(radianValue*(180/Math.PI));
 	}
+	
+	protected int calculateDistance(int[] startPos, int[] endPos) {
+		return (int)Math.sqrt(Math.pow(endPos[0]-startPos[0], 2) + Math.pow(endPos[1]-startPos[1], 2));
+	}
 }
