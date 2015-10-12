@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-public class Constant extends Command {
+public class Constant extends BasicSyntax {
 	
 	public Constant() {
 		super();

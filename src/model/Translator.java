@@ -8,13 +8,19 @@ import java.util.stream.Collectors;
 
 import commands.Command;
 import commands.CommandFactory;
+import engine.Controller;
 
 public class Translator {
-	List<ExpressionNode> myCommandList;
-	CommandFactory myCommandFactory;
+	private static final String TURTLE_COMMAND = "TurtleCommand";
+	public static final String BASIC_SYNTAX = "BasicSyntax";
 	
-	public Translator(List<ExpressionNode> commands) {
+	private List<ExpressionNode> myCommandList;
+	private CommandFactory myCommandFactory;
+	private Controller myController;
+	
+	public Translator(List<ExpressionNode> commands, Controller controller) {
 		myCommandList = commands;
+		myController = controller;
 		myCommandFactory = new CommandFactory();
 	}
 	
@@ -26,8 +32,14 @@ public class Translator {
 		return commandQueue;
 	}
 	
+	//think about special cases: variable, user defined functions, list, 
 	private Command translate(ExpressionNode node) {
 		Command command = myCommandFactory.getCommand(node.getCommand());
+		command.setValue(node.getExpression());
+		//if the command type requires the controller, give it the controller
+		if (command.getCommandType().equals(TURTLE_COMMAND)) {
+			command.setController(myController);
+		}
 		if (node.getChildren().size() == 0) {
 			List<Command> parameters = new ArrayList<Command>();
 			command.setParameters(parameters);

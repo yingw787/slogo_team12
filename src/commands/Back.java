@@ -4,13 +4,13 @@ import java.util.List;
 
 import engine.Controller;
 
-public class Forward extends TurtleCommand {
+public class Back extends TurtleCommand {
 
-	public Forward() {
+	public Back() {
 		super();
 	}
 	
-	public Forward(Controller controller, String expression, List<Command> parameters) {
+	public Back(Controller controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	
