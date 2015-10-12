@@ -2,19 +2,32 @@
 
 *What about your API/design is intended to be flexible?*
 
+Since our API is primarily interfacing with the controller, if a new API command needs to be added into the public API, all that needs to be altered is the command module, and different methods can be added to the frontend and backend to facilitate handling of information and state as needed.
+
 *How is your API/design encapsulating your implementation decisions?*
+
+The frontend doesn't know about the specific details of parsing or translating; all that is needed from the frontend is the text file, and all that is delivered is the queue
 
 *What exceptions (error cases) might occur in your part and how will you handle them (or not, by throwing)?*
 
+Unentered user-defined commands; throwing an UndefinedCommandException 
+Incorrectly spelled commands; checking values to see if it kind of matches a command and querying the user about it; otherwise throwing an IncorrectlySpelledCommandException
+
 *Why do you think your API/design is good (also define what your measure of good is)?* 
 
-
+Our API is able to return a queue, which will enable the frontend to pop the next command needed to write at its own volition
 
 
 ###Part 2
 
 *Come up with at least four use cases for your part (it is absolutely fine if they are useful for both teams).*
 
+Translating a program 
+
 *What feature/design problem are you most excited to work on?*
 
+The expression tree and how it will interface with the translator 
+
 *What feature/design problem are you most worried about working on?* 
+
+The expression tree; I am not too familiar with trees in general 
