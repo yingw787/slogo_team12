@@ -26,7 +26,39 @@ public class Translator {
 		myCommandFactory = new CommandFactory();
 	}
 	
-	public Queue<Command> translateParseTree() {
+	/**
+	 * Iterates through queue of commands and executes each command
+	 */
+	public void executeCommands() {
+		Queue<Command> commandQueue = translateParseTree();
+		for (Command command: commandQueue) {
+			executeNestedCommands(command);
+		}
+	}
+	
+	/**
+	 * Executes a command by recursively checking for nested commands and executing those first
+	 */
+	private Command executeNestedCommands(Command command) {
+		if (command.getNumParameters() == 0) {
+			return execute(command);
+		} else {
+			command.getParameters().stream()
+				.map(c -> executeNestedCommands(c));
+			return execute(command);
+		}
+	}
+
+	private Command execute(Command command) {
+		command.execute();
+		return command;
+	}
+	
+	/**
+	 * Reads through list of expression trees and translates each tree into a Command object
+	 * @return queue of Command objects
+	 */
+	private Queue<Command> translateParseTree() {
 		Queue<Command> commandQueue = new LinkedList<Command>();
 		for (ExpressionNode command: myCommandList) {
 			commandQueue.add(translate(command));
@@ -34,6 +66,10 @@ public class Translator {
 		return commandQueue;
 	}
 	
+	/**
+	 * Takes a single expression tree and translates each node into a command object
+	 * @return a single Command object (containing any nested commands)
+	 */
 	//think about special cases: variable, user defined functions, list, 
 	private Command translate(ExpressionNode node) {
 		Command command = myCommandFactory.getCommand(node.getCommand());
