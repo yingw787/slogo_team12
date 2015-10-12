@@ -2,26 +2,24 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+public class Power extends MathOperation {
 
-public class PenUp extends TurtleCommand {
-
-	public PenUp() {
+	public Power() {
 		super();
 	}
 	
-	public PenUp(Controller controller, String expression, List<Command> parameters) {
-		super(controller, expression, parameters);
+	public Power(String expression, List<Command> parameters) {
+		super(expression, parameters);
 	}
 	
 	@Override
 	public int getNumParameters() {
-		return 0;
+		return 2;
 	}
 
 	@Override
 	public double returnDoubleValue() {
-		return 1;
+		return performBinaryOp((a,b) -> Math.pow(a, b));
 	}
 
 	@Override

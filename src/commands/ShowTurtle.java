@@ -20,7 +20,7 @@ public class ShowTurtle extends TurtleCommand {
 	}
 
 	@Override
-	public int returnInt() {
+	public double returnDoubleValue() {
 		return 1;
 	}
 

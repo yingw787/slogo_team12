@@ -4,21 +4,21 @@ import java.util.List;
 
 import engine.Controller;
 
-public abstract class TurtleCommand extends Command {
+public abstract class TurtleQuery extends Command {
 
-	public TurtleCommand() {
+	public TurtleQuery() {
 		//do nothing
 	}
 	
-	public TurtleCommand(Controller controller, String expression, List<Command> commandList) {
+	public TurtleQuery(Controller controller, String expression, List<Command> commandList) {
 		super(controller, expression, commandList);
 	}
 	
 	@Override
 	public String getCommandType() {
-		return "TurtleCommand";
+		return "TurtleQuery";
 	}
-	
+
 	@Override
 	public abstract int getNumParameters();
 
@@ -27,10 +27,5 @@ public abstract class TurtleCommand extends Command {
 
 	@Override
 	public abstract void execute();
-	
-	protected double returnParameterValue() {
-		Command argument = super.getParameters().get(0);
-		return argument.returnDoubleValue();
-	}
 
 }

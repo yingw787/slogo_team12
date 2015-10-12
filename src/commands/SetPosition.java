@@ -20,21 +20,21 @@ public class SetPosition extends TurtleCommand {
 	}
 
 	@Override
-	public int returnInt() {
-		int[] startPos = super.getController().getTurtlePosition();
-		int[] endPos = calculateNewPosition();
+	public double returnDoubleValue() {
+		double[] startPos = super.getController().getTurtlePosition();
+		double[] endPos = calculateNewPosition();
 		return calculateDistance(startPos, endPos);
 	}
 
 	@Override
 	public void execute() {
-		int[] newPos = calculateNewPosition();
+		double[] newPos = calculateNewPosition();
 		super.getController().setTurtlePosition(newPos);
 	}
 	
-	private int[] calculateNewPosition() {
+	private double[] calculateNewPosition() {
 		List<Command> parameters = this.getParameters();
-		int[] newPos = { parameters.get(0).returnInt() , parameters.get(1).returnInt() };
+		double[] newPos = { parameters.get(0).returnDoubleValue() , parameters.get(1).returnDoubleValue() };
 		return newPos;
 	}
 

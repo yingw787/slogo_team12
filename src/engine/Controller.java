@@ -51,12 +51,22 @@ public class Controller extends Application {
 		return 0.0;
 	}
 	
-	public int[] getTurtlePosition() {
+	public double[] getTurtlePosition() {
 		//TODO returns x,y position of turtle
-		return new int[2];
+		return new double[2];
 	}
 	
-	public void setTurtlePosition(int[] newPos) {
+	public void setTurtlePosition(double[] newPos) {
 		//TODO sets turtle's x,y position
+	}
+	
+	public boolean isTurtlePenDown() {
+		// TODO returns true if pen is down
+		return true;
+	}
+	
+	public boolean isTurtleShowing() {
+		// TODO returns true if turtle is showing
+		return true;
 	}
 }

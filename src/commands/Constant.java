@@ -18,8 +18,8 @@ public class Constant extends BasicSyntax {
 	}
 
 	@Override
-	public int returnInt() {
-		return Integer.parseInt(this.getValue());
+	public double returnDoubleValue() {
+		return Double.parseDouble(this.getValue());
 	}
 
 	@Override

@@ -20,13 +20,13 @@ public class Towards extends TurtleCommand {
 	}
 
 	@Override
-	public int returnInt() {
+	public double returnDoubleValue() {
 		double finalAngle = calculateNewAngle();
 		double currentAngle = super.getController().getTurtleDirection();
 		if (currentAngle < finalAngle) {
-			return (int)(finalAngle - currentAngle);
+			return finalAngle - currentAngle;
 		}
-		return (int)(360 - currentAngle + finalAngle);
+		return 360 - currentAngle + finalAngle;
 	}
 
 	@Override
@@ -39,9 +39,9 @@ public class Towards extends TurtleCommand {
 		List<Command> params = super.getParameters();
 		Command xValue = params.get(0);
 		Command yValue = params.get(1);
-		double radianAngle = Math.atan2(xValue.returnInt(), yValue.returnInt());
-		int finalAngle = convertRadiansToDegrees(radianAngle);
-		return 1.0*finalAngle;
+		double radianAngle = Math.atan2(xValue.returnDoubleValue(), yValue.returnDoubleValue());
+		double finalAngle = convertRadiansToDegrees(radianAngle);
+		return finalAngle;
 	}
 
 }

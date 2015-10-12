@@ -2,32 +2,29 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+public class Sum extends MathOperation {
 
-public class PenUp extends TurtleCommand {
-
-	public PenUp() {
+	public Sum() {
 		super();
 	}
 	
-	public PenUp(Controller controller, String expression, List<Command> parameters) {
-		super(controller, expression, parameters);
+	public Sum(String expression, List<Command> parameters) {
+		super(expression, parameters);
 	}
 	
 	@Override
 	public int getNumParameters() {
-		return 0;
+		return 2;
 	}
 
 	@Override
 	public double returnDoubleValue() {
-		return 1;
+		return performBinaryOp((a, b) -> a + b);
 	}
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-
 	}
 
 }

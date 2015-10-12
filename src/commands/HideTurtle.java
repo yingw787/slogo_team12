@@ -20,7 +20,7 @@ public class HideTurtle extends TurtleCommand {
 	}
 
 	@Override
-	public int returnInt() {
+	public double returnDoubleValue() {
 		return 0;
 	}
 

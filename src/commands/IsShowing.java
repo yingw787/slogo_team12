@@ -4,13 +4,13 @@ import java.util.List;
 
 import engine.Controller;
 
-public class PenDown extends TurtleCommand {
+public class IsShowing extends TurtleQuery {
 
-	public PenDown() {
+	public IsShowing() {
 		super();
 	}
 	
-	public PenDown(Controller controller, String expression, List<Command> parameters) {
+	public IsShowing(Controller controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	
@@ -21,13 +21,12 @@ public class PenDown extends TurtleCommand {
 
 	@Override
 	public double returnDoubleValue() {
-		return 0;
+		return super.getController().isTurtleShowing() ? 1 : 0;
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 }

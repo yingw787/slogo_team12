@@ -20,15 +20,15 @@ public class Home extends TurtleCommand {
 	}
 
 	@Override
-	public int returnInt() {
-		int[] startPos = super.getController().getTurtlePosition();
-		int[] endPos = { 0, 0 };
+	public double returnDoubleValue() {
+		double[] startPos = super.getController().getTurtlePosition();
+		double[] endPos = { 0, 0 };
 		return calculateDistance(startPos, endPos);
 	}
 
 	@Override
 	public void execute() {
-		int[] newPos = { 0, 0 };
+		double[] newPos = { 0, 0 };
 		super.getController().setTurtlePosition(newPos);
 	}
 

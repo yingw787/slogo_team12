@@ -2,18 +2,16 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
-
-public class Left extends TurtleCommand {
-
-	public Left() {
+public class NaturalLog extends MathOperation {
+	
+	public NaturalLog() {
 		super();
 	}
 	
-	public Left(Controller controller, String expression, List<Command> parameters) {
-		super(controller, expression, parameters);
+	public NaturalLog(String expression, List<Command> parameters) {
+		super(expression, parameters);
 	}
-	
+
 	@Override
 	public int getNumParameters() {
 		return 1;
@@ -21,13 +19,13 @@ public class Left extends TurtleCommand {
 
 	@Override
 	public double returnDoubleValue() {
-		return returnParameterValue();
+		return performUnaryOp(a -> Math.log(a));
 	}
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

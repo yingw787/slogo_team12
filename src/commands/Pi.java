@@ -2,16 +2,14 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+public class Pi extends MathOperation {
 
-public class PenDown extends TurtleCommand {
-
-	public PenDown() {
+	public Pi() {
 		super();
 	}
 	
-	public PenDown(Controller controller, String expression, List<Command> parameters) {
-		super(controller, expression, parameters);
+	public Pi(String expression, List<Command> parameters) {
+		super(expression, parameters);
 	}
 	
 	@Override
@@ -21,7 +19,7 @@ public class PenDown extends TurtleCommand {
 
 	@Override
 	public double returnDoubleValue() {
-		return 0;
+		return Math.PI;
 	}
 
 	@Override

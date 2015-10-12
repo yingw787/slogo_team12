@@ -2,16 +2,14 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+public class Cosine extends MathOperation {
 
-public class Left extends TurtleCommand {
-
-	public Left() {
+	public Cosine() {
 		super();
 	}
 	
-	public Left(Controller controller, String expression, List<Command> parameters) {
-		super(controller, expression, parameters);
+	public Cosine(String expression, List<Command> parameters) {
+		super(expression, parameters);
 	}
 	
 	@Override
@@ -21,7 +19,7 @@ public class Left extends TurtleCommand {
 
 	@Override
 	public double returnDoubleValue() {
-		return returnParameterValue();
+		return performUnaryTrigOp(a -> Math.cos(a));
 	}
 
 	@Override

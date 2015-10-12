@@ -20,15 +20,14 @@ public class Back extends TurtleCommand {
 	}
 
 	@Override
-	public int returnInt() {
-		Command argument = this.getParameters().get(0);
-		return argument.returnInt();
+	public double returnDoubleValue() {
+		return returnParameterValue();
 	}
 
 	@Override
 	public void execute() {
-		int increment = returnInt();
-		int[] startPos = super.getController().getTurtlePosition();
+		double increment = returnDoubleValue();
+		double[] startPos = super.getController().getTurtlePosition();
 		//TODO calculate how to go backwards by "increment"
 	}
 

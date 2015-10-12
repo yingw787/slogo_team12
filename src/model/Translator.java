@@ -11,8 +11,10 @@ import commands.CommandFactory;
 import engine.Controller;
 
 public class Translator {
-	private static final String TURTLE_COMMAND = "TurtleCommand";
+	public static final String TURTLE_COMMAND = "TurtleCommand";
+	public static final String TURTLE_QUERY = "TurtleQuery";
 	public static final String BASIC_SYNTAX = "BasicSyntax";
+	public static final String MATH_OPERATION = "MathOperation";
 	
 	private List<ExpressionNode> myCommandList;
 	private CommandFactory myCommandFactory;
@@ -37,7 +39,7 @@ public class Translator {
 		Command command = myCommandFactory.getCommand(node.getCommand());
 		command.setValue(node.getExpression());
 		//if the command type requires the controller, give it the controller
-		if (command.getCommandType().equals(TURTLE_COMMAND)) {
+		if (command.getCommandType().equals(TURTLE_COMMAND) || command.getCommandType().equals(TURTLE_QUERY)) {
 			command.setController(myController);
 		}
 		if (node.getChildren().size() == 0) {

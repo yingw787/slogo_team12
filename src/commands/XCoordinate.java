@@ -4,13 +4,13 @@ import java.util.List;
 
 import engine.Controller;
 
-public class PenDown extends TurtleCommand {
+public class XCoordinate extends TurtleQuery{
 
-	public PenDown() {
+	public XCoordinate() {
 		super();
 	}
 	
-	public PenDown(Controller controller, String expression, List<Command> parameters) {
+	public XCoordinate(Controller controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	
@@ -21,13 +21,13 @@ public class PenDown extends TurtleCommand {
 
 	@Override
 	public double returnDoubleValue() {
-		return 0;
+		double[] turtlePos = super.getController().getTurtlePosition();
+		return turtlePos[0];
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		//do nothing
 	}
 
 }

@@ -21,7 +21,7 @@ public abstract class BasicSyntax extends Command {
 	public abstract int getNumParameters();
 
 	@Override
-	public abstract int returnInt();
+	public abstract double returnDoubleValue();
 
 	@Override
 	public abstract void execute();

@@ -52,15 +52,19 @@ public abstract class Command {
 	
 	public abstract int getNumParameters();
 	
-	public abstract int returnInt();
+	public abstract double returnDoubleValue();
 	
 	public abstract void execute();
 	
-	protected int convertRadiansToDegrees(double radianValue) {
-		return (int)(radianValue*(180/Math.PI));
+	protected double convertRadiansToDegrees(double radianValue) {
+		return radianValue*(180/Math.PI);
 	}
 	
-	protected int calculateDistance(int[] startPos, int[] endPos) {
-		return (int)Math.sqrt(Math.pow(endPos[0]-startPos[0], 2) + Math.pow(endPos[1]-startPos[1], 2));
+	protected double convertDegreesToRadians(double degreesValue) {
+		return degreesValue/(180/Math.PI);
+	}
+	
+	protected double calculateDistance(double[] startPos, double[] endPos) {
+		return Math.sqrt(Math.pow(endPos[0]-startPos[0], 2) + Math.pow(endPos[1]-startPos[1], 2));
 	}
 }

@@ -20,9 +20,8 @@ public class Forward extends TurtleCommand {
 	}
 
 	@Override
-	public int returnInt() {
-		Command argument = this.getParameters().get(0);
-		return argument.returnInt();
+	public double returnDoubleValue() {
+		return returnParameterValue();
 	}
 
 	@Override
