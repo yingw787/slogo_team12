@@ -2,29 +2,30 @@ package commands;
 
 import java.util.List;
 
-public class Constant extends BasicSyntax {
-	
-	public Constant() {
+public class Power extends MathOperation {
+
+	public Power() {
 		super();
 	}
 	
-	public Constant(String expression, List<Command> parameters) {
+	public Power(String expression, List<Command> parameters) {
 		super(expression, parameters);
 	}
-
+	
 	@Override
 	public int getNumParameters() {
-		return 0;
+		return 2;
 	}
 
 	@Override
 	public double returnDoubleValue() {
-		return Double.parseDouble(this.getValue());
+		return performBinaryOp((a,b) -> Math.pow(a, b));
 	}
 
 	@Override
 	public void execute() {
-		//do nothing
+		// TODO Auto-generated method stub
+
 	}
 
 }

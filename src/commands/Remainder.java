@@ -2,29 +2,29 @@ package commands;
 
 import java.util.List;
 
-public class Constant extends BasicSyntax {
-	
-	public Constant() {
+public class Remainder extends MathOperation {
+
+	public Remainder() {
 		super();
 	}
 	
-	public Constant(String expression, List<Command> parameters) {
+	public Remainder(String expression, List<Command> parameters) {
 		super(expression, parameters);
 	}
-
+	
 	@Override
 	public int getNumParameters() {
-		return 0;
+		return 2;
 	}
 
 	@Override
 	public double returnDoubleValue() {
-		return Double.parseDouble(this.getValue());
+		return performBinaryOp((a, b) -> a % b);
 	}
 
 	@Override
 	public void execute() {
-		//do nothing
+		// TODO Auto-generated method stub
 	}
 
 }

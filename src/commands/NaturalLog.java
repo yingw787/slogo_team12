@@ -2,29 +2,30 @@ package commands;
 
 import java.util.List;
 
-public class Constant extends BasicSyntax {
+public class NaturalLog extends MathOperation {
 	
-	public Constant() {
+	public NaturalLog() {
 		super();
 	}
 	
-	public Constant(String expression, List<Command> parameters) {
+	public NaturalLog(String expression, List<Command> parameters) {
 		super(expression, parameters);
 	}
 
 	@Override
 	public int getNumParameters() {
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public double returnDoubleValue() {
-		return Double.parseDouble(this.getValue());
+		return performUnaryOp(a -> Math.log(a));
 	}
 
 	@Override
 	public void execute() {
-		//do nothing
+		// TODO Auto-generated method stub
+		
 	}
 
 }

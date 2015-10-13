@@ -2,16 +2,16 @@ package commands;
 
 import java.util.List;
 
-public class Constant extends BasicSyntax {
-	
-	public Constant() {
+public class Pi extends MathOperation {
+
+	public Pi() {
 		super();
 	}
 	
-	public Constant(String expression, List<Command> parameters) {
+	public Pi(String expression, List<Command> parameters) {
 		super(expression, parameters);
 	}
-
+	
 	@Override
 	public int getNumParameters() {
 		return 0;
@@ -19,12 +19,13 @@ public class Constant extends BasicSyntax {
 
 	@Override
 	public double returnDoubleValue() {
-		return Double.parseDouble(this.getValue());
+		return Math.PI;
 	}
 
 	@Override
 	public void execute() {
-		//do nothing
+		// TODO Auto-generated method stub
+
 	}
 
 }

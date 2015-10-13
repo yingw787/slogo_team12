@@ -4,30 +4,29 @@ import java.util.List;
 
 import engine.Controller;
 
-public class Forward extends TurtleCommand {
+public class IsShowing extends TurtleQuery {
 
-	public Forward() {
+	public IsShowing() {
 		super();
 	}
 	
-	public Forward(Controller controller, String expression, List<Command> parameters) {
+	public IsShowing(Controller controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	
 	@Override
 	public int getNumParameters() {
-		return 1;
+		return 0;
 	}
 
 	@Override
 	public double returnDoubleValue() {
-		return returnParameterValue();
+		return super.getController().isTurtleShowing() ? 1 : 0;
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		//do nothing
 	}
 
 }

@@ -4,13 +4,13 @@ import java.util.List;
 
 import engine.Controller;
 
-public class Forward extends TurtleCommand {
+public class Back extends TurtleCommand {
 
-	public Forward() {
+	public Back() {
 		super();
 	}
 	
-	public Forward(Controller controller, String expression, List<Command> parameters) {
+	public Back(Controller controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	
@@ -26,8 +26,9 @@ public class Forward extends TurtleCommand {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		double increment = returnDoubleValue();
+		double[] startPos = super.getController().getTurtlePosition();
+		//TODO calculate how to go backwards by "increment"
 	}
 
 }

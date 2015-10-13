@@ -4,13 +4,13 @@ import java.util.List;
 
 import engine.Controller;
 
-public class Forward extends TurtleCommand {
+public class SetHeading extends TurtleCommand {
 
-	public Forward() {
+	public SetHeading() {
 		super();
 	}
 	
-	public Forward(Controller controller, String expression, List<Command> parameters) {
+	public SetHeading(Controller controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	
@@ -27,7 +27,7 @@ public class Forward extends TurtleCommand {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
