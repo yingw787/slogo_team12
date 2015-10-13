@@ -2,16 +2,14 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+public class Not extends BooleanOperation {
 
-public class Forward extends TurtleCommand {
-
-	public Forward() {
+	public Not() {
 		super();
 	}
 	
-	public Forward(Controller controller, String expression, List<Command> parameters) {
-		super(controller, expression, parameters);
+	public Not(String expression, List<Command> parameters) {
+		super(expression, parameters);
 	}
 	
 	@Override
@@ -21,13 +19,13 @@ public class Forward extends TurtleCommand {
 
 	@Override
 	public double returnDoubleValue() {
-		return getParameterValue();
+		return getParameterValue() == 1 ? 0 : 1;
 	}
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

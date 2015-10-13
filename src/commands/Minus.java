@@ -19,7 +19,7 @@ public class Minus extends MathOperation {
 
 	@Override
 	public double returnDoubleValue() {
-		return performUnaryOp(a -> -1 * a);
+		return performUnaryDoubleOp(a -> -1 * a);
 	}
 
 	@Override

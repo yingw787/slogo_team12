@@ -19,7 +19,7 @@ public class Sum extends MathOperation {
 
 	@Override
 	public double returnDoubleValue() {
-		return performBinaryOp((a, b) -> a + b);
+		return performBinaryDoubleOp((a, b) -> a + b);
 	}
 
 	@Override

@@ -78,6 +78,21 @@ public class CommandFactory {
 			return new Power();
 		case ("Pi"):
 			return new Pi();
+		//BooleanOperations
+		case ("LessThan"):
+			return new LessThan();
+		case ("GreaterThan"):
+			return new GreaterThan();
+		case ("Equal"):
+			return new Equal();
+		case ("NotEqual"):
+			return new NotEqual();
+		case ("And"):
+			return new And();
+		case ("Or"):
+			return new Or();
+		case ("Not"):
+			return new Not();
 		}
 		return null;
 	}

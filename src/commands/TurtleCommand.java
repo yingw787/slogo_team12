@@ -27,10 +27,5 @@ public abstract class TurtleCommand extends Command {
 
 	@Override
 	public abstract void execute();
-	
-	protected double returnParameterValue() {
-		Command argument = super.getParameters().get(0);
-		return argument.returnDoubleValue();
-	}
 
 }

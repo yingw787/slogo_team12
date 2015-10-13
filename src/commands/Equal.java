@@ -2,30 +2,30 @@ package commands;
 
 import java.util.List;
 
-public class NaturalLog extends MathOperation {
-	
-	public NaturalLog() {
+public class Equal extends BooleanOperation {
+
+	public Equal() {
 		super();
 	}
 	
-	public NaturalLog(String expression, List<Command> parameters) {
+	public Equal(String expression, List<Command> parameters) {
 		super(expression, parameters);
 	}
-
+	
 	@Override
 	public int getNumParameters() {
-		return 1;
+		return 2;
 	}
 
 	@Override
 	public double returnDoubleValue() {
-		return performUnaryDoubleOp(a -> Math.log(a));
+		return booleanToBit(performBinaryBooleanOp((a,b) -> a == b));
 	}
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

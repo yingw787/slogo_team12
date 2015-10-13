@@ -2,19 +2,19 @@ package commands;
 
 import java.util.List;
 
-public abstract class MathOperation extends Command {
+public abstract class BooleanOperation extends Command {
 
-	public MathOperation() {
+	public BooleanOperation() {
 		//do nothing
 	}
 
-	public MathOperation(String expression, List<Command> commandList) {
+	public BooleanOperation(String expression, List<Command> commandList) {
 		super(expression, commandList);
 	}
 	
 	@Override
 	public String getCommandType() {
-		return "MathOperation";
+		return "BooleanOperation";
 	}
 
 	@Override
@@ -25,5 +25,4 @@ public abstract class MathOperation extends Command {
 
 	@Override
 	public abstract void execute();
-
 }
