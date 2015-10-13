@@ -3,6 +3,7 @@ package commands;
 import java.util.List;
 
 import engine.Controller;
+import model.BackEndProperties;
 
 public abstract class TurtleQuery extends Command {
 
@@ -16,7 +17,7 @@ public abstract class TurtleQuery extends Command {
 	
 	@Override
 	public String getCommandType() {
-		return "TurtleQuery";
+		return BackEndProperties.TURTLE_QUERY;
 	}
 
 	@Override

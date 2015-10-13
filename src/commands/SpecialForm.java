@@ -5,19 +5,19 @@ import java.util.List;
 import engine.Controller;
 import model.BackEndProperties;
 
-public abstract class TurtleCommand extends Command {
+public abstract class SpecialForm extends Command {
 
-	public TurtleCommand() {
+	public SpecialForm() {
 		//do nothing
 	}
 	
-	public TurtleCommand(Controller controller, String expression, List<Command> commandList) {
+	public SpecialForm(Controller controller, String expression, List<Command> commandList) {
 		super(controller, expression, commandList);
 	}
 	
 	@Override
 	public String getCommandType() {
-		return BackEndProperties.TURTLE_COMMAND;
+		return BackEndProperties.SPECIAL_FORM;
 	}
 	
 	@Override

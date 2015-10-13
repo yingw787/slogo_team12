@@ -2,6 +2,8 @@ package commands;
 
 import java.util.List;
 
+import model.BackEndProperties;
+
 public abstract class BooleanOperation extends Command {
 
 	public BooleanOperation() {
@@ -14,7 +16,7 @@ public abstract class BooleanOperation extends Command {
 	
 	@Override
 	public String getCommandType() {
-		return "BooleanOperation";
+		return BackEndProperties.BOOLEAN_OPERATION;
 	}
 
 	@Override

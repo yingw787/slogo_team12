@@ -21,7 +21,7 @@ public class Back extends TurtleCommand {
 
 	@Override
 	public double returnDoubleValue() {
-		return getParameterValue();
+		return getParameterDoubleValue(0);
 	}
 
 	@Override

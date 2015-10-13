@@ -19,7 +19,7 @@ public class Not extends BooleanOperation {
 
 	@Override
 	public double returnDoubleValue() {
-		return getParameterValue() == 1 ? 0 : 1;
+		return getParameterDoubleValue(0) == 1 ? 0 : 1;
 	}
 
 	@Override

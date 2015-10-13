@@ -2,16 +2,16 @@ package commands;
 
 import java.util.List;
 
-public class Constant extends BasicSyntax {
-	
-	public Constant() {
+public class Variable extends BasicSyntax {
+
+	public Variable() {
 		super();
 	}
 	
-	public Constant(String expression, List<Command> parameters) {
+	public Variable(String expression, List<Command> parameters) {
 		super(expression, parameters);
 	}
-
+	
 	@Override
 	public int getNumParameters() {
 		return 0;
@@ -19,7 +19,8 @@ public class Constant extends BasicSyntax {
 
 	@Override
 	public double returnDoubleValue() {
-		return Double.parseDouble(this.getExpression());
+		String key = super.getExpression();
+		return super.getVariables().get(key);
 	}
 
 	@Override

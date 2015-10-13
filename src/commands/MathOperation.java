@@ -2,6 +2,8 @@ package commands;
 
 import java.util.List;
 
+import model.BackEndProperties;
+
 public abstract class MathOperation extends Command {
 
 	public MathOperation() {
@@ -14,7 +16,7 @@ public abstract class MathOperation extends Command {
 	
 	@Override
 	public String getCommandType() {
-		return "MathOperation";
+		return BackEndProperties.MATH_OPERATION;
 	}
 
 	@Override

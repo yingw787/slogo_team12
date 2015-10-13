@@ -1,53 +1,35 @@
 package commands;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import engine.Controller;
 
 public abstract class Command {
-	private String myValue;
+	private String myExpression;
 	private List<Command> myParameters;
 	private Controller myController;
+	private Map<String,Double> myVariables;
 	
 	public Command() {
 		//do nothing
 	}
 	
+	public Command(Map<String,Double> variables) {
+		myVariables = variables;
+	}
+	
 	public Command(String expression, List<Command> params) {
-		myValue = expression;
+		myExpression = expression;
 		myParameters = params;
 	}
 	
 	public Command(Controller controller, String expression, List<Command> params) {
-		myValue = expression;
+		myExpression = expression;
 		myParameters = params;
 		myController = controller;
-	}
-	
-	public String getValue() {
-		return myValue;
-	}
-	
-	public List<Command> getParameters() {
-		return myParameters;
-	}
-	
-	public Controller getController() {
-		return myController;
-	}
-	
-	public void setValue(String expression) {
-		this.myValue = expression;
-	}
-	
-	public void setParameters(List<Command> commandList) {
-		this.myParameters = commandList;
-	}
-	
-	public void setController(Controller controller) {
-		this.myController = controller;
 	}
 	
 	public abstract String getCommandType();
@@ -58,9 +40,58 @@ public abstract class Command {
 	
 	public abstract void execute();
 	
-	protected double getParameterValue() {
-		Command argument = myParameters.get(0);
+	public String getExpression() {
+		return myExpression;
+	}
+	
+	public List<Command> getParameters() {
+		return myParameters;
+	}
+	
+	public Controller getController() {
+		return myController;
+	}
+	
+	public Map<String,Double> getVariables() {
+		return myVariables;
+	}
+	
+	public void setValue(String expression) {
+		this.myExpression = expression;
+	}
+	
+	public void setParameters(List<Command> commandList) {
+		this.myParameters = commandList;
+	}
+	
+	public void setController(Controller controller) {
+		this.myController = controller;
+	}
+	
+	public void setVariableMap(Map<String,Double> variables) {
+		this.myVariables = variables;
+	}
+	
+	public void addVariable(String variableName, Double value) {
+		myVariables.put(variableName, value);
+	}
+	
+	public void removeVariable(String variableName) {
+		myVariables.remove(variableName);
+	}
+	
+	protected Command getParameter(int index) {
+		return myParameters.get(index);
+	}
+	
+	protected double getParameterDoubleValue(int index) {
+		Command argument = myParameters.get(index);
 		return argument.returnDoubleValue();
+	}
+	
+	protected String getParameterExpression(int index) {
+		Command argument = myParameters.get(index);
+		return argument.getExpression();
 	}
 	
 	protected double convertRadiansToDegrees(double radianValue) {

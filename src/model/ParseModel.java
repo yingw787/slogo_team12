@@ -62,23 +62,22 @@ public class ParseModel {
 	
 	private int getNumChildren(List<String> input, ExpressionNode parentNode, Command parentCommand) {
 		String command = parentNode.getCommand();
+		switch (command) {
+		case GROUP_START:
+			findEndBrace(input, parentNode, "(", ")");
+			readNextNode(input);
+			return 0;
+		case LIST_START:
+			findEndBrace(input, parentNode, "[", "]");
+			readNextNode(input);
+			return 0;
+		case CONSTANT:
+			return 0;
+		case VARIABLE:
+			return 0;
+		}
 		if (myRegExUtil.getTurtleCommandKeys().contains(command)) {
 			return parentCommand.getNumParameters();
-		} else {
-			switch (command) {
-			case GROUP_START:
-				findEndBrace(input, parentNode, "(", ")");
-				readNextNode(input);
-				return 0;
-			case LIST_START:
-				findEndBrace(input, parentNode, "[", "]");
-				readNextNode(input);
-				return 0;
-			case CONSTANT:
-				return 0;
-			case VARIABLE:
-				return 0;
-			}
 		}
 		return 0;
 	}
