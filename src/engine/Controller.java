@@ -35,7 +35,7 @@ public class Controller extends Application {
 	public void reset(){
 		System.out.println("reset");
 		
-		myGUI = myGUI = new GUI(this, "English");
+		myGUI = new GUI(this, "English");
 		myGUI.setAndShowScene(myStage);
 		//clear history, reset turtle, clear everythibg.
 		//just make new Gui object and set it? decide what to do
