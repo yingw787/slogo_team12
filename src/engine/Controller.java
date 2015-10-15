@@ -9,10 +9,11 @@ public class Controller extends Application {
 
 	private GUI myGUI;
 	private Backend myBackend;
+	private Stage myStage;
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		
+		myStage = primaryStage;
 		//discussed in lecture -- Observable!
 		//sets up observable relationships
 		//for making modular, for instace, history pane, canvas, both 
@@ -25,7 +26,7 @@ public class Controller extends Application {
 		
 		
 		//init gui to set up everything, call this part of it last
-		myGUI.setAndShowScene(primaryStage);
+		myGUI.setAndShowScene(myStage);
 		
 		
 		
@@ -33,8 +34,11 @@ public class Controller extends Application {
 	
 	public void reset(){
 		System.out.println("reset");
+		
+		myGUI = myGUI = new GUI(this, "English");
+		myGUI.setAndShowScene(myStage);
 		//clear history, reset turtle, clear everythibg.
-		//just make new Gui object and set it?
+		//just make new Gui object and set it? decide what to do
 		
 		
 	}

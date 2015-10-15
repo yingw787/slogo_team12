@@ -36,7 +36,7 @@ public class GUI {
 	public GUI(Controller controller, String language){
 		
 		myHistList = FXCollections.observableArrayList();
-	   myHistList.add("History");
+	  // myHistList.add("History");
 
 		myController = controller;
 		
@@ -58,14 +58,30 @@ public class GUI {
 	
 			root.setBottom(commandBox);
 			
+	
+			TextArea t = myFactory.makeTextArea();
+			commandBox.getChildren().add(t);
 			
-		ListView myHistListView = myFactory.makeClickableList(myHistList);	
+			
+		ListView myHistListView = myFactory.makeClickableList(myHistList);
+		historyBox.getChildren().add(myHistListView);
+		
+		
+		//this should be moved to a more approptiate place
+		
+		
+		myHistListView.setOnMouseClicked(e -> {
+			//lambda, checks if selected is not null, if its not, populate the command box with the selected history
+			if(!(myHistListView.getSelectionModel().getSelectedItem() == null)){
+				t.setText((myHistListView.getSelectionModel().getSelectedItem().toString()));
+			}
+			
+		});
+		
 		
 		canvasBox.getChildren().add(myFactory.makeButton("canvas", e -> myController.reset()));
 		
-		historyBox.getChildren().add(myHistListView);
-		TextArea t = myFactory.makeTextArea();
-		commandBox.getChildren().add(t);
+		
 		
 		// makeButton: setOnAction(e-> myController.submit(t.getText()));
 		commandBox.getChildren().add(myFactory.makeButton("Go", e -> myController.submit(t.getText())));
@@ -87,10 +103,10 @@ public class GUI {
 
 	public void addToHistory(String stringFromGUI) {
 		
-		//System.out.println(myHistList.isEmpty());
-		
+		if (stringFromGUI.trim().length() > 0){
+			//checks that its not just all whitespace
 		myHistList.add(stringFromGUI);
-		
+		}
 		//this will become private when we set up an observer relationship
 		//currently controller directly calls this in submit
 		

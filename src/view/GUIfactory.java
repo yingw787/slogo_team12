@@ -59,6 +59,7 @@ public class GUIfactory {
 		
 		ListView listView = new ListView();
 		listView.setItems(theList);
+		
 		return listView;
 		
 		
