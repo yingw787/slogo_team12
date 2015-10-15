@@ -30,7 +30,7 @@ public class Translator {
 	/**
 	 * Iterates through queue of commands and executes each command
 	 */
-	public void executeCommands() {
+	public void executeCommands() { // I thought the executing of commands would be done by the frontend; the point of the queue would be to pass it to the frontend and let them pop commands as needed 
 		Queue<Command> commandQueue = translateParseTree();
 		for (Command command: commandQueue) {
 //			System.out.println(myVariables.toString());
@@ -59,9 +59,12 @@ public class Translator {
 	}
 	
 	/**
-	 * Reads through list of expression trees and translates each tree into a Command object
+	 * Reads through list of expression trees and translates each tree into a Command object 
 	 * @return queue of Command objects
 	 */
+	
+	
+	
 	private Queue<Command> translateParseTree() {
 		Queue<Command> commandQueue = new LinkedList<Command>();
 		for (ExpressionNode command: myCommandList) {
