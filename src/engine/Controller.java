@@ -39,9 +39,13 @@ public class Controller extends Application {
 		
 	}
 	
-	public void submit(){
-		System.out.println("");
-		//myGui.getText();
+	public void submit(String stringFromGUI){
+		System.out.println(stringFromGUI);
+		
+		//
+		myGUI.addToHistory(stringFromGUI);
+		
+		
 	}
 	
 

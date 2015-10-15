@@ -1,11 +1,17 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import engine.Controller;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -16,14 +22,22 @@ import javafx.stage.Stage;
 public class GUI {
 
 	private GUIfactory myFactory; 
+
 	public static final String DEFAULT_RESOURCE_PACKAGE = "resources.languages/";
 	private ResourceBundle myResources;
 	private Controller myController;
 	private BorderPane root;
-	private static final int SCREEN_WIDTH = 600;
+	private static final int SCREEN_WIDTH = 800;
 	private static final int SCREEN_HEIGHT = 600;
+	private ObservableList<String> myHistList; 
+	
+	//consider adding a public method called get myHistList, that returns immutable histList
 	
 	public GUI(Controller controller, String language){
+		
+		myHistList = FXCollections.observableArrayList();
+	   myHistList.add("History");
+
 		myController = controller;
 		
 		
@@ -44,17 +58,20 @@ public class GUI {
 	
 			root.setBottom(commandBox);
 			
+			
+		ListView myHistListView = myFactory.makeClickableList(myHistList);	
 		
 		canvasBox.getChildren().add(myFactory.makeButton("canvas", e -> myController.reset()));
 		
-		historyBox.getChildren().add(myFactory.makeButton("history", e ->myController.reset()));
+		historyBox.getChildren().add(myHistListView);
 		TextArea t = myFactory.makeTextArea();
 		commandBox.getChildren().add(t);
 		
 		// makeButton: setOnAction(e-> myController.submit(t.getText()));
-		commandBox.getChildren().add(myFactory.makeButton("Go", e -> myController.submit()));
+		commandBox.getChildren().add(myFactory.makeButton("Go", e -> myController.submit(t.getText())));
 		
 		historyBox.getChildren().add(myFactory.makeButton("reset", e -> myController.reset()));
+		
 		
 		//make a root, etc, layout everything with the GUIfactory
 		
@@ -65,6 +82,17 @@ public class GUI {
 		//WIDTH AND HEIGHT, MORE DETAILS FOR SCENE
 		primaryStage.setScene(new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT));
 		primaryStage.show();
+		
+	}
+
+	public void addToHistory(String stringFromGUI) {
+		
+		//System.out.println(myHistList.isEmpty());
+		
+		myHistList.add(stringFromGUI);
+		
+		//this will become private when we set up an observer relationship
+		//currently controller directly calls this in submit
 		
 	}
 }
