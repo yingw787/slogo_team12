@@ -51,6 +51,10 @@ public class Controller extends Application {
 		return 0.0;
 	}
 	
+	public void setTurtleDirection(double angle) {
+		//TODO sets turtle's direction
+	}
+	
 	public double[] getTurtlePosition() {
 		//TODO returns x,y position of turtle
 		return new double[2];
@@ -65,8 +69,16 @@ public class Controller extends Application {
 		return true;
 	}
 	
+	public void setIsTurtlePenDown(boolean penDown) {
+		// sets turtle's "pen down" boolean
+	}
+	
 	public boolean isTurtleShowing() {
 		// TODO returns true if turtle is showing
 		return true;
+	}
+	
+	public void setIsTurtleShowing(boolean penDown) {
+		// TODO sets turtle's "hidden" boolean
 	}
 }
