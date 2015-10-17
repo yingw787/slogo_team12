@@ -11,6 +11,10 @@ public class CommandFactory {
 		//BasicSyntax
 		case ("Constant"):
 			return new Constant();
+		case ("ListStart"):
+			return new SlogoList();
+		case ("Variable"):
+			return new Variable();
 		//TurtleCommands
 		case ("Forward"):
 			return new Forward();
@@ -78,6 +82,34 @@ public class CommandFactory {
 			return new Power();
 		case ("Pi"):
 			return new Pi();
+		//BooleanOperations
+		case ("LessThan"):
+			return new LessThan();
+		case ("GreaterThan"):
+			return new GreaterThan();
+		case ("Equal"):
+			return new Equal();
+		case ("NotEqual"):
+			return new NotEqual();
+		case ("And"):
+			return new And();
+		case ("Or"):
+			return new Or();
+		case ("Not"):
+			return new Not();
+		//Variables, Control Structures, and User-Defined Commands
+		case ("MakeVariable"):
+			return new MakeVariable();
+		case ("Repeat"):
+			return new Repeat();
+		case ("DoTimes"):
+			return new DoTimes();
+		case ("For"):
+			return new For();
+		case ("If"):
+			return new If();
+		case ("IfElse"):
+			return new IfElse();
 		}
 		return null;
 	}

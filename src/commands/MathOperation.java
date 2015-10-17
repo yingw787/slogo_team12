@@ -1,8 +1,8 @@
 package commands;
 
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+
+import model.BackEndProperties;
 
 public abstract class MathOperation extends Command {
 
@@ -16,7 +16,7 @@ public abstract class MathOperation extends Command {
 	
 	@Override
 	public String getCommandType() {
-		return "MathOperation";
+		return BackEndProperties.MATH_OPERATION;
 	}
 
 	@Override
@@ -27,20 +27,5 @@ public abstract class MathOperation extends Command {
 
 	@Override
 	public abstract void execute();
-	
-	protected double performBinaryOp(BiFunction<Double, Double, Double> func) {
-		List<Command> parameters = super.getParameters();
-		return func.apply(parameters.get(0).returnDoubleValue(), parameters.get(1).returnDoubleValue());
-	}
-	
-	protected double performUnaryOp(Function<Double, Double> func) {
-		List<Command> parameters = super.getParameters();
-		return func.apply(parameters.get(0).returnDoubleValue());
-	}
-	
-	protected double performUnaryTrigOp(Function<Double, Double> trigFunc) {
-		List<Command> parameters = super.getParameters();
-		return convertRadiansToDegrees(trigFunc.apply(convertDegreesToRadians(parameters.get(0).returnDoubleValue())));
-	}
 
 }

@@ -21,7 +21,7 @@ public class Right extends TurtleCommand {
 
 	@Override
 	public double returnDoubleValue() {
-		return returnParameterValue();
+		return getParameterDoubleValue(0);
 	}
 
 	@Override

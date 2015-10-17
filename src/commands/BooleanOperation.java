@@ -2,24 +2,23 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
 import model.BackEndProperties;
 
-public abstract class TurtleCommand extends Command {
+public abstract class BooleanOperation extends Command {
 
-	public TurtleCommand() {
+	public BooleanOperation() {
 		//do nothing
 	}
-	
-	public TurtleCommand(Controller controller, String expression, List<Command> commandList) {
-		super(controller, expression, commandList);
+
+	public BooleanOperation(String expression, List<Command> commandList) {
+		super(expression, commandList);
 	}
 	
 	@Override
 	public String getCommandType() {
-		return BackEndProperties.TURTLE_COMMAND;
+		return BackEndProperties.BOOLEAN_OPERATION;
 	}
-	
+
 	@Override
 	public abstract int getNumParameters();
 
@@ -28,5 +27,4 @@ public abstract class TurtleCommand extends Command {
 
 	@Override
 	public abstract void execute();
-
 }

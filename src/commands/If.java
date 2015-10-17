@@ -4,30 +4,31 @@ import java.util.List;
 
 import engine.Controller;
 
-public class Forward extends TurtleCommand {
+public class If extends SpecialForm {
 
-	public Forward() {
+	public If() {
 		super();
 	}
 	
-	public Forward(Controller controller, String expression, List<Command> parameters) {
+	public If(Controller controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	
 	@Override
 	public int getNumParameters() {
-		return 1;
+		return 2;
 	}
 
 	@Override
 	public double returnDoubleValue() {
-		return getParameterDoubleValue(0);
+		return getParameterDoubleValue(1);
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		if (bitToBoolean((int)getParameterDoubleValue(0))) {
+			getParameter(1).execute();
+		}
 	}
 
 }

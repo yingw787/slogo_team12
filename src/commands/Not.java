@@ -2,29 +2,30 @@ package commands;
 
 import java.util.List;
 
-public class Constant extends BasicSyntax {
-	
-	public Constant() {
+public class Not extends BooleanOperation {
+
+	public Not() {
 		super();
 	}
 	
-	public Constant(String expression, List<Command> parameters) {
+	public Not(String expression, List<Command> parameters) {
 		super(expression, parameters);
 	}
-
+	
 	@Override
 	public int getNumParameters() {
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public double returnDoubleValue() {
-		return Double.parseDouble(this.getExpression());
+		return getParameterDoubleValue(0) == 1 ? 0 : 1;
 	}
 
 	@Override
 	public void execute() {
-		//do nothing
+		// TODO Auto-generated method stub
+
 	}
 
 }

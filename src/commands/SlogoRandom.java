@@ -23,7 +23,7 @@ public class SlogoRandom extends MathOperation {
 
 	@Override
 	public double returnDoubleValue() {
-		return performUnaryOp(a -> (double)myRandom.nextInt(a.intValue()));
+		return performUnaryDoubleOp(a -> (double)myRandom.nextInt(a.intValue()));
 	}
 
 	@Override
