@@ -31,6 +31,7 @@ public class Translator {
 	public void executeCommands() {
 		Queue<Command> commandQueue = translateParseTree();
 		for (Command command: commandQueue) {
+			System.out.println(myVariables.toString());
 			executeNestedCommands(command);
 		}
 	}
@@ -69,9 +70,9 @@ public class Translator {
 	 * Takes a single expression tree and translates each node into a command object
 	 * @return a single Command object (containing any nested commands)
 	 */
-	//think about special cases: variable, user defined functions, list, 
 	private Command translate(ExpressionNode node) {
 		Command command = initializeCommandObject(node);
+		System.out.println(command.getExpression());
 		if (node.getChildren().size() == 0) {
 			List<Command> parameters = new ArrayList<Command>();
 			command.setParameters(parameters);
@@ -88,7 +89,6 @@ public class Translator {
 		Command command = myCommandFactory.getCommand(node.getCommand());
 		command.setValue(node.getExpression());
 		command.setVariableMap(myVariables);
-		//if the command type requires the controller, give it the controller
 		if (commandRequiresController(command)) {
 			command.setController(myController);
 		}

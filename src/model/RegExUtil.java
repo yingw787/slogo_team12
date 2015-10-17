@@ -14,7 +14,6 @@ public class RegExUtil {
 	
 	private List<Entry<String, Pattern>> myPatterns;
 	private List<Entry<String, Pattern>> myTurtleCommandPatterns;
-	private List<Entry<String, Pattern>> myBasicSyntaxPatterns;
 	
 	public RegExUtil(String languageFile) {
 		myTurtleCommandPatterns = makePatterns(languageFile);
