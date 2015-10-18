@@ -3,7 +3,6 @@ package commands;
 import java.util.List;
 
 import engine.Controller;
-import model.TurtleStatus;
 
 public class ClearScreen extends TurtleCommand {
 	private static final double[] END_POSITION = { 0, 0 };

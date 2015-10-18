@@ -6,7 +6,7 @@ public class CommandFactory {
 		//do nothing
 	}
 	
-	public Command getCommand(String command) throws Exception {
+	public Command getCommand(String command){
 		switch (command) {
 		//BasicSyntax
 		case ("Constant"):
