@@ -30,13 +30,12 @@ public class Translator {
 	/**
 	 * Iterates through queue of commands and executes each command
 	 */
-	public void executeCommands() { // I thought the executing of commands would be done by the frontend; the point of the queue would be to pass it to the frontend and let them pop commands as needed 
+	public Queue<TurtleStatus> executeCommands() { 
 		Queue<Command> commandQueue = translateParseTree();
 		for (Command command: commandQueue) {
-//			System.out.println(myVariables.toString());
-//			System.out.println(command.returnDoubleValue());
 			executeNestedCommands(command);
 		}
+		return myTurtleUpdates;
 	}
 	
 	/**
