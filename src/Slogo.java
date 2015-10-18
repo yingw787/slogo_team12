@@ -12,7 +12,7 @@ public class Slogo extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		String input = "# go forward 70 (the hard way)\nfd sum sum sum sum 10 20 30 5 5";
+		String input = "# go forward 70 [the hard way]\nfd sm sum sum sum 10 20 30 5 5";
 		ParseModel parser = new ParseModel(input, "resources/languages/English");
 		List<ExpressionNode> parseModel = parser.createParseModel();
 		//parser.printParseModel();

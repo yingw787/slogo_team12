@@ -45,16 +45,27 @@ public class ParseModel {
 	}
 
 	private ExpressionNode buildSubTree(List<String> input, ExpressionNode parentNode) {
-		Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand());
-		int numChildren = getNumChildren(input, parentNode, parentCommand);
-		if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
+		
+		try{
+			Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand());
+			int numChildren = getNumChildren(input, parentNode, parentCommand);
+			if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
+				return parentNode;
+			}
+			while (parentNode.getChildren().size() < numChildren) {
+				ExpressionNode nextNode = readNextNode(input);
+				parentNode.addChild(buildSubTree(input, nextNode));
+			}
+			
 			return parentNode;
 		}
-		while (parentNode.getChildren().size() < numChildren) {
-			ExpressionNode nextNode = readNextNode(input);
-			parentNode.addChild(buildSubTree(input, nextNode));
+		catch (Exception e){
+			// at this point, the ParseModel should not do anything about an erroneous command. 
+			// this is because user-defined commands are read while the program is running.
+			// without the ability to translate, the parser can't distinguish between the user-defined command and an erroneous command. 
+			// so while myCommandFactory throws an exception, just continue with the program because we will handle it later. 
+			return null; 
 		}
-		return parentNode;
 	}
 	
 	private int getNumChildren(List<String> input, ExpressionNode parentNode, Command parentCommand) {
