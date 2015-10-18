@@ -23,10 +23,4 @@ public class IsPenDown extends TurtleQuery {
 	public double returnDoubleValue() {
 		return super.getController().isTurtlePenDown() ? 1 : 0;
 	}
-
-	@Override
-	public void execute() {
-		//do nothing
-	}
-
 }

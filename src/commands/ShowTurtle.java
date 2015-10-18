@@ -26,8 +26,8 @@ public class ShowTurtle extends TurtleCommand {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		super.getController().setIsTurtleShowing(true);
+		addUpdatedTurtleStatus();
 	}
 
 }

@@ -21,11 +21,4 @@ public class Not extends BooleanOperation {
 	public double returnDoubleValue() {
 		return getParameterDoubleValue(0) == 1 ? 0 : 1;
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

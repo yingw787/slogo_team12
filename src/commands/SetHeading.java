@@ -21,13 +21,15 @@ public class SetHeading extends TurtleCommand {
 
 	@Override
 	public double returnDoubleValue() {
-		return getParameterDoubleValue(0);
+		double newDirection = getParameterDoubleValue(0);
+		double degreesMoved = Math.abs(super.getController().getTurtleDirection() - newDirection);
+		return degreesMoved;
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		super.getController().setTurtleDirection(getParameterDoubleValue(0));
+		addUpdatedTurtleStatus();
 	}
 
 }

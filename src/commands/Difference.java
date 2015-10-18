@@ -21,10 +21,4 @@ public class Difference extends MathOperation {
 	public double returnDoubleValue() {
 		return performBinaryDoubleOp((a, b) -> a - b);
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-	}
-
 }

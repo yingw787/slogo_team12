@@ -4,6 +4,7 @@ import java.util.List;
 
 import engine.Controller;
 import model.BackEndProperties;
+import model.TurtleStatus;
 
 public abstract class TurtleCommand extends Command {
 
@@ -28,5 +29,16 @@ public abstract class TurtleCommand extends Command {
 
 	@Override
 	public abstract void execute();
+	
+	protected void moveTurtleForwardBackward(int direction) {
+		double distance = returnDoubleValue();
+		double turtleDirection = super.getController().getTurtleDirection();
+		double[] startPos = super.getController().getTurtlePosition();
+		double newX = startPos[0] + direction * distance * Math.cos(turtleDirection);
+		double newY = startPos[1] + direction * distance * Math.sin(turtleDirection);
+		double[] newPos = { newX, newY };
+		super.getController().setTurtlePosition(newPos);
+		addUpdatedTurtleStatus();
+	}
 
 }

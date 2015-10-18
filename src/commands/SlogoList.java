@@ -28,5 +28,4 @@ public class SlogoList extends BasicSyntax {
 			executeNestedCommands(c);
 		}
 	}
-
 }

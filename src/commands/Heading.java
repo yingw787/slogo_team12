@@ -23,10 +23,4 @@ public class Heading extends TurtleQuery {
 	public double returnDoubleValue() {
 		return super.getController().getTurtleDirection();
 	}
-
-	@Override
-	public void execute() {
-		//do nothing
-	}
-
 }

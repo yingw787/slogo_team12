@@ -17,12 +17,14 @@ public class Translator {
 	private CommandFactory myCommandFactory;
 	private Controller myController;
 	private Map<String,Double> myVariables;
+	private Queue<TurtleStatus> myTurtleUpdates;
 	
 	public Translator(List<ExpressionNode> commands, Controller controller) {
 		myCommandList = commands;
 		myController = controller;
 		myCommandFactory = new CommandFactory();
 		myVariables = new HashMap<String,Double>();
+		myTurtleUpdates = new LinkedList<TurtleStatus>();
 	}
 	
 	/**
@@ -31,7 +33,8 @@ public class Translator {
 	public void executeCommands() {
 		Queue<Command> commandQueue = translateParseTree();
 		for (Command command: commandQueue) {
-			System.out.println(myVariables.toString());
+//			System.out.println(myVariables.toString());
+//			System.out.println(command.returnDoubleValue());
 			executeNestedCommands(command);
 		}
 	}
@@ -44,7 +47,8 @@ public class Translator {
 			return execute(command);
 		} else {
 			command.getParameters().stream()
-				.map(c -> executeNestedCommands(c));
+				.map(c -> executeNestedCommands(c))
+				.collect(Collectors.toList());
 			return execute(command);
 		}
 	}
@@ -89,6 +93,7 @@ public class Translator {
 		Command command = myCommandFactory.getCommand(node.getCommand());
 		command.setValue(node.getExpression());
 		command.setVariableMap(myVariables);
+		command.setTurtleUpdates(myTurtleUpdates);
 		if (commandRequiresController(command)) {
 			command.setController(myController);
 		}

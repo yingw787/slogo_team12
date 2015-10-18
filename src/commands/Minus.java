@@ -21,11 +21,4 @@ public class Minus extends MathOperation {
 	public double returnDoubleValue() {
 		return performUnaryDoubleOp(a -> -1 * a);
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

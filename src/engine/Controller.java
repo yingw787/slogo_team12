@@ -78,7 +78,7 @@ public class Controller extends Application {
 		return true;
 	}
 	
-	public void setIsTurtleShowing(boolean penDown) {
+	public void setIsTurtleShowing(boolean showing) {
 		// TODO sets turtle's "hidden" boolean
 	}
 }

@@ -21,11 +21,4 @@ public class NotEqual extends BooleanOperation {
 	public double returnDoubleValue() {
 		return booleanToBit(performBinaryBooleanOp((a,b) -> a != b));
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

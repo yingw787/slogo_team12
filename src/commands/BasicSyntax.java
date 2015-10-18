@@ -3,6 +3,7 @@ package commands;
 import java.util.List;
 
 import model.BackEndProperties;
+import model.TurtleStatus;
 
 public abstract class BasicSyntax extends Command {
 

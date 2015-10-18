@@ -26,8 +26,7 @@ public class Forward extends TurtleCommand {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		moveTurtleForwardBackward(1);
 	}
 
 }

@@ -26,8 +26,14 @@ public class Left extends TurtleCommand {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		super.getController().setTurtleDirection(calculateNewDirection());
+		addUpdatedTurtleStatus();
+	}
+	
+	private double calculateNewDirection() {
+		double newDirection = returnDoubleValue();
+		double difference = super.getController().getTurtleDirection() + newDirection;
+		return difference > 360 ? difference - 360 : difference;
 	}
 
 }

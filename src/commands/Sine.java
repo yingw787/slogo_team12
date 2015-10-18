@@ -21,11 +21,4 @@ public class Sine extends MathOperation {
 	public double returnDoubleValue() {
 		return performUnaryTrigOp(a -> Math.sin(a));
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

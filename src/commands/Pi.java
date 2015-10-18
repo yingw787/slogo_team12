@@ -21,11 +21,4 @@ public class Pi extends MathOperation {
 	public double returnDoubleValue() {
 		return Math.PI;
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

@@ -25,7 +25,6 @@ public class Variable extends BasicSyntax {
 
 	@Override
 	public void execute() {
-		//do nothing
+		addUpdatedTurtleStatus();
 	}
-
 }
