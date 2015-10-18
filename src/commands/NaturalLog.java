@@ -21,11 +21,4 @@ public class NaturalLog extends MathOperation {
 	public double returnDoubleValue() {
 		return performUnaryDoubleOp(a -> Math.log(a));
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

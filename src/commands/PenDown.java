@@ -26,8 +26,8 @@ public class PenDown extends TurtleCommand {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		super.getController().setIsTurtlePenDown(true);
+		addUpdatedTurtleStatus();
 	}
 
 }

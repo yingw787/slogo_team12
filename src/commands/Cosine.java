@@ -21,11 +21,4 @@ public class Cosine extends MathOperation {
 	public double returnDoubleValue() {
 		return performUnaryTrigOp(a -> Math.cos(a));
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

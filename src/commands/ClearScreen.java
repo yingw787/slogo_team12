@@ -3,8 +3,10 @@ package commands;
 import java.util.List;
 
 import engine.Controller;
+import model.TurtleStatus;
 
 public class ClearScreen extends TurtleCommand {
+	private static final double[] END_POSITION = { 0, 0 };
 	
 	public ClearScreen() {
 		super();
@@ -22,14 +24,15 @@ public class ClearScreen extends TurtleCommand {
 	@Override
 	public double returnDoubleValue() {
 		double[] startPos = super.getController().getTurtlePosition();
-		double[] endPos = { 0, 0 };
+		double[] endPos = END_POSITION;
 		return calculateDistance(startPos, endPos);
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		super.getController().setTurtlePosition(END_POSITION);
+		// TODO fire Clear event to wipe all existing graphics ?
+		addUpdatedTurtleStatus();
 	}
 
 }

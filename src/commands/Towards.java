@@ -31,8 +31,8 @@ public class Towards extends TurtleCommand {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		super.getController().setTurtleDirection(calculateNewAngle());
+		addUpdatedTurtleStatus();
 	}
 	
 	private double calculateNewAngle() {

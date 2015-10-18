@@ -24,10 +24,4 @@ public class XCoordinate extends TurtleQuery{
 		double[] turtlePos = super.getController().getTurtlePosition();
 		return turtlePos[0];
 	}
-
-	@Override
-	public void execute() {
-		//do nothing
-	}
-
 }

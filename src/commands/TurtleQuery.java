@@ -27,6 +27,8 @@ public abstract class TurtleQuery extends Command {
 	public abstract double returnDoubleValue();
 
 	@Override
-	public abstract void execute();
+	public void execute() {
+		addUpdatedTurtleStatus();
+	}
 
 }

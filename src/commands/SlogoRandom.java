@@ -25,11 +25,4 @@ public class SlogoRandom extends MathOperation {
 	public double returnDoubleValue() {
 		return performUnaryDoubleOp(a -> (double)myRandom.nextInt(a.intValue()));
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

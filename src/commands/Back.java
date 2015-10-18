@@ -26,9 +26,7 @@ public class Back extends TurtleCommand {
 
 	@Override
 	public void execute() {
-		double increment = returnDoubleValue();
-		double[] startPos = super.getController().getTurtlePosition();
-		//TODO calculate how to go backwards by "increment"
+		moveTurtleForwardBackward(-1);
 	}
 
 }

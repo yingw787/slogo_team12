@@ -21,11 +21,4 @@ public class Tangent extends MathOperation {
 	public double returnDoubleValue() {
 		return performUnaryTrigOp(a -> Math.tan(a));
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

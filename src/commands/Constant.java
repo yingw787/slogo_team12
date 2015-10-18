@@ -24,7 +24,6 @@ public class Constant extends BasicSyntax {
 
 	@Override
 	public void execute() {
-		//do nothing
+		addUpdatedTurtleStatus();
 	}
-
 }

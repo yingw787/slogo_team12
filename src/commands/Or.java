@@ -21,11 +21,4 @@ public class Or extends BooleanOperation {
 	public double returnDoubleValue() {
 		return booleanToBit(performBinaryBooleanOp((a,b) -> bitToBoolean(a.intValue()) || bitToBoolean(b.intValue())));
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

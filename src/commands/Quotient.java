@@ -22,10 +22,4 @@ public class Quotient extends MathOperation {
 		List<Command> parameters = super.getParameters();
 		return parameters.get(0).returnDoubleValue() / parameters.get(1).returnDoubleValue();
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-	}
-
 }

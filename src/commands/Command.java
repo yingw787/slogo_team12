@@ -2,16 +2,19 @@ package commands;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import engine.Controller;
+import model.TurtleStatus;
 
 public abstract class Command {
 	private String myExpression;
 	private List<Command> myParameters;
 	private Controller myController;
 	private Map<String,Double> myVariables;
+	private Queue<TurtleStatus> myTurtleUpdates;
 	
 	public Command() {
 		//do nothing
@@ -56,6 +59,10 @@ public abstract class Command {
 		return myVariables;
 	}
 	
+	public Queue<TurtleStatus> getTurtleUpdates() {
+		return myTurtleUpdates;
+	}
+	
 	public void setValue(String expression) {
 		this.myExpression = expression;
 	}
@@ -70,6 +77,10 @@ public abstract class Command {
 	
 	public void setVariableMap(Map<String,Double> variables) {
 		this.myVariables = variables;
+	}
+	
+	public void setTurtleUpdates(Queue<TurtleStatus> turtleUpdates) {
+		this.myTurtleUpdates = turtleUpdates;
 	}
 	
 	public void addVariable(String variableName, Double value) {
@@ -128,5 +139,9 @@ public abstract class Command {
 	
 	protected int booleanToBit(boolean bool) {
 		return bool ? 1 : 0;
+	}
+	
+	protected void addUpdatedTurtleStatus() {
+		myTurtleUpdates.add(new TurtleStatus(myController));
 	}
 }

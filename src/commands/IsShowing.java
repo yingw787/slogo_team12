@@ -23,10 +23,4 @@ public class IsShowing extends TurtleQuery {
 	public double returnDoubleValue() {
 		return super.getController().isTurtleShowing() ? 1 : 0;
 	}
-
-	@Override
-	public void execute() {
-		//do nothing
-	}
-
 }
