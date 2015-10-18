@@ -138,7 +138,6 @@ public class GUI {
     private void changePaneColor (String canvasColor) {
         try {
             canvasBox.setStyle("-fx-background-color: " + canvasColor + ";");
-            turtle.setCurrentXPos(turtle.getCurrentXPos()+20);
         }
         catch (Exception e) {
             // invalid color
