@@ -29,7 +29,7 @@ public class ResourceFileParser{
 		{
 			while(languageFileScanner.hasNextLine()){
 				String line = languageFileScanner.nextLine(); 
-				if(!isCommentLine(line)){ // if it isn't a comment line 
+				if(line.charAt(0) != '#'){ // if it isn't a comment line 
 					String newLine = line.replace("|", " ").replace("\\", "").replace(" = ", " ");
 					String[] commands = newLine.split(" ");	
 					for(int i = 1; i < commands.length; i++){
@@ -50,20 +50,13 @@ public class ResourceFileParser{
 		return map; 
 	}
 	
-	private boolean isCommentLine(String line){
-		// detects if line is a comment 
-		if(line.charAt(0) == '#')
-			return true;
-		return false;
-	}
-	
-	public static void main(String[] args){ // for unit testing 
-		
-		ResourceFileParser englishParser = new ResourceFileParser("English");
-		HashMap<String, String> map = englishParser.retrieveMap();
-		for(String key: map.keySet()){
-			System.out.println(key + ", " + map.get(key));
-		}
-	}
+//	public static void main(String[] args){ // for unit testing 
+//		
+//		ResourceFileParser englishParser = new ResourceFileParser("English");
+//		HashMap<String, String> map = englishParser.retrieveMap();
+//		for(String key: map.keySet()){
+//			System.out.println(key + ", " + map.get(key));
+//		}
+//	}
 
 }
