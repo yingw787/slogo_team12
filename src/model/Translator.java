@@ -67,7 +67,7 @@ public class Translator {
 	
 	private Queue<Command> translateParseTree(){
 		Queue<Command> commandQueue = new LinkedList<Command>();
-		for (ExpressionNode command: myCommandList) {
+		for (ExpressionNode command: myCommandList) { // what the parse model class gives to translator 
 			try{
 				commandQueue.add(translate(command));
 			}
@@ -112,16 +112,14 @@ public class Translator {
 		try
 		{
 			Command command = myCommandFactory.getCommand(node.getCommand());
-			System.out.println(command.getCommandType()); // 
+//			System.out.println(command.getCommandType()); // 
 			command.setValue(node.getExpression());
-			System.out.println(command.getExpression()); // 
+//			System.out.println(command.getExpression()); // 
 
 			
 			command.setVariableMap(myVariables);
 			command.setTurtleUpdates(myTurtleUpdates);
-			if (commandRequiresController(command)) {
-				command.setController(myController);
-			}
+			command.setController(myController);
 			return command;
 		}
 		catch (Exception e)
@@ -131,11 +129,4 @@ public class Translator {
 		return null; 
 		
 	}
-	
-	private boolean commandRequiresController(Command command) {
-		return command.getCommandType().equals(BackEndProperties.TURTLE_COMMAND) || 
-				command.getCommandType().equals(BackEndProperties.TURTLE_QUERY) ||
-				command.getCommandType().equals(BackEndProperties.SPECIAL_FORM);
-	}
-
 }
