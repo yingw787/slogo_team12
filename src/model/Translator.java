@@ -92,15 +92,26 @@ public class Translator {
 		return command;
 	}
 
-	private Command initializeCommandObject(ExpressionNode node) {
-		Command command = myCommandFactory.getCommand(node.getCommand());
-		command.setValue(node.getExpression());
-		command.setVariableMap(myVariables);
-		command.setTurtleUpdates(myTurtleUpdates);
-		if (commandRequiresController(command)) {
-			command.setController(myController);
+	
+	
+	private Command initializeCommandObject(ExpressionNode node) throws RuntimeException{
+		try
+		{
+			Command command = myCommandFactory.getCommand(node.getCommand());
+			command.setValue(node.getExpression());
+			command.setVariableMap(myVariables);
+			command.setTurtleUpdates(myTurtleUpdates);
+			if (commandRequiresController(command)) {
+				command.setController(myController);
+			}
+			return command;
 		}
-		return command;
+		catch (RuntimeException e)
+		{
+			System.out.println("I have caught this exception");
+		}
+		return null; 
+		
 	}
 	
 	private boolean commandRequiresController(Command command) {

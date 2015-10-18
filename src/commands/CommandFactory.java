@@ -6,7 +6,7 @@ public class CommandFactory {
 		//do nothing
 	}
 	
-	public Command getCommand(String command) {
+	public Command getCommand(String command) throws RuntimeException {
 		switch (command) {
 		//BasicSyntax
 		case ("Constant"):
@@ -110,7 +110,7 @@ public class CommandFactory {
 			return new If();
 		case ("IfElse"):
 			return new IfElse();
+		default: throw new RuntimeException("Command is not found within the Command Factory");
 		}
-		return null;
 	}
 }

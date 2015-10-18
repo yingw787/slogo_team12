@@ -2,11 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 import commands.Command;
 import commands.CommandFactory;
@@ -131,7 +128,9 @@ public class ParseModel {
 		for (String brace: BRACES) {
 			input = findBraces(input, brace);
 		}
-		return new ArrayList(Arrays.asList(input.trim().split(WHITESPACE)));
+		ArrayList<String> cleanedInput = new ArrayList<String>(Arrays.asList(input.trim().split(WHITESPACE)));
+				
+		return cleanedInput;
 	}
 	
 	private String findBraces(String input, String brace) {
