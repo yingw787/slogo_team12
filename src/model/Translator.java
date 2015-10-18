@@ -66,7 +66,7 @@ public class Translator {
 	
 	
 	private Queue<Command> translateParseTree(){
-		Queue<Command> commandQueue = new LinkedList<Command>();
+		Queue<Command> commandQueue = new LinkedList<Command>(); // ANY REASON WHY THIS IS LINKED LIST
 		for (ExpressionNode command: myCommandList) { // what the parse model class gives to translator 
 			try{
 				commandQueue.add(translate(command));
@@ -83,7 +83,8 @@ public class Translator {
 	 * @return a single Command object (containing any nested commands)
 	 * @throws Exception 
 	 */
-	private Command translate(ExpressionNode node){		
+	private Command translate(ExpressionNode node){	
+		// exception handling 
 		try{
 			Command command = initializeCommandObject(node);
 			System.out.println(command.getExpression());
@@ -99,9 +100,8 @@ public class Translator {
 			return command;
 		}
 		catch (Exception e){
-			// event handler for exception handling? 
-			// frontend can have a listener for exception event 
-//			e.printStackTrace();
+			// TODO: exception handling logic goes here 
+			// TODO: create an event that can react to a frontend listener in order to create a popup to notify the user that the program cannot compile correctly 
 			System.out.println("Exception found");
 		}
 		return null; 
@@ -109,24 +109,23 @@ public class Translator {
 	}
 	
 	private Command initializeCommandObject(ExpressionNode node) throws Exception{
-		try
-		{
-			Command command = myCommandFactory.getCommand(node.getCommand());
+		
+		if(node.getCommand().equals("Command")){ 
+			// TODO: check for a user-defined function in the developed map 
+			// TODO: only if it is not in the user-defined function map, do you throw the exception 
+			throw new Exception("Command not found in dictionary of legal commands");
+		}
+		
+		Command command = myCommandFactory.getCommand(node.getCommand());
 //			System.out.println(command.getCommandType()); // 
-			command.setValue(node.getExpression());
+		command.setValue(node.getExpression());
 //			System.out.println(command.getExpression()); // 
 
-			
-			command.setVariableMap(myVariables);
-			command.setTurtleUpdates(myTurtleUpdates);
-			command.setController(myController);
-			return command;
-		}
-		catch (Exception e)
-		{
-			System.out.println("I have caught this exception");
-		}
-		return null; 
+		command.setVariableMap(myVariables);
+		command.setTurtleUpdates(myTurtleUpdates);
+		command.setController(myController);
+		return command;
+		
 		
 	}
 }
