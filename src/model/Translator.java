@@ -30,7 +30,7 @@ public class Translator {
 	/**
 	 * Iterates through queue of commands and executes each command
 	 */
-	public void executeCommands() {
+	public void executeCommands() { // I thought the executing of commands would be done by the frontend; the point of the queue would be to pass it to the frontend and let them pop commands as needed 
 		Queue<Command> commandQueue = translateParseTree();
 		for (Command command: commandQueue) {
 //			System.out.println(myVariables.toString());
@@ -59,13 +59,21 @@ public class Translator {
 	}
 	
 	/**
-	 * Reads through list of expression trees and translates each tree into a Command object
+	 * Reads through list of expression trees and translates each tree into a Command object 
 	 * @return queue of Command objects
 	 */
-	private Queue<Command> translateParseTree() {
+	
+	
+	
+	private Queue<Command> translateParseTree(){
 		Queue<Command> commandQueue = new LinkedList<Command>();
 		for (ExpressionNode command: myCommandList) {
-			commandQueue.add(translate(command));
+			try{
+				commandQueue.add(translate(command));
+			}
+			catch (Exception e){
+				System.out.println("I am here");
+			}
 		}
 		return commandQueue;
 	}
@@ -73,31 +81,55 @@ public class Translator {
 	/**
 	 * Takes a single expression tree and translates each node into a command object
 	 * @return a single Command object (containing any nested commands)
+	 * @throws Exception 
 	 */
-	private Command translate(ExpressionNode node) {
-		Command command = initializeCommandObject(node);
-		System.out.println(command.getExpression());
-		if (node.getChildren().size() == 0) {
-			List<Command> parameters = new ArrayList<Command>();
-			command.setParameters(parameters);
+	private Command translate(ExpressionNode node){		
+		try{
+			Command command = initializeCommandObject(node);
+			System.out.println(command.getExpression());
+			if (node.getChildren().size() == 0) {
+				List<Command> parameters = new ArrayList<Command>();
+				command.setParameters(parameters);
+				return command;
+			}
+			List<Command> parameterCommands = node.getChildren().stream()
+					.map(child -> translate(child))
+					.collect(Collectors.toList());
+			command.setParameters(parameterCommands);
 			return command;
 		}
-		List<Command> parameterCommands = node.getChildren().stream()
-				.map(child -> translate(child))
-				.collect(Collectors.toList());
-		command.setParameters(parameterCommands);
-		return command;
-	}
-
-	private Command initializeCommandObject(ExpressionNode node) {
-		Command command = myCommandFactory.getCommand(node.getCommand());
-		command.setValue(node.getExpression());
-		command.setVariableMap(myVariables);
-		command.setTurtleUpdates(myTurtleUpdates);
-		if (commandRequiresController(command)) {
-			command.setController(myController);
+		catch (Exception e){
+			// event handler for exception handling? 
+			// frontend can have a listener for exception event 
+//			e.printStackTrace();
+			System.out.println("Exception found");
 		}
-		return command;
+		return null; 
+		
+	}
+	
+	private Command initializeCommandObject(ExpressionNode node) throws Exception{
+		try
+		{
+			Command command = myCommandFactory.getCommand(node.getCommand());
+			System.out.println(command.getCommandType()); // 
+			command.setValue(node.getExpression());
+			System.out.println(command.getExpression()); // 
+
+			
+			command.setVariableMap(myVariables);
+			command.setTurtleUpdates(myTurtleUpdates);
+			if (commandRequiresController(command)) {
+				command.setController(myController);
+			}
+			return command;
+		}
+		catch (Exception e)
+		{
+			System.out.println("I have caught this exception");
+		}
+		return null; 
+		
 	}
 	
 	private boolean commandRequiresController(Command command) {

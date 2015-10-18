@@ -2,11 +2,8 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 import commands.Command;
 import commands.CommandFactory;
@@ -48,16 +45,27 @@ public class ParseModel {
 	}
 
 	private ExpressionNode buildSubTree(List<String> input, ExpressionNode parentNode) {
-		Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand());
-		int numChildren = getNumChildren(input, parentNode, parentCommand);
-		if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
+		
+		try{
+			Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand());
+			int numChildren = getNumChildren(input, parentNode, parentCommand);
+			if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
+				return parentNode;
+			}
+			while (parentNode.getChildren().size() < numChildren) {
+				ExpressionNode nextNode = readNextNode(input);
+				parentNode.addChild(buildSubTree(input, nextNode));
+			}
+			
 			return parentNode;
 		}
-		while (parentNode.getChildren().size() < numChildren) {
-			ExpressionNode nextNode = readNextNode(input);
-			parentNode.addChild(buildSubTree(input, nextNode));
+		catch (Exception e){
+			// at this point, the ParseModel should not do anything about an erroneous command. 
+			// this is because user-defined commands are read while the program is running.
+			// without the ability to translate, the parser can't distinguish between the user-defined command and an erroneous command. 
+			// so while myCommandFactory throws an exception, just continue with the program because we will handle it later. 
+			return null; 
 		}
-		return parentNode;
 	}
 	
 	private int getNumChildren(List<String> input, ExpressionNode parentNode, Command parentCommand) {
@@ -131,7 +139,9 @@ public class ParseModel {
 		for (String brace: BRACES) {
 			input = findBraces(input, brace);
 		}
-		return new ArrayList(Arrays.asList(input.trim().split(WHITESPACE)));
+		ArrayList<String> cleanedInput = new ArrayList<String>(Arrays.asList(input.trim().split(WHITESPACE)));
+				
+		return cleanedInput;
 	}
 	
 	private String findBraces(String input, String brace) {
