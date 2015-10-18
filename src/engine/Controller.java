@@ -48,7 +48,7 @@ public class Controller extends Application {
 		
 		//
 		myGUI.addToHistory(stringFromGUI);
-		
+		myGUI.drawLine();
 		
 	}
 	
