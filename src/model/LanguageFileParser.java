@@ -12,23 +12,25 @@ import java.util.Scanner;
  * This way the CommandFactory doesn't have to be hardcoded to one language. 
  */
 
-public class ResourceFileParser{
+public class LanguageFileParser{
 	
-	private static final String SYNTAX_FILE_LOCATION = "resources/languages/Syntax.properties";
 	private static final String LANGUAGE_FILE_LOCATION = "resources/languages/";
 	
 	private HashMap<String, String> map = new HashMap<String, String>(); 
 	
-	public ResourceFileParser(String language){
+	public LanguageFileParser(String language){
 				
 		ClassLoader classLoader = getClass().getClassLoader();
-		File syntaxFile = new File(classLoader.getResource(SYNTAX_FILE_LOCATION).getFile()); // TODO: add in syntax.properties stuff into hashmap
 		File languageFile = new File(classLoader.getResource(LANGUAGE_FILE_LOCATION + language + ".properties").getFile());
+		readFileIntoMap(languageFile);
 		
-		try(Scanner languageFileScanner = new Scanner(languageFile))
+	}
+	
+	private void readFileIntoMap(File file){
+		try(Scanner scanner = new Scanner(file))
 		{
-			while(languageFileScanner.hasNextLine()){
-				String line = languageFileScanner.nextLine(); 
+			while(scanner.hasNextLine()){
+				String line = scanner.nextLine(); 
 				if(line.charAt(0) != '#'){ // if it isn't a comment line 
 					String newLine = line.replace("|", " ").replace("\\", "").replace(" = ", " ");
 					String[] commands = newLine.split(" ");	
@@ -37,26 +39,25 @@ public class ResourceFileParser{
 					}
 				}
 			}
-			languageFileScanner.close(); 
+			scanner.close(); 
 		}
 		catch (IOException e)
 		{
-			System.err.println("Language file not found in resource file directory");
+			System.err.println("File not found");
 		}
-		
 	}
 	
 	public HashMap<String, String> retrieveMap(){
 		return map; 
 	}
 	
-//	public static void main(String[] args){ // for unit testing 
-//		
-//		ResourceFileParser englishParser = new ResourceFileParser("English");
-//		HashMap<String, String> map = englishParser.retrieveMap();
-//		for(String key: map.keySet()){
-//			System.out.println(key + ", " + map.get(key));
-//		}
-//	}
+	public static void main(String[] args){ // for unit testing 
+		
+		LanguageFileParser englishParser = new LanguageFileParser("English");
+		HashMap<String, String> map = englishParser.retrieveMap();
+		for(String key: map.keySet()){
+			System.out.println(key + ", " + map.get(key));
+		}
+	}
 
 }
