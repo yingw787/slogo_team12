@@ -17,8 +17,8 @@ public class Slogo extends Application {
 		List<ExpressionNode> parseModel = parser.createParseModel();
 //		parser.printParseModel();
 		Controller c = new Controller();
-		Translator t = new Translator(parseModel, c);
-		t.executeCommands();
+		//Translator t = new Translator(parseModel, c);
+		//t.executeCommands();
 	}
 	
 	/**

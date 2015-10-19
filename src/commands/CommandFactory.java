@@ -1,12 +1,15 @@
 package commands;
 
-public class CommandFactory {
+import java.util.Map;
 
-	public CommandFactory() {
-		//do nothing
+public class CommandFactory {
+	private Map<String,UserCommand> myUserCommands;
+
+	public CommandFactory(Map<String,UserCommand> userCommands) {
+		myUserCommands = userCommands;
 	}
 	
-	public Command getCommand(String command){
+	public Command getCommand(String command, String expression) throws Exception {
 		switch (command) {
 		//BasicSyntax
 		case ("Constant"):
@@ -110,8 +113,13 @@ public class CommandFactory {
 			return new If();
 		case ("IfElse"):
 			return new IfElse();
-		default: 
-			return new CommandName();
+		case ("MakeUserInstruction"):
+			return new MakeUserInstruction();
+		case ("Command"):
+			//TODO
+			return myUserCommands.get(expression);
+		default:
+			return null;
 		}
 	}
 }

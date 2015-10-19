@@ -14,6 +14,7 @@ public abstract class Command {
 	private List<Command> myParameters;
 	private Controller myController;
 	private Map<String,Double> myVariables;
+	private Map<String,UserCommand> myUserCommands;
 	private Queue<TurtleStatus> myTurtleUpdates;
 	
 	public Command() {
@@ -63,6 +64,10 @@ public abstract class Command {
 		return myTurtleUpdates;
 	}
 	
+	public Map<String,UserCommand> getUserCommands() {
+		return myUserCommands;
+	}
+	
 	public void setValue(String expression) {
 		this.myExpression = expression;
 	}
@@ -83,12 +88,24 @@ public abstract class Command {
 		this.myTurtleUpdates = turtleUpdates;
 	}
 	
-	public void addVariable(String variableName, Double value) {
+	public void setUserCommands(Map<String,UserCommand> userCommands) {
+		this.myUserCommands = userCommands;
+	}
+	
+	protected void addVariable(String variableName, Double value) {
 		myVariables.put(variableName, value);
 	}
 	
-	public void removeVariable(String variableName) {
+	protected void removeVariable(String variableName) {
 		myVariables.remove(variableName);
+	}
+	
+	protected void addUserCommand(UserCommand newCommand) {
+		myUserCommands.put(newCommand.getCommandName(), newCommand);
+	}
+	
+	protected UserCommand getUserCommand(String commandName) {
+		return myUserCommands.get(commandName);
 	}
 	
 	protected Command getParameter(int index) {

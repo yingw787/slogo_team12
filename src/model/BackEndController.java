@@ -1,8 +1,10 @@
 package model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
+import commands.UserCommand;
 import engine.Controller;
 
 public class BackEndController {
@@ -19,9 +21,9 @@ public class BackEndController {
 		
 		myParser = new ParseModel(input, "resources/languages/" + language);
 		List<ExpressionNode> parseModel = myParser.createParseModel();
-		
 		myParser.printParseModel();
-		Translator translator = new Translator(parseModel, myController);
+		Map<String,UserCommand> userCommands = myParser.getUserCommands();
+		Translator translator = new Translator(parseModel, userCommands, myController);
 		return translator.executeCommands();
 	}
 
