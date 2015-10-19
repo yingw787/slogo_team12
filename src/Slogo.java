@@ -15,7 +15,7 @@ public class Slogo extends Application {
 		String input = "# go forward 70 [the hard way]\nfd sm sum sum sum 10 20 30 5 5";
 		ParseModel parser = new ParseModel(input, "resources/languages/English");
 		List<ExpressionNode> parseModel = parser.createParseModel();
-		//parser.printParseModel();
+//		parser.printParseModel();
 		Controller c = new Controller();
 		Translator t = new Translator(parseModel, c);
 		t.executeCommands();

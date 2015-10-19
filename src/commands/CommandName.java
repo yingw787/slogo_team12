@@ -5,7 +5,7 @@ package commands;
 // If is exception, do exception handling. Otherwise, continue to execute the command as defined in the user-command map. 
 public class CommandName extends BasicSyntax {
 
-	
+	// TODO: flesh out what exactly the CommandName is supposed to do 
 	
 	@Override
 	public int getNumParameters() {

@@ -4,7 +4,6 @@ import java.util.List;
 
 import engine.Controller;
 import model.BackEndProperties;
-import model.TurtleStatus;
 
 public abstract class SpecialForm extends Command {
 
