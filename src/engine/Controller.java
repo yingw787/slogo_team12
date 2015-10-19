@@ -51,6 +51,7 @@ public class Controller extends Application {
 	
 	public void submit(String stringFromGUI){
 		myGUI.addToHistory(stringFromGUI);
+		myGUI.drawLine();
 		
 	}
 
