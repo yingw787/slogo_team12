@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import commands.Command;
 import commands.CommandFactory;
+import commands.UserCommand;
 import engine.Controller;
 
 public class Translator {
@@ -18,11 +19,13 @@ public class Translator {
 	private Controller myController;
 	private Map<String,Double> myVariables;
 	private Queue<TurtleStatus> myTurtleUpdates;
+	private Map<String, UserCommand> myUserCommands;
 	
-	public Translator(List<ExpressionNode> commands, Controller controller) {
+	public Translator(List<ExpressionNode> commands, Map<String,UserCommand> userCommands, Controller controller) {
 		myCommandList = commands;
 		myController = controller;
-		myCommandFactory = new CommandFactory();
+		myUserCommands = userCommands;
+		myCommandFactory = new CommandFactory(myUserCommands);
 		myVariables = new HashMap<String,Double>();
 		myTurtleUpdates = new LinkedList<TurtleStatus>();
 	}
@@ -65,8 +68,8 @@ public class Translator {
 	
 	
 	private Queue<Command> translateParseTree(){
-		Queue<Command> commandQueue = new LinkedList<Command>(); // ANY REASON WHY THIS IS LINKED LIST
-		for (ExpressionNode command: myCommandList) { // what the parse model class gives to translator 
+		Queue<Command> commandQueue = new LinkedList<Command>(); 
+		for (ExpressionNode command: myCommandList) { 
 			try{
 				commandQueue.add(translate(command));
 			}
@@ -86,7 +89,6 @@ public class Translator {
 		// exception handling 
 		try{
 			Command command = initializeCommandObject(node);
-			System.out.println(command.getExpression());
 			if (node.getChildren().size() == 0) {
 				List<Command> parameters = new ArrayList<Command>();
 				command.setParameters(parameters);
@@ -108,23 +110,21 @@ public class Translator {
 	}
 	
 	private Command initializeCommandObject(ExpressionNode node) throws Exception{
-		
-		if(node.getCommand().equals("Command")){ 
-			// TODO: check for a user-defined function in the developed map 
-			// TODO: only if it is not in the user-defined function map, do you throw the exception 
-			throw new Exception("Command not found in dictionary of legal commands");
+		try
+		{
+			Command command = myCommandFactory.getCommand(node.getCommand(), node.getExpression());
+			command.setValue(node.getExpression());
+			command.setVariableMap(myVariables);
+			command.setTurtleUpdates(myTurtleUpdates);
+			command.setController(myController);
+			command.setUserCommands(myUserCommands);
+			return command;
+		}
+		catch (Exception e)
+		{
+			System.out.println("I have caught this exception");
 		}
 		
-		Command command = myCommandFactory.getCommand(node.getCommand());
-//			System.out.println(command.getCommandType()); // 
-		command.setValue(node.getExpression());
-//			System.out.println(command.getExpression()); // 
-
-		command.setVariableMap(myVariables);
-		command.setTurtleUpdates(myTurtleUpdates);
-		command.setController(myController);
-		return command;
-		
-		
+		return null;
 	}
 }
