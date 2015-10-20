@@ -21,7 +21,7 @@ public class CommandFactory {
 		//TurtleCommands
 		case ("Forward"):
 			return new Forward();
-		case ("Back"):
+		case ("Backward"):
 			return new Back();
 		case ("Left"):
 			return new Left();
