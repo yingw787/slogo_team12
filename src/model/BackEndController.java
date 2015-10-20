@@ -19,6 +19,8 @@ public class BackEndController {
 		
 		myParser = new ParseModel(input, "resources/languages/" + language);
 		List<ExpressionNode> parseModel = myParser.createParseModel();
+		
+		myParser.printParseModel();
 		Translator translator = new Translator(parseModel, myController);
 		return translator.executeCommands();
 	}

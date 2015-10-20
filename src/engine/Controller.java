@@ -44,6 +44,7 @@ public class Controller extends Application {
 		
 		myGUI = new GUI(this, myLanguage);
 		myGUI.setAndShowScene(myStage);
+		myBackend = new BackEndController(this);
 		//clear history, reset turtle, clear everythibg.
 		//just make new Gui object and set it? decide what to do
 
@@ -54,8 +55,7 @@ public class Controller extends Application {
 	public void submit(String stringFromGUI, String myLanguage){
 		myGUI.addToHistory(stringFromGUI);
 		myBackend.generateTurtleCommands(stringFromGUI, myLanguage);
-		myGUI.drawLine();
-
+	
 	}
 
 	
@@ -70,13 +70,14 @@ public class Controller extends Application {
 	}
 	
 	public double[] getTurtlePosition() {
+		return myGUI.getTurtlePosition();
 		
-		//TODO returns x,y position of turtle
-		return new double[2];
+
 	}
 	
 	public void setTurtlePosition(double[] newPos) {
 		myGUI.updateTurtle(newPos);
+		myGUI.drawLine();
 		//TODO sets turtle's x,y position
 	}
 	

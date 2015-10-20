@@ -210,8 +210,8 @@ public class GUI {
     }
 
     public void drawLine () {
-        turtle.setCurrentXPos(turtle.getCurrentXPos() + 20);
-        turtle.setCurrentYPos(turtle.getCurrentYPos() + 20);
+       // turtle.setCurrentXPos(turtle.getCurrentXPos() + 20);
+        //turtle.setCurrentYPos(turtle.getCurrentYPos() + 20);
         Line line = new Line();
         line.setStartX(turtle.getPastXPos());
         line.setStartY(turtle.getPastYPos());
@@ -226,5 +226,14 @@ public class GUI {
     	turtle.setCurrentXPos(Pos[0]);
     	turtle.setCurrentYPos(Pos[1]);
     }
+
+	public double[] getTurtlePosition() {
+		
+		double[] pos= new double[2];
+		pos[0] = turtle.getCurrentXPos();
+		pos[1] = turtle.getCurrentYPos();
+
+		return pos;
+	}
 
 }
