@@ -54,6 +54,8 @@ public class Controller extends Application {
 	public void submit(String stringFromGUI, String myLanguage){
 		myGUI.addToHistory(stringFromGUI);
 		myBackend.generateTurtleCommands(stringFromGUI, myLanguage);
+		myGUI.drawLine();
+
 	}
 
 	

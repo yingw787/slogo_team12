@@ -2,16 +2,26 @@ package view;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 
 public class Turtle {
     private int turtleID;
+    private int SCREEN_WIDTH;
+    private int SCREEN_HEIGHT;
     private double pastXPos;
     private double pastYPos;
     private double currentXPos;
     private double currentYPos;
     private boolean penDown;
+    private Color penColor;
     private ImageView turtleImage;
+
+    public Turtle (int SCREEN_WIDTH, int SCREEN_HEIGHT) {
+        this.SCREEN_HEIGHT = SCREEN_HEIGHT;
+        this.SCREEN_WIDTH = SCREEN_WIDTH;
+        penColor = Color.BLACK;
+    }
 
     public double getPastXPos () {
         return pastXPos;
@@ -37,7 +47,7 @@ public class Turtle {
         setPastXPos(this.currentXPos);
         this.currentXPos = currentXPos;
         turtleImage.setX(currentXPos);
-        
+
     }
 
     public double getCurrentYPos () {
@@ -64,7 +74,7 @@ public class Turtle {
 
     public void setTurtleImage (Image turtleImage) {
         ImageView view = new ImageView(turtleImage);
-        this.turtleImage = view; 
+        this.turtleImage = view;
         this.turtleImage.setX(currentXPos);
         this.turtleImage.setY(currentYPos);
     }
@@ -75,6 +85,14 @@ public class Turtle {
 
     public void setTurtleID (int turtleID) {
         this.turtleID = turtleID;
+    }
+
+    public Color getPenColor () {
+        return penColor;
+    }
+
+    public void setPenColor (Color penColor) {
+        this.penColor = penColor;
     }
 
 }

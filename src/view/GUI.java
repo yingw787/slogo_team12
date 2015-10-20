@@ -1,9 +1,14 @@
 package view;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ResourceBundle;
+import javax.imageio.ImageIO;
+import com.sun.istack.internal.logging.Logger;
 import engine.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -17,6 +22,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 
@@ -33,15 +40,16 @@ public class GUI {
     private ObservableList<String> myHistList;
     private ObservableList<String> myColorsList;
     private Pane canvasBox;
+    final FileChooser fileChooser;
     private Turtle turtle;
     // consider adding a public method called get myHistList, that returns immutable histList
 
     public GUI (Controller controller, String language) {
-        turtle = new Turtle();
+        turtle = new Turtle(SCREEN_WIDTH, SCREEN_HEIGHT);
         myHistList = FXCollections.observableArrayList();
         myColorsList = FXCollections.observableArrayList();
         // myHistList.add("History");
-
+        fileChooser = initFileChooser();
         myController = controller;
 
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
@@ -69,6 +77,10 @@ public class GUI {
         ComboBox paneColorSelect = myFactory.makeComboBox();
         initPaneColorSelect(paneColorSelect);
         optionsBox.getChildren().add(paneColorSelect);
+
+        ComboBox penColorSelect = myFactory.makeComboBox();
+        initPenColorSelect(penColorSelect);
+        optionsBox.getChildren().add(penColorSelect);
 
         HBox commandAndVarBox = myFactory.makeHBox();
         commandAndVarBox.setMaxHeight(SCREEN_HEIGHT / 5);
@@ -113,11 +125,26 @@ public class GUI {
         variablesBox.getChildren().add(myFactory.makeClickableList(listOfVariables));
         commandAndVarBox.getChildren().add(variablesBox);
 
+        optionsBox.getChildren()
+                .add(myFactory.makeButton("pickImageButton", e -> this.pickImage()));
         // make a root, etc, layout everything with the GUIfactory
         Image image = new Image(getClass().getClassLoader().getResourceAsStream("turtle.gif"));
         turtle.setTurtleImage(image);
         canvasBox.getChildren().add(turtle.getTurtleImage());
 
+    }
+
+    private FileChooser initFileChooser () {
+        FileChooser f = new FileChooser();
+        f.setTitle("Open Image File");
+        f.getExtensionFilters().add(new ExtensionFilter("Image File", "*.png", "*.jpg", "*.gif"));
+        return f;
+    }
+
+    private void initPenColorSelect (ComboBox penColorSelect) {
+        penColorSelect.setItems(myColorsList);
+        penColorSelect.setOnAction(e -> this
+                .changePenColor(penColorSelect.getSelectionModel().getSelectedItem().toString()));
     }
 
     private void initPaneColorSelect (ComboBox paneColorSelect) {
@@ -133,6 +160,16 @@ public class GUI {
         myColorsList.add("purple");
         myColorsList.add("orange");
         myColorsList.add("green");
+    }
+
+    private void changePenColor (String penColor) {
+        try {
+            System.out.println(penColor);
+            turtle.setPenColor(Color.valueOf(penColor));
+        }
+        catch (Exception e) {
+            // invalid color
+        }
     }
 
     private void changePaneColor (String canvasColor) {
@@ -162,13 +199,25 @@ public class GUI {
 
     }
 
+    private void pickImage () {
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            Image image1 = new Image(file.toURI().toString());
+            canvasBox.getChildren().remove(turtle.getTurtleImage());
+            turtle.setTurtleImage(image1);
+            canvasBox.getChildren().add(turtle.getTurtleImage());
+        }
+    }
+
     public void drawLine () {
+        turtle.setCurrentXPos(turtle.getCurrentXPos() + 20);
+        turtle.setCurrentYPos(turtle.getCurrentYPos() + 20);
         Line line = new Line();
         line.setStartX(turtle.getPastXPos());
         line.setStartY(turtle.getPastYPos());
         line.setEndX(turtle.getCurrentXPos());
         line.setEndY(turtle.getCurrentYPos());
-        line.setFill(Color.BLACK);
+        line.setStroke(turtle.getPenColor());
         canvasBox.getChildren().add(line);
 
     }
