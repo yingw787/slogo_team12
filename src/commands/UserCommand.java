@@ -25,6 +25,14 @@ public class UserCommand extends SpecialForm {
 		return myCommandName;
 	}
 	
+	public List<String> getParameterList() {
+		return myParameterList;
+	}
+	
+	public Command getProcedure() {
+		return myProcedure;
+	}
+	
 	@Override
 	public int getNumParameters() {
 		return myNumParameters;
@@ -37,9 +45,17 @@ public class UserCommand extends SpecialForm {
 
 	@Override
 	public void execute() {
-		applyArgumentsToProcedure();
-		myProcedure.execute();
-		removeTemporaryVariables();
+		updateUserCommandInformation();
+		if (myParameterList != null) {
+			applyArgumentsToProcedure();
+			myProcedure.execute();
+			removeTemporaryVariables();
+		}
+	}
+
+	private void updateUserCommandInformation() {
+		myParameterList = super.getUserCommand(this.myCommandName).getParameterList();
+		myProcedure = super.getUserCommand(this.myCommandName).getProcedure();
 	}
 	
 	private void initializeVariables(Command parameterList) {

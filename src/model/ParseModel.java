@@ -19,7 +19,7 @@ public class ParseModel {
 	public static final String GROUP_START = "GroupStart";
 	public static final String GROUP_END = "GroupEnd";
 	public static final String COMMAND = "Command";
-	public static final String MAKE_USER_COMMAND = "MakeUserCommand";
+	public static final String MAKE_USER_INSTRUCTION = "MakeUserInstruction";
 	public static final String WHITESPACE = "\\s+";
 	public static final String[] BRACES = { "(", ")", "[", "]" };
 	
@@ -58,17 +58,23 @@ public class ParseModel {
 	private ExpressionNode buildSubTree(List<String> input, ExpressionNode parentNode) {
 		
 		//TODO put in try catch here?
-		Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand());
-		int numChildren = getNumChildren(input, parentNode, parentCommand);
-		if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
+		try {
+			Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand(), parentNode.getExpression());
+			int numChildren = getNumChildren(input, parentNode, parentCommand);
+			if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
+				return parentNode;
+			}
+			while (parentNode.getChildren().size() < numChildren) {
+				ExpressionNode nextNode = readNextNode(input);
+				parentNode.addChild(buildSubTree(input, nextNode));
+			}
+			
 			return parentNode;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		while (parentNode.getChildren().size() < numChildren) {
-			ExpressionNode nextNode = readNextNode(input);
-			parentNode.addChild(buildSubTree(input, nextNode));
-		}
-		
-		return parentNode;
+		return null;
 		
 	}
 	
@@ -87,13 +93,14 @@ public class ParseModel {
 			return 0;
 		case VARIABLE:
 			return 0;
+		case MAKE_USER_INSTRUCTION:
+			int numVariables = input.indexOf("]") - 2;
+			//TODO check for nested lists to throw exception ?
+			myUserCommands.put(input.get(0), new UserCommand(input.get(0), numVariables));
+			parentNode.addChild(readNextNode(input));
+			return 3;
 		case COMMAND:
 			return myUserCommands.get(parentNode.getExpression()).getNumParameters();
-		case MAKE_USER_COMMAND:
-			int numVariables = input.indexOf("]") - 3;
-			//TODO check for nested lists to throw exception ?
-			myUserCommands.put(input.get(1), new UserCommand(input.get(1), numVariables));
-			return 3;
 		}
 		if (myRegExUtil.getTurtleCommandKeys().contains(command)) {
 			return parentCommand.getNumParameters();
@@ -151,7 +158,7 @@ public class ParseModel {
 			input = findBraces(input, brace);
 		}
 		ArrayList<String> cleanedInput = new ArrayList<String>(Arrays.asList(input.trim().split(WHITESPACE)));
-				
+		System.out.println("Input" + cleanedInput);
 		return cleanedInput;
 	}
 	

@@ -116,7 +116,6 @@ public class CommandFactory {
 		case ("MakeUserInstruction"):
 			return new MakeUserInstruction();
 		case ("Command"):
-			//TODO
 			return myUserCommands.get(expression);
 		default:
 			return null;

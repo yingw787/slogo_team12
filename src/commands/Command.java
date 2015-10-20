@@ -108,6 +108,10 @@ public abstract class Command {
 		return myUserCommands.get(commandName);
 	}
 	
+	protected void removeUserCommand(String commandName) {
+		myUserCommands.remove(commandName);
+	}
+	
 	protected Command getParameter(int index) {
 		return myParameters.get(index);
 	}

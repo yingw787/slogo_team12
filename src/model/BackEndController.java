@@ -13,16 +13,13 @@ public class BackEndController {
 	
 	public BackEndController(Controller controller) {
 		myController = controller;
-	
 	}
 	
 	public Queue<TurtleStatus> generateTurtleCommands(String input, String language) {
-		
-		
 		myParser = new ParseModel(input, "resources/languages/" + language);
 		List<ExpressionNode> parseModel = myParser.createParseModel();
-		myParser.printParseModel();
 		Map<String,UserCommand> userCommands = myParser.getUserCommands();
+		myParser.printParseModel();
 		Translator translator = new Translator(parseModel, userCommands, myController);
 		return translator.executeCommands();
 	}

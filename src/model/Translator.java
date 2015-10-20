@@ -68,8 +68,8 @@ public class Translator {
 	
 	
 	private Queue<Command> translateParseTree(){
-		Queue<Command> commandQueue = new LinkedList<Command>(); // ANY REASON WHY THIS IS LINKED LIST
-		for (ExpressionNode command: myCommandList) { // what the parse model class gives to translator 
+		Queue<Command> commandQueue = new LinkedList<Command>(); 
+		for (ExpressionNode command: myCommandList) { 
 			try{
 				commandQueue.add(translate(command));
 			}
@@ -89,7 +89,6 @@ public class Translator {
 		// exception handling 
 		try{
 			Command command = initializeCommandObject(node);
-			System.out.println(command.getExpression());
 			if (node.getChildren().size() == 0) {
 				List<Command> parameters = new ArrayList<Command>();
 				command.setParameters(parameters);
@@ -114,9 +113,7 @@ public class Translator {
 		try
 		{
 			Command command = myCommandFactory.getCommand(node.getCommand(), node.getExpression());
-			System.out.println(command.getCommandType()); // 
 			command.setValue(node.getExpression());
-			System.out.println(command.getExpression()); // 
 			command.setVariableMap(myVariables);
 			command.setTurtleUpdates(myTurtleUpdates);
 			command.setController(myController);
@@ -128,6 +125,6 @@ public class Translator {
 			System.out.println("I have caught this exception");
 		}
 		
-		
+		return null;
 	}
 }

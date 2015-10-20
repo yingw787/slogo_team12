@@ -18,6 +18,7 @@ public class MakeUserInstruction extends SpecialForm {
 		UserCommand command = getUserCommand(getParameterExpression(0));
 		String commandName = command.getCommandName();
 		int numParameters = command.getNumParameters();
+		removeUserCommand(commandName);
 		Command variablesList = getParameter(1);
 		Command procedure = getParameter(2);
 		addUserCommand(new UserCommand(commandName, numParameters, variablesList, procedure));
