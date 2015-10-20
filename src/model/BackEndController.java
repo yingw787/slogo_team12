@@ -9,12 +9,15 @@ public class BackEndController {
 	private ParseModel myParser;
 	private Controller myController;
 	
-	public BackEndController(String input, String language) {
-		myController = new Controller();
-		myParser = new ParseModel(input, "resources/languages/" + language);
+	public BackEndController(Controller controller) {
+		myController = controller;
+	
 	}
 	
-	public Queue<TurtleStatus> generateTurtleCommands() {
+	public Queue<TurtleStatus> generateTurtleCommands(String input, String language) {
+		
+		
+		myParser = new ParseModel(input, "resources/languages/" + language);
 		List<ExpressionNode> parseModel = myParser.createParseModel();
 		Translator translator = new Translator(parseModel, myController);
 		return translator.executeCommands();

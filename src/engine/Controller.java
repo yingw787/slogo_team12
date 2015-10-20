@@ -2,14 +2,16 @@ package engine;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.BackEndController;
 import model.Backend;
 import view.GUI;
 
 public class Controller extends Application {
 
 	private GUI myGUI;
-	private Backend myBackend;
+	private BackEndController myBackend;
 	private Stage myStage;
+	private String myLanguage = "English";
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
@@ -25,8 +27,8 @@ public class Controller extends Application {
 		//then act everytime change
 
 		
-		myGUI = new GUI(this, "English");
-		myBackend = new Backend(this);
+		myGUI = new GUI(this, myLanguage);
+		myBackend = new BackEndController(this);
 		
 		
 		//init gui to set up everything, call this part of it last
@@ -40,7 +42,7 @@ public class Controller extends Application {
 	public void reset(){
 		System.out.println("reset");
 		
-		myGUI = new GUI(this, "English");
+		myGUI = new GUI(this, myLanguage);
 		myGUI.setAndShowScene(myStage);
 		//clear history, reset turtle, clear everythibg.
 		//just make new Gui object and set it? decide what to do
@@ -49,12 +51,11 @@ public class Controller extends Application {
 		
 	}
 	
-	public void submit(String stringFromGUI){
+	public void submit(String stringFromGUI, String myLanguage){
 		myGUI.addToHistory(stringFromGUI);
-		
+		myBackend.generateTurtleCommands(stringFromGUI, myLanguage);
 	}
 
-	
 	
 	//ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
 	public double getTurtleDirection() {
@@ -67,11 +68,13 @@ public class Controller extends Application {
 	}
 	
 	public double[] getTurtlePosition() {
+		
 		//TODO returns x,y position of turtle
 		return new double[2];
 	}
 	
 	public void setTurtlePosition(double[] newPos) {
+		myGUI.updateTurtle(newPos);
 		//TODO sets turtle's x,y position
 	}
 	

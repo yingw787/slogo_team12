@@ -98,7 +98,7 @@ public class GUI {
 
         // makeButton: setOnAction(e-> myController.submit(t.getText()));
         commandAndVarBox.getChildren()
-                .add(myFactory.makeButton("Go", e -> myController.submit(t.getText())));
+                .add(myFactory.makeButton("Go", e -> myController.submit(t.getText(), "English")));
 
         VBox variablesBox = myFactory.makeVBox();
         variablesBox.getChildren().add(new Text("Variables"));
@@ -171,6 +171,11 @@ public class GUI {
         line.setFill(Color.BLACK);
         canvasBox.getChildren().add(line);
 
+    }
+    
+    public void updateTurtle(double[] Pos){
+    	turtle.setCurrentXPos(Pos[0]);
+    	turtle.setCurrentYPos(Pos[1]);
     }
 
 }
