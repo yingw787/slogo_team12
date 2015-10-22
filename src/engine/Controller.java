@@ -29,8 +29,6 @@ public class Controller extends Application {
 		
 		myGUI = new GUI(this, myLanguage);
 		myBackend = new BackEndController(this);
-		
-		
 		//init gui to set up everything, call this part of it last
 		myGUI.setAndShowScene(myStage);
 
@@ -57,10 +55,24 @@ public class Controller extends Application {
 		myBackend.generateTurtleCommands(stringFromGUI, myLanguage);
 	
 	}
+	
+	public void makeNewWindow(Stage s){
+		
+		Controller anotherController = new Controller();
+		try {
+			anotherController.start(s);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 
 	
 	//ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
 	public double getTurtleDirection() {
+		
 		//TODO returns angle (in degrees) from north, measured clockwise
 		return 0.0;
 	}
@@ -77,25 +89,30 @@ public class Controller extends Application {
 	
 	public void setTurtlePosition(double[] newPos) {
 		myGUI.updateTurtle(newPos);
+		if(isTurtlePenDown()){
 		myGUI.drawLine();
-		//TODO sets turtle's x,y position
+		}
+		//sets turtle's x,y position
 	}
 	
 	public boolean isTurtlePenDown() {
-		// TODO returns true if pen is down
-		return true;
+		// returns true if pen is down
+		return myGUI.getPenBool();
 	}
 	
 	public void setIsTurtlePenDown(boolean penDown) {
+		myGUI.setTurtlePen(penDown);
 		// sets turtle's "pen down" boolean
 	}
 	
 	public boolean isTurtleShowing() {
 		// TODO returns true if turtle is showing
-		return true;
+		return myGUI.getTurtleVisible();
 	}
 	
 	public void setIsTurtleShowing(boolean showing) {
-		// TODO sets turtle's "hidden" boolean
+		
+		myGUI.setTurtleVisible(showing);
+		//sets turtle's "hidden" boolean
 	}
 }

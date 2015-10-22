@@ -97,6 +97,7 @@ public class GUI {
         ListView myHistListView = myFactory.makeClickableList(myHistList);
         historyBox.getChildren().add(myHistListView);
         historyBox.getChildren().add(myFactory.makeButton("reset", e -> myController.reset()));
+        historyBox.getChildren().add(myFactory.makeButton("New Window", e -> myController.makeNewWindow(new Stage())));
 
         // this should be moved to a more appropriate place
         myHistListView.setOnMouseClicked(e -> {
@@ -223,6 +224,9 @@ public class GUI {
     }
     
     public void updateTurtle(double[] Pos){
+    	
+    	turtle.setPastXPos(turtle.getCurrentXPos());
+    	turtle.setPastYPos(turtle.getCurrentYPos());
     	turtle.setCurrentXPos(Pos[0]);
     	turtle.setCurrentYPos(Pos[1]);
     }
@@ -234,6 +238,26 @@ public class GUI {
 		pos[1] = turtle.getCurrentYPos();
 
 		return pos;
+	}
+
+	public boolean getPenBool() {
+		
+		return turtle.isPenDown();
+	}
+
+	public void setTurtlePen(boolean penDown) {
+		
+		turtle.setPenDown(penDown);
+	}
+
+	public void setTurtleVisible(boolean showing) {
+		
+		turtle.setVisible(showing);
+	}
+
+	public boolean getTurtleVisible() {
+		// TODO Auto-generated method stub
+		return turtle.getVisible();
 	}
 
 }

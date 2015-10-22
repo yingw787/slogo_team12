@@ -21,6 +21,7 @@ public class Turtle {
         this.SCREEN_HEIGHT = SCREEN_HEIGHT;
         this.SCREEN_WIDTH = SCREEN_WIDTH;
         penColor = Color.BLACK;
+        penDown = true;
     }
 
     public double getPastXPos () {
@@ -93,6 +94,13 @@ public class Turtle {
 
     public void setPenColor (Color penColor) {
         this.penColor = penColor;
+    }
+    
+    public void setVisible(boolean showing){
+    	turtleImage.setVisible(showing);
+    }
+    public boolean getVisible(){
+    	return turtleImage.isVisible();
     }
 
 }
