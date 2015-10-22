@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 
 public class Turtle {
     private int turtleID;
+    private double direction;
     private int SCREEN_WIDTH;
     private int SCREEN_HEIGHT;
     private double pastXPos;
@@ -22,6 +23,7 @@ public class Turtle {
         this.SCREEN_WIDTH = SCREEN_WIDTH;
         penColor = Color.BLACK;
         penDown = true;
+        direction = 0;
     }
 
     public double getPastXPos () {
@@ -45,7 +47,6 @@ public class Turtle {
     }
 
     public void setCurrentXPos (double currentXPos) {
-        setPastXPos(this.currentXPos);
         this.currentXPos = currentXPos;
         turtleImage.setX(currentXPos);
 
@@ -56,7 +57,6 @@ public class Turtle {
     }
 
     public void setCurrentYPos (double currentYPos) {
-        setPastYPos(this.currentYPos);
         this.currentYPos = currentYPos;
         turtleImage.setY(currentYPos);
     }
@@ -111,6 +111,15 @@ public class Turtle {
     }
     public boolean getVisible(){
     	return turtleImage.isVisible();
+    }
+
+    public double getDirection () {
+        return direction;
+    }
+
+    public void setDirection (double direction) {
+        this.direction = direction;
+        this.turtleImage.setRotate(direction);
     }
 
 }

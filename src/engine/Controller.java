@@ -75,12 +75,11 @@ public class Controller extends Application {
 	//ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
 	public double getTurtleDirection() {
 		
-		//TODO returns angle (in degrees) from north, measured clockwise
-		return 0.0;
+	    return myGUI.getTurtleDirection();
 	}
 	
 	public void setTurtleDirection(double angle) {
-		//TODO sets turtle's direction
+	    myGUI.setTurtleDirection(angle);
 	}
 	
 	public double[] getTurtlePosition() {

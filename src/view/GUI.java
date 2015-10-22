@@ -243,6 +243,12 @@ public class GUI {
 		return pos;
 	}
 
+	public double getTurtleDirection(){
+	    return turtle.getDirection();
+	}
+	public void setTurtleDirection(double angle){
+	    turtle.setDirection(angle);
+	}
 	public boolean getPenBool() {
 		
 		return turtle.isPenDown();
