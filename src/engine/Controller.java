@@ -12,6 +12,8 @@ public class Controller extends Application {
 	private BackEndController myBackend;
 	private Stage myStage;
 	private String myLanguage = "English";
+	private int myActiveTurtle;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
@@ -29,6 +31,7 @@ public class Controller extends Application {
 		
 		myGUI = new GUI(this, myLanguage);
 		myBackend = new BackEndController(this);
+		myActiveTurtle = 1;
 		//init gui to set up everything, call this part of it last
 		myGUI.setAndShowScene(myStage);
 
@@ -43,6 +46,8 @@ public class Controller extends Application {
 		myGUI = new GUI(this, myLanguage);
 		myGUI.setAndShowScene(myStage);
 		myBackend = new BackEndController(this);
+		myActiveTurtle = 1;
+
 		//clear history, reset turtle, clear everythibg.
 		//just make new Gui object and set it? decide what to do
 
@@ -70,9 +75,23 @@ public class Controller extends Application {
 		
 		
 	}
+	
+	public int getActiveTurtleID() {
+		return myActiveTurtle;
+	}
+	
+	public void setActiveTurtleID(int newID) {
+		myActiveTurtle = newID;
+	}
 
 	
 	//ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
+	//refactor these to only get and set values for myActiveTurtle id number
+	public int getNumTurtles() {
+		//TODO get the max turtle ID aka number of turtles
+		return 1;
+	}
+	
 	public double getTurtleDirection() {
 		
 	    return myGUI.getTurtleDirection();

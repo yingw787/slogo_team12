@@ -27,6 +27,6 @@ public abstract class MathOperation extends Command {
 
 	@Override
 	public void execute() {
-		addUpdatedTurtleStatus();
+		// do nothing
 	}
 }

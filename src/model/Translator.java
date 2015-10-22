@@ -56,7 +56,7 @@ public class Translator {
 	}
 
 	private Command execute(Command command) {
-		command.execute();
+		command.executeCommand();
 		return command;
 	}
 	

@@ -27,6 +27,6 @@ public abstract class BooleanOperation extends Command {
 
 	@Override
 	public void execute() {
-		addUpdatedTurtleStatus();
+		// do nothing
 	}
 }

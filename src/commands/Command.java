@@ -1,5 +1,6 @@
 package commands;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -7,6 +8,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import engine.Controller;
+import model.BackEndProperties;
 import model.TurtleStatus;
 
 public abstract class Command {
@@ -15,22 +17,27 @@ public abstract class Command {
 	private Controller myController;
 	private Map<String,Double> myVariables;
 	private Map<String,UserCommand> myUserCommands;
+	private List<Integer> myActiveTurtles;
 	private Queue<TurtleStatus> myTurtleUpdates;
 	
 	public Command() {
 		//do nothing
+		myActiveTurtles = new ArrayList<Integer>();
 	}
 	
 	public Command(Map<String,Double> variables) {
+		myActiveTurtles = new ArrayList<Integer>();
 		myVariables = variables;
 	}
 	
 	public Command(String expression, List<Command> params) {
+		myActiveTurtles = new ArrayList<Integer>();
 		myExpression = expression;
 		myParameters = params;
 	}
 	
 	public Command(Controller controller, String expression, List<Command> params) {
+		myActiveTurtles = new ArrayList<Integer>();
 		myExpression = expression;
 		myParameters = params;
 		myController = controller;
@@ -40,9 +47,27 @@ public abstract class Command {
 	
 	public abstract int getNumParameters();
 	
-	public abstract double returnDoubleValue();
+	protected abstract double returnDoubleValue();
 	
-	public abstract void execute();
+	protected abstract void execute();
+	
+	public void executeCommand() {
+		if (myActiveTurtles.size() == 0) {
+			myActiveTurtles.add(1);
+		}
+		executeCommandOverMultipleTurtles(myActiveTurtles);
+	}
+	
+	public void executeCommandOverMultipleTurtles(List<Integer> turtleIDs) {
+		int startID = myController.getActiveTurtleID();
+		if (getCommandType().equals(BackEndProperties.TURTLE_COMMAND) || getCommandType().equals(BackEndProperties.SPECIAL_FORM)) {
+			for (Integer i: turtleIDs) {
+				myController.setActiveTurtleID(i);
+				execute();
+			}
+		}
+		myController.setActiveTurtleID(startID);
+	}
 	
 	public String getExpression() {
 		return myExpression;
@@ -68,6 +93,10 @@ public abstract class Command {
 		return myUserCommands;
 	}
 	
+	public List<Integer> getActiveTurtles() {
+		return myActiveTurtles;
+	}
+	
 	public void setValue(String expression) {
 		this.myExpression = expression;
 	}
@@ -90,6 +119,10 @@ public abstract class Command {
 	
 	public void setUserCommands(Map<String,UserCommand> userCommands) {
 		this.myUserCommands = userCommands;
+	}
+	
+	public void setActiveTurtles(List<Integer> activeTurtles) {
+		this.myActiveTurtles = activeTurtles;
 	}
 	
 	protected void addVariable(String variableName, Double value) {

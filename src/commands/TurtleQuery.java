@@ -28,7 +28,7 @@ public abstract class TurtleQuery extends Command {
 
 	@Override
 	public void execute() {
-		addUpdatedTurtleStatus();
+		// do nothing
 	}
 
 }

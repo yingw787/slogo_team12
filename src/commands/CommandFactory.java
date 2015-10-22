@@ -117,6 +117,17 @@ public class CommandFactory {
 			return new MakeUserInstruction();
 		case ("Command"):
 			return myUserCommands.get(expression);
+		//Multiple Turtle Commands
+		case ("ID"):
+			return new ID();
+		case ("Turtles"):
+			return new Turtles();
+		case ("Tell"):
+			return new Tell();
+		case ("Ask"):
+			return new Ask();
+		case ("AskWith"):
+			return new AskWith();
 		default:
 			return null;
 		}
