@@ -52,6 +52,9 @@ public abstract class Command {
 	protected abstract void execute();
 	
 	public void executeCommand() {
+		if (myActiveTurtles.size() == 0) {
+			myActiveTurtles.add(1);
+		}
 		executeCommandOverMultipleTurtles(myActiveTurtles);
 	}
 	
