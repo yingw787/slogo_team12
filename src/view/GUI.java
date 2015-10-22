@@ -213,11 +213,14 @@ public class GUI {
     public void drawLine () {
        // turtle.setCurrentXPos(turtle.getCurrentXPos() + 20);
         //turtle.setCurrentYPos(turtle.getCurrentYPos() + 20);
+    	double turtleHeight = turtle.getTurtleImage().getFitHeight();
+    	System.out.println(turtleHeight);
+    	double turtleWidth = turtle.getTurtleImage().getFitWidth();
         Line line = new Line();
-        line.setStartX(turtle.getPastXPos());
-        line.setStartY(turtle.getPastYPos());
-        line.setEndX(turtle.getCurrentXPos());
-        line.setEndY(turtle.getCurrentYPos());
+        line.setStartX(turtle.getPastXPos()+turtleWidth/2);
+        line.setStartY(turtle.getPastYPos()+turtleHeight/2);
+        line.setEndX(turtle.getCurrentXPos()+turtleWidth/2);
+        line.setEndY(turtle.getCurrentYPos()+turtleHeight/2);
         line.setStroke(turtle.getPenColor());
         canvasBox.getChildren().add(line);
 

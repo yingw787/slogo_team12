@@ -51,9 +51,11 @@ public class Controller extends Application {
 	}
 	
 	public void submit(String stringFromGUI, String myLanguage){
+		
+		if (stringFromGUI.trim().length() > 0) {
 		myGUI.addToHistory(stringFromGUI);
 		myBackend.generateTurtleCommands(stringFromGUI, myLanguage);
-	
+		}
 	}
 	
 	public void makeNewWindow(Stage s){

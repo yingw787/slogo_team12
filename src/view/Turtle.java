@@ -73,9 +73,19 @@ public class Turtle {
         return turtleImage;
     }
 
-    public void setTurtleImage (Image turtleImage) {
-        ImageView view = new ImageView(turtleImage);
+    public void setTurtleImage (Image image) {
+        ImageView view = new ImageView(image);
         this.turtleImage = view;
+        
+        if(image.getHeight() > 100 || image.getWidth() > 100){
+        	this.turtleImage.setFitHeight(100);
+        	this.turtleImage.setFitWidth(100);
+        }else{
+        	 this.turtleImage.setFitHeight(image.getHeight());
+        	 this.turtleImage.setFitWidth(image.getWidth());
+        }
+       
+        
         this.turtleImage.setX(currentXPos);
         this.turtleImage.setY(currentYPos);
     }
