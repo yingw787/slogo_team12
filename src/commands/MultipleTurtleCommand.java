@@ -1,5 +1,6 @@
 package commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import engine.Controller;
@@ -28,5 +29,14 @@ public abstract class MultipleTurtleCommand extends Command {
 
 	@Override
 	public abstract void execute();
+	
+	protected List<Integer> makeActiveTurtleList() {
+		List<Integer> newActiveTurtles = new ArrayList<Integer>();
+		List<Command> newTurtles = getParameter(0).getParameters();
+		for (Command c: newTurtles) {
+			newActiveTurtles.add((int)c.returnDoubleValue());
+		}
+		return newActiveTurtles;
+	}
 
 }
