@@ -165,7 +165,7 @@ public class GUI {
 
     private void changePenColor (String penColor) {
         try {
-            System.out.println(penColor);
+            //System.out.println(penColor);
             turtle.setPenColor(Color.valueOf(penColor));
         }
         catch (Exception e) {
@@ -214,7 +214,7 @@ public class GUI {
        // turtle.setCurrentXPos(turtle.getCurrentXPos() + 20);
         //turtle.setCurrentYPos(turtle.getCurrentYPos() + 20);
     	double turtleHeight = turtle.getTurtleImage().getFitHeight();
-    	System.out.println(turtleHeight);
+    	//System.out.println(turtleHeight);
     	double turtleWidth = turtle.getTurtleImage().getFitWidth();
         Line line = new Line();
         line.setStartX(turtle.getPastXPos()+turtleWidth/2);
