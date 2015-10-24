@@ -32,7 +32,6 @@ public abstract class TurtleCommand extends Command {
 	protected void moveTurtleForwardBackward(int direction) {
 		double distance = returnDoubleValue();
 		double turtleDirection = getTurtleDirection(direction);
-		System.out.println("direction: " + turtleDirection);
 		double[] startPos = super.getController().getTurtlePosition();
 		double[] newPos = calculateToPosition(distance, turtleDirection, startPos);
 		super.getController().setTurtlePosition(newPos);
@@ -43,6 +42,8 @@ public abstract class TurtleCommand extends Command {
 	 * Changes direction of turtle's movement depending on quadrant of turtleDirection
 	 */
 	private double[] calculateToPosition(double distance, double turtleDirection, double[] startPos) {
+		turtleDirection = turtleDirection >= 360 ? 360 - turtleDirection : turtleDirection;
+		turtleDirection = turtleDirection < 0 ? 360 + turtleDirection : turtleDirection;
 		double newX = 0;
 		double newY = 0;
 		if (0 <= turtleDirection && turtleDirection < 90) {

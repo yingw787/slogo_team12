@@ -158,7 +158,6 @@ public class ParseModel {
 			input = findBraces(input, brace);
 		}
 		ArrayList<String> cleanedInput = new ArrayList<String>(Arrays.asList(input.trim().split(WHITESPACE)));
-		System.out.println("Input" + cleanedInput);
 		return cleanedInput;
 	}
 	

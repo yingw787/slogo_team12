@@ -49,13 +49,18 @@ public abstract class Command {
 	
 	protected abstract double returnDoubleValue();
 	
-	protected abstract void execute();
+	public abstract void execute();
 	
-	public void executeCommand() {
+	public void executeCommand(Function<Command,Command> executeFunction) {
 		if (myActiveTurtles.size() == 0) {
 			myActiveTurtles.add(1);
 		}
-		executeCommandOverMultipleTurtles(myActiveTurtles);
+		int startID = myController.getActiveTurtleID();
+		for (Integer i: myActiveTurtles) {
+			myController.setActiveTurtleID(i);
+			executeFunction.apply(this);
+		}
+		myController.setActiveTurtleID(startID);
 	}
 	
 	public void executeCommandOverMultipleTurtles(List<Integer> turtleIDs) {

@@ -36,7 +36,7 @@ public class Translator {
 	public Queue<TurtleStatus> executeCommands() { 
 		Queue<Command> commandQueue = translateParseTree();
 		for (Command command: commandQueue) {
-			executeNestedCommands(command);
+			command.executeCommand(c -> executeNestedCommands(c));
 		}
 		return myTurtleUpdates;
 	}
@@ -56,7 +56,7 @@ public class Translator {
 	}
 
 	private Command execute(Command command) {
-		command.executeCommand();
+		command.execute();
 		return command;
 	}
 	
