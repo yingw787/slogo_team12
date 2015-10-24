@@ -1,6 +1,12 @@
 package engine;
 
 import javafx.application.Application;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.ObservableNumberValue;
+import javafx.beans.value.ObservableValue;
 import javafx.stage.Stage;
 import model.BackEndController;
 import view.GUI;
@@ -11,7 +17,9 @@ public class Controller extends Application {
 	private BackEndController myBackend;
 	private Stage myStage;
 	private String myLanguage = "English";
-	private int myActiveTurtle;
+	private IntegerProperty myActiveTurtle;
+	
+	//IntegerProperty active = new SimpleIntegerProperty(1);
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -27,10 +35,10 @@ public class Controller extends Application {
 		//want to know when something has changed (something obervable)
 		//then act everytime change
 
-		
-		myGUI = new GUI(this, myLanguage);
+		initializeActiveTurtleProperty();
+		myGUI = new GUI(this, myLanguage, myActiveTurtle);
 		myBackend = new BackEndController(this);
-		myActiveTurtle = 1;
+		
 		//init gui to set up everything, call this part of it last
 		myGUI.setAndShowScene(myStage);
 
@@ -41,11 +49,11 @@ public class Controller extends Application {
 	
 	public void reset(){
 		System.out.println("reset");
-		
-		myGUI = new GUI(this, myLanguage);
+		initializeActiveTurtleProperty();
+		myGUI = new GUI(this, myLanguage, myActiveTurtle);
 		myGUI.setAndShowScene(myStage);
 		myBackend = new BackEndController(this);
-		myActiveTurtle = 1;
+	
 
 		//clear history, reset turtle, clear everythibg.
 		//just make new Gui object and set it? decide what to do
@@ -76,11 +84,11 @@ public class Controller extends Application {
 	}
 	
 	public int getActiveTurtleID() {
-		return myActiveTurtle;
+		return myActiveTurtle.get();
 	}
 	
 	public void setActiveTurtleID(int newID) {
-		myActiveTurtle = newID;
+		myActiveTurtle.set(newID);
 	}
 
 	
@@ -97,7 +105,11 @@ public class Controller extends Application {
 	}
 	
 	public void setTurtleDirection(double angle) {
+		
+		
 	    myGUI.setTurtleDirection(angle);
+	    
+	    
 	}
 	
 	public double[] getTurtlePosition() {
@@ -107,11 +119,18 @@ public class Controller extends Application {
 	}
 	
 	public void setTurtlePosition(double[] newPos) {
+		///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		//TRY to make animated, for loop for old position to new position...
+		//TODO 
 		myGUI.updateTurtle(newPos);
 		if(isTurtlePenDown()){
 		myGUI.drawLine();
 		}
 		//sets turtle's x,y position
+		
+		
+		
 	}
 	
 	public boolean isTurtlePenDown() {
@@ -133,5 +152,9 @@ public class Controller extends Application {
 		
 		myGUI.setTurtleVisible(showing);
 		//sets turtle's "hidden" boolean
+	}
+	
+	private void initializeActiveTurtleProperty(){
+		myActiveTurtle = new SimpleIntegerProperty(1);
 	}
 }

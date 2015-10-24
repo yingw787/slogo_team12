@@ -47,6 +47,8 @@ public class Turtle {
     }
 
     public void setCurrentXPos (double currentXPos) {
+    	
+    	
         this.currentXPos = currentXPos;
         turtleImage.setX(currentXPos);
 
@@ -88,6 +90,7 @@ public class Turtle {
         
         this.turtleImage.setX(currentXPos);
         this.turtleImage.setY(currentYPos);
+       // this.turtleImage.setRotate(90);
     }
 
     public int getTurtleID () {
@@ -118,8 +121,11 @@ public class Turtle {
     }
 
     public void setDirection (double direction) {
-        this.direction = direction;
-        this.turtleImage.setRotate(direction);
+        //double oldDirection = getDirection();
+    	//double rotation = oldDirection - direction;
+    	this.direction = direction;
+        
+        this.turtleImage.setRotate(-direction);
     }
 
 }

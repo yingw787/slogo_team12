@@ -6,6 +6,9 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import com.sun.istack.internal.logging.Logger;
 import engine.Controller;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.value.ObservableIntegerValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -42,10 +45,15 @@ public class GUI {
     private Pane canvasBox;
     final FileChooser fileChooser;
     private Turtle turtle;
+    private ReadOnlyIntegerProperty activeTurtle;
     // consider adding a public method called get myHistList, that returns immutable histList
 
-    public GUI (Controller controller, String language) {
+    public GUI (Controller controller, String language, ReadOnlyIntegerProperty myActiveTurtle) {
         turtle = new Turtle(SCREEN_WIDTH, SCREEN_HEIGHT);
+        
+        activeTurtle = myActiveTurtle;
+        
+     
         myHistList = FXCollections.observableArrayList();
         myColorsList = FXCollections.observableArrayList();
         // myHistList.add("History");
@@ -223,7 +231,11 @@ public class GUI {
         line.setEndY(turtle.getCurrentYPos()+turtleHeight/2);
         line.setStroke(turtle.getPenColor());
         canvasBox.getChildren().add(line);
-
+        
+        ObservableList list = (canvasBox.getChildren());
+        
+        
+        
     }
     
     public void updateTurtle(double[] Pos){
@@ -247,7 +259,10 @@ public class GUI {
 	    return turtle.getDirection();
 	}
 	public void setTurtleDirection(double angle){
+		
 	    turtle.setDirection(angle);
+	    
+	    System.out.println(activeTurtle.intValue());
 	}
 	public boolean getPenBool() {
 		
