@@ -24,8 +24,8 @@ public class SlogoList extends BasicSyntax {
 
 	@Override
 	public void execute() {
-		for (Command c: super.getParameters()) {
-			executeNestedCommands(c);
+		for (Command command: super.getParameters()) {
+			command.executeCommand(c ->executeNestedCommands(c));
 		}
 	}
 }

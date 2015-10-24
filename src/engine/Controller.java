@@ -86,6 +86,10 @@ public class Controller extends Application {
 	
 	//ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
 	//refactor these to only get and set values for myActiveTurtle id number
+	public void clear() {
+		myGUI.clearLines();
+	}
+	
 	public int getNumTurtles() {
 		//TODO get the max turtle ID aka number of turtles
 		return 1;

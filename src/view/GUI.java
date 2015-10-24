@@ -2,13 +2,18 @@ package view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import javax.imageio.ImageIO;
 import com.sun.istack.internal.logging.Logger;
 import engine.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -223,7 +228,14 @@ public class GUI {
         line.setEndY(turtle.getCurrentYPos()+turtleHeight/2);
         line.setStroke(turtle.getPenColor());
         canvasBox.getChildren().add(line);
-
+    }
+    
+    public void clearLines() {
+    	List<Node> newChildren = canvasBox.getChildren().stream()
+    		.filter(child -> !child.getClass().equals(new Line().getClass()))
+    		.collect(Collectors.toList());
+    	canvasBox.getChildren().clear();
+    	canvasBox.getChildren().addAll(newChildren);
     }
     
     public void updateTurtle(double[] Pos){

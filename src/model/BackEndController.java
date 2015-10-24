@@ -12,7 +12,7 @@ import engine.Controller;
 
 public class BackEndController {
 	private static final String PATH = "src/userPrograms/";
-	private static final String EXTENSION = ".txt";
+	private static final String EXTENSION = ".logo";
 	private ParseModel myParser;
 	private Controller myController;
 	

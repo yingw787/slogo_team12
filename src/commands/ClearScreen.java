@@ -30,7 +30,7 @@ public class ClearScreen extends TurtleCommand {
 	@Override
 	public void execute() {
 		super.getController().setTurtlePosition(END_POSITION);
-		// TODO fire Clear event to wipe all existing graphics ?
+		super.getController().clear();
 		addUpdatedTurtleStatus();
 	}
 
