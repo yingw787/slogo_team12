@@ -10,6 +10,7 @@ public class PenColorSelect extends Clickable<ComboBox>{
     public PenColorSelect (Turtle turtle, ObservableList<String> colorsList) {
         penColorSelect = new ComboBox();
         penColorSelect.setItems(colorsList);
+        penColorSelect.setPromptText("Pen Color");
         penColorSelect.setOnAction(e -> this
                 .changePenColor(turtle,
                                  penColorSelect.getSelectionModel().getSelectedItem().toString()));

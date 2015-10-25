@@ -17,75 +17,74 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-
 public class GUIfactory {
 
-    private ResourceBundle myResources;
-    private Controller myController;
+	private ResourceBundle myResources;
+	private Controller myController;
 
-    public GUIfactory (ResourceBundle bundle, Controller control) {
-        myController = control;
-        // need to decide if controller should be passed to it
-        // if not then all the button handlers, etc need to be set in GUI
-        myResources = bundle;
-    }
+	public GUIfactory(ResourceBundle bundle, Controller control) {
+		myController = control;
+		// need to decide if controller should be passed to it
+		// if not then all the button handlers, etc need to be set in GUI
+		myResources = bundle;
+	}
 
-    public Node getRoot () {
-        return makeBorderPane();
+	public Node getRoot() {
+		return makeBorderPane();
 
-    }
+	}
 
-    public BorderPane makeBorderPane () {
+	public BorderPane makeBorderPane() {
 
-        return new BorderPane();
+		return new BorderPane();
 
-    }
+	}
 
-    public Button makeButton (String name, EventHandler<ActionEvent> e) {
+	public Button makeButton(String name, EventHandler<ActionEvent> e) {
 
-        Button b = new Button(name);
-        b.setOnAction(e);
+		Button b = new Button(name);
+		b.setOnAction(e);
 
-        return b;
-    }
+		return b;
+	}
 
-    public ComboBox makeComboBox () {
-        ComboBox b = new ComboBox();
-        return b;
-    }
+	public ComboBox makeComboBox() {
+		ComboBox b = new ComboBox();
+		return b;
+	}
 
-    public VBox makeVBox () {
+	public VBox makeVBox() {
 
-        return new VBox();
+		return new VBox();
 
-    }
+	}
 
-    public ListView makeClickableList (ObservableList<String> theList) {
+	public ListView makeClickableList(ObservableList<String> theList) {
 
-        ListView listView = new ListView();
-        listView.setItems(theList);
+		ListView listView = new ListView();
+		listView.setItems(theList);
 
-        return listView;
+		return listView;
 
-    }
+	}
 
-    public HBox makeHBox () {
+	public HBox makeHBox() {
 
-        return new HBox();
+		return new HBox();
 
-    }
+	}
 
-    public Pane makePane () {
-        // Pane p = new Pane();
+	public Pane makePane() {
+		// Pane p = new Pane();
 
-        return new Pane();
-    }
+		return new Pane();
+	}
 
-    public TextArea makeTextArea () {
-        TextArea t = new TextArea();
-        t.setMinSize(200, 100);
-        return t;
-        // return null;
-    }
+	public TextArea makeTextArea() {
+		TextArea t = new TextArea();
+		t.setMinSize(200, 100);
+		return t;
+		// return null;
+	}
 
 }
