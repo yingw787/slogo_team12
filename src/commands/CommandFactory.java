@@ -128,6 +128,21 @@ public class CommandFactory {
 			return new Ask();
 		case ("AskWith"):
 			return new AskWith();
+		//Display Commands
+		case ("SetBackground"):
+			return new SetBackground();
+		case ("SetPenColor"):
+			return new SetPenColor();
+		case ("SetPenSize"):
+			return new SetPenSize();
+		case ("SetShape"):
+			return new SetShape();
+		case ("SetPalette"):
+			return new SetPalette();
+		case ("GetPenColor"):
+			return new GetPenColor();
+		case ("GetShape"):
+			return new GetShape();
 		default:
 			return null;
 		}

@@ -86,13 +86,43 @@ public class Controller extends Application {
 	
 	//ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
 	//refactor these to only get and set values for myActiveTurtle id number
-	public void clear() {
-		myGUI.clearLines();
+	public void setBackgroundColor(int index) {
+		//TODO sets background color to specified color (by index)
+	}
+	
+	public void setPenColor(int index) {
+		//TODO sets pen color to specified color (by index) (for active turtle!)
+	}
+	
+	public void setPenSize(double pixels) {
+		//TODO sets pen stroke size to pixels value
+	}
+	
+	public void setShape(int index) {
+		//TODO sets shape of turtle to that represented by index
+	}
+	
+	public void setPalette(int index, String newColor) {
+		//TODO sets color in palette at index to newColor
+	}
+	
+	public int getPenColor() {
+		//TODO returns the index of the active turtle's pen color
+		return 0;
+	}
+	
+	public int getShape() {
+		//TODO returns the index of the active turtle's shape
+		return 0;
 	}
 	
 	public int getNumTurtles() {
 		//TODO get the max turtle ID aka number of turtles
 		return 1;
+	}
+	
+	public void clear() {
+		myGUI.clearLines();
 	}
 	
 	public double getTurtleDirection() {
@@ -129,7 +159,6 @@ public class Controller extends Application {
 	}
 	
 	public boolean isTurtleShowing() {
-		// TODO returns true if turtle is showing
 		return myGUI.getTurtleVisible();
 	}
 	

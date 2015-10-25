@@ -9,5 +9,6 @@ public class BackEndProperties {
 	public static final String BOOLEAN_OPERATION = "BooleanOperation";
 	public static final String SPECIAL_FORM = "SpecialForm";
 	public static final String MULTIPLE_TURTLE_COMMAND = "MultipleTurtleCommand";
+	public static final String DISPLAY_COMMAND = "DisplayCommand";
 
 }
