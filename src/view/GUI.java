@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
@@ -61,7 +62,8 @@ public class GUI {
      
         myHistList = FXCollections.observableArrayList();
         myColorsList = FXCollections.observableArrayList();
-        // myHistList.add("History");
+        initColors(myColorsList);// myHistList.add("History");
+
         fileChooser = initFileChooser();
         myController = controller;
 
@@ -87,13 +89,14 @@ public class GUI {
         canvasBox.setPrefSize(SCREEN_WIDTH * (3 / 4), SCREEN_HEIGHT * (3 / 4));
         root.setCenter(canvasBox);
 
-        ComboBox paneColorSelect = myFactory.makeComboBox();
-        initPaneColorSelect(paneColorSelect);
-        optionsBox.getChildren().add(paneColorSelect);
+       ClickableManager myClickableManager = new ClickableManager(canvasBox,turtle, myColorsList); 
+       List<Clickable> test = myClickableManager.getTest();
+           for(Clickable g: test){
+               optionsBox.getChildren().add((Node) g.getClickable());
+           }
+       
+     
 
-        ComboBox penColorSelect = myFactory.makeComboBox();
-        initPenColorSelect(penColorSelect);
-        optionsBox.getChildren().add(penColorSelect);
 
         HBox commandAndVarBox = myFactory.makeHBox();
         commandAndVarBox.setMaxHeight(SCREEN_HEIGHT / 5);
@@ -155,18 +158,9 @@ public class GUI {
         return f;
     }
 
-    private void initPenColorSelect (ComboBox penColorSelect) {
-        penColorSelect.setItems(myColorsList);
-        penColorSelect.setOnAction(e -> this
-                .changePenColor(penColorSelect.getSelectionModel().getSelectedItem().toString()));
-    }
 
-    private void initPaneColorSelect (ComboBox paneColorSelect) {
-        initColors(myColorsList);
-        paneColorSelect.setItems(myColorsList);
-        paneColorSelect.setOnAction(e -> this
-                .changePaneColor(paneColorSelect.getSelectionModel().getSelectedItem().toString()));
-    }
+
+
 
     private void initColors (ObservableList<String> myColorsList) {
         myColorsList.add("blue");
@@ -176,24 +170,7 @@ public class GUI {
         myColorsList.add("green");
     }
 
-    private void changePenColor (String penColor) {
-        try {
-            //System.out.println(penColor);
-            turtle.setPenColor(Color.valueOf(penColor));
-        }
-        catch (Exception e) {
-            // invalid color
-        }
-    }
 
-    private void changePaneColor (String canvasColor) {
-        try {
-            canvasBox.setStyle("-fx-background-color: " + canvasColor + ";");
-        }
-        catch (Exception e) {
-            // invalid color
-        }
-    }
 
     public void setAndShowScene (Stage primaryStage) {
         // WIDTH AND HEIGHT, MORE DETAILS FOR SCENE
