@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,12 @@ public class BackEndController {
 	private ParseModel myParser;
 	private Controller myController;
 	Map<String,UserCommand> myUserCommands;
+	private List<Integer> myActiveTurtles;
 	
 	public BackEndController(Controller controller) {
 		myController = controller;
 		myUserCommands = new HashMap<String,UserCommand>();
+		myActiveTurtles = new ArrayList<Integer>();
 	}
 	
 	public void saveProgram(String input, String programTitle) {
@@ -38,7 +41,7 @@ public class BackEndController {
 	public Queue<TurtleStatus> generateTurtleCommands(String input, String language) {
 		myParser = new ParseModel(input, "resources/languages/" + language, myUserCommands);
 		List<ExpressionNode> parseModel = myParser.createParseModel();
-		Translator translator = new Translator(parseModel, myUserCommands, myController.getVariablesMap(), myController);
+		Translator translator = new Translator(parseModel, myUserCommands, myActiveTurtles, myController.getVariablesMap(), myController);
 		return translator.executeCommands();
 	}
 
