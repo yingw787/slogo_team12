@@ -55,7 +55,6 @@ public abstract class Command {
 	}
 	
 	public void executeCommandOverMultipleTurtles(List<Integer> turtleList) {
-		System.out.println(turtleList.toString());
 		if (!this.getCommandType().equals(BackEndProperties.MULTIPLE_TURTLE_COMMAND)) {
 			int startID = myController.getActiveTurtleID();
 			turtleList.forEach(i -> setActiveTurtleAndExecute(i));
@@ -68,6 +67,7 @@ public abstract class Command {
 	private void setActiveTurtleAndExecute(Integer i) {
 		myController.setActiveTurtleID(i);
 		System.out.println("turtle ID: " + myController.getActiveTurtleID());
+		System.out.println("command: " + this.myExpression);
 		this.executeNestedCommands();
 	}
 	
@@ -75,7 +75,7 @@ public abstract class Command {
 	 * Executes a command by recursively checking for nested commands and executing those first
 	 */
 	protected Command executeNestedCommands() {
-		if (this.getNumParameters() == 0) {
+		if (this.getNumParameters() == 0 || this.shouldNotExecuteNestedCommands()) {
 			return executeCommand();
 		} else {
 			this.getParameters().stream()
@@ -83,6 +83,11 @@ public abstract class Command {
 				.collect(Collectors.toList());
 			return executeCommand();
 		}
+	}
+	
+	private boolean shouldNotExecuteNestedCommands() {
+		return this.getCommandType().equals(BackEndProperties.SPECIAL_FORM) || 
+				this.getCommandType().equals(BackEndProperties.MULTIPLE_TURTLE_COMMAND);
 	}
 	
 	private Command executeCommand() {
