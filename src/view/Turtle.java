@@ -7,8 +7,8 @@ import javafx.scene.paint.Color;
 public class Turtle {
 	private int turtleID;
 	private double direction;
-	private int SCREEN_WIDTH;
-	private int SCREEN_HEIGHT;
+	private double CANVAS_WIDTH;
+	private double CANVAS_HEIGHT;
 	private double pastXPos;
 	private double pastYPos;
 	private double currentXPos;
@@ -17,12 +17,15 @@ public class Turtle {
 	private Color penColor;
 	private ImageView turtleImage;
 
-	public Turtle(int SCREEN_WIDTH, int SCREEN_HEIGHT) {
-		this.SCREEN_HEIGHT = SCREEN_HEIGHT;
-		this.SCREEN_WIDTH = SCREEN_WIDTH;
+	public Turtle(double d, double e, Image image) {
+		this.CANVAS_HEIGHT = e;
+		this.CANVAS_WIDTH = d;
 		penColor = Color.BLACK;
 		penDown = true;
 		direction = 0;
+		setTurtleImage(image);
+		currentXPos = d/2 - this.getTurtleImage().getFitWidth()/2;
+		currentYPos = e/2 - this.getTurtleImage().getFitHeight()/2;
 	}
 
 	
