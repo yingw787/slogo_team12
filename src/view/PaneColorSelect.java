@@ -12,7 +12,7 @@ public class PaneColorSelect extends Clickable<ComboBox> {
 
     public PaneColorSelect (Pane canvasBox, ObservableList<String> colorsList) {
         paneColorSelect = new ComboBox();
-       // paneColorSelect.setVal
+        // paneColorSelect.setVal
         paneColorSelect.setItems(colorsList);
         paneColorSelect.setPromptText("Background Color");
         paneColorSelect.setOnAction(e -> this

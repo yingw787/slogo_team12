@@ -32,10 +32,10 @@ public class ClickableManager {
     }
 
     private void initializeOptionsBoxClickables () {
-        PaneColorSelect test = new PaneColorSelect(canvasBox, colorsList);
-        PenColorSelect test2 = new PenColorSelect(turtle, colorsList);
-        optionsBoxClickables.add(test);
-        optionsBoxClickables.add(test2);
+        PaneColorSelect paneColorSelect = new PaneColorSelect(canvasBox, colorsList);
+        PenColorSelect penColorSelect = new PenColorSelect(turtle, colorsList);
+        optionsBoxClickables.add(paneColorSelect);
+        optionsBoxClickables.add(penColorSelect);
     }
 
     private void initializecommandAndVarBoxClickables () {
@@ -53,7 +53,7 @@ public class ClickableManager {
 
     }
 
-    public List<Clickable> getTest () {
+    public List<Clickable> getOptionsBoxClickables () {
 
         return optionsBoxClickables;
     }
