@@ -120,7 +120,6 @@ public class Controller extends Application {
 
 	
 	//ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
-	//refactor these to only get and set values for myActiveTurtle id number
 	public void setBackgroundColor(int index) {
 		//TODO sets background color to specified color (by index)
 	}

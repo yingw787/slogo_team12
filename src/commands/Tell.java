@@ -17,7 +17,6 @@ public class Tell extends MultipleTurtleCommand {
 	@Override
 	public void execute() {
 		List<Integer> newActiveTurtles = makeActiveTurtleList();
-		System.out.println("active turtles: " + newActiveTurtles.toString());
 		repopulateActiveTurtles(newActiveTurtles);
 	}
 

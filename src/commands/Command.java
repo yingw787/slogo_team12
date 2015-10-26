@@ -66,8 +66,6 @@ public abstract class Command {
 
 	private void setActiveTurtleAndExecute(Integer i) {
 		myController.setActiveTurtleID(i);
-		System.out.println("turtle ID: " + myController.getActiveTurtleID());
-		System.out.println("command: " + this.myExpression);
 		this.executeNestedCommands();
 	}
 	
