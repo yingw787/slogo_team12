@@ -17,7 +17,9 @@ public class Ask extends MultipleTurtleCommand {
 	@Override
 	public void execute() {
 		List<Integer> activeTurtles = makeActiveTurtleList();
-		getParameter(1).executeCommandOverMultipleTurtles(activeTurtles);
+		for (Command c: getParameter(1).getParameters()) {
+			c.executeCommandOverMultipleTurtles(activeTurtles);
+		}
 	}
 
 }

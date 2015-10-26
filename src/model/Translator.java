@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,37 +38,15 @@ public class Translator {
 		myController.setVariablesMap(myVariables);
 		Queue<Command> commandQueue = translateParseTree();
 		for (Command command: commandQueue) {
-			command.executeCommand(c -> executeNestedCommands(c));
+			command.executeCommandOverActiveTurtles();
 		}
 		return myTurtleUpdates;
-	}
-	
-	/**
-	 * Executes a command by recursively checking for nested commands and executing those first
-	 */
-	private Command executeNestedCommands(Command command) {
-		if (command.getNumParameters() == 0 || command.getCommandType().equals(BackEndProperties.SPECIAL_FORM)) {
-			return execute(command);
-		} else {
-			command.getParameters().stream()
-				.map(c -> executeNestedCommands(c))
-				.collect(Collectors.toList());
-			return execute(command);
-		}
-	}
-
-	private Command execute(Command command) {
-		command.execute();
-		return command;
 	}
 	
 	/**
 	 * Reads through list of expression trees and translates each tree into a Command object 
 	 * @return queue of Command objects
 	 */
-	
-	
-	
 	private Queue<Command> translateParseTree(){
 		Queue<Command> commandQueue = new LinkedList<Command>(); 
 		for (ExpressionNode command: myCommandList) { 

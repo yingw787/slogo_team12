@@ -25,7 +25,7 @@ public class SlogoList extends BasicSyntax {
 	@Override
 	public void execute() {
 		for (Command command: super.getParameters()) {
-			command.executeCommand(c ->executeNestedCommands(c));
+			command.executeCommandOverActiveTurtles();
 		}
 	}
 }

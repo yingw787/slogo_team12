@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import engine.Controller;
 import model.BackEndProperties;
@@ -46,27 +47,47 @@ public abstract class Command {
 	
 	public abstract void execute();
 	
-	public void executeCommand(Function<Command,Command> executeFunction) {
+	public void executeCommandOverActiveTurtles() {
 		if (myActiveTurtles.size() == 0) {
 			myActiveTurtles.add(1);
 		}
-		int startID = myController.getActiveTurtleID();
-		for (Integer i: myActiveTurtles) {
-			myController.setActiveTurtleID(i);
-			executeFunction.apply(this);
-		}
-		myController.setActiveTurtleID(startID);
+		executeCommandOverMultipleTurtles(myActiveTurtles);
 	}
 	
-	public void executeCommandOverMultipleTurtles(List<Integer> turtleIDs) {
-		int startID = myController.getActiveTurtleID();
-		if (getCommandType().equals(BackEndProperties.TURTLE_COMMAND) || getCommandType().equals(BackEndProperties.SPECIAL_FORM)) {
-			for (Integer i: turtleIDs) {
-				myController.setActiveTurtleID(i);
-				execute();
-			}
+	public void executeCommandOverMultipleTurtles(List<Integer> turtleList) {
+		System.out.println(turtleList.toString());
+		if (!this.getCommandType().equals(BackEndProperties.MULTIPLE_TURTLE_COMMAND)) {
+			int startID = myController.getActiveTurtleID();
+			turtleList.forEach(i -> setActiveTurtleAndExecute(i));
+			myController.setActiveTurtleID(startID);
+		} else {
+			this.executeNestedCommands();
 		}
-		myController.setActiveTurtleID(startID);
+	}
+
+	private void setActiveTurtleAndExecute(Integer i) {
+		myController.setActiveTurtleID(i);
+		System.out.println("turtle ID: " + myController.getActiveTurtleID());
+		this.executeNestedCommands();
+	}
+	
+	/**
+	 * Executes a command by recursively checking for nested commands and executing those first
+	 */
+	protected Command executeNestedCommands() {
+		if (this.getNumParameters() == 0) {
+			return executeCommand();
+		} else {
+			this.getParameters().stream()
+				.map(c -> c.executeNestedCommands())
+				.collect(Collectors.toList());
+			return executeCommand();
+		}
+	}
+	
+	private Command executeCommand() {
+		this.execute();
+		return this;
 	}
 	
 	public String getExpression() {
@@ -123,6 +144,11 @@ public abstract class Command {
 	
 	public void setActiveTurtles(List<Integer> activeTurtles) {
 		this.myActiveTurtles = activeTurtles;
+	}
+	
+	protected void repopulateActiveTurtles(List<Integer> newActiveTurtles) {
+		this.myActiveTurtles.clear();
+		this.myActiveTurtles.addAll(newActiveTurtles);
 	}
 	
 	protected void addVariable(String variableName, Double value) {

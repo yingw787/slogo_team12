@@ -55,7 +55,6 @@ public class Controller extends Application {
 	}
 	
 	public void reset(){
-		System.out.println("reset");
 		initializeActiveTurtleProperty();
 		myGUI = new GUI(this, myLanguage, myActiveTurtle);
 		myGUI.setAndShowScene(myStage);
