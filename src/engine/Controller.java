@@ -184,15 +184,13 @@ public class Controller extends Application {
 	}
 	
 	public void setTurtlePosition(double[] newPos) {
-		///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
-		//TRY to make animated, for loop for old position to new position...
-		//TODO 
+	
 		myGUI.updateTurtle(newPos);
+		/*
 		if(isTurtlePenDown()){
 		myGUI.drawLine();
 		}
-		
+		*/
 		//setActiveTurtleID(2);
 		//sets turtle's x,y position
 		

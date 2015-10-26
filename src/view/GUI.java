@@ -98,7 +98,7 @@ public class GUI extends Application{
 				//System.out.println("got here");
 				}
 				//make sure this works, if does rename to active turtle
-				turtle = turtleList.get(activeTurtleNumber.get()-1);
+				//turtle = turtleList.get(activeTurtleNumber.get()-1);
 				System.out.println("active turtle is " + newValue.intValue()+ " and was "+oldValue.intValue());
 			}});
 
@@ -236,7 +236,7 @@ public class GUI extends Application{
     }
 
     private void pickImage () {
-    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	turtle = turtleList.get(activeTurtleNumber.get()-1);
     	
         File file = fileChooser.showOpenDialog(null);
         if (file != null) {
@@ -248,7 +248,7 @@ public class GUI extends Application{
     }
 
     public void drawLine () {
-    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	turtle = turtleList.get(activeTurtleNumber.get()-1);
         double turtleHeight = turtle.getTurtleImage().getFitHeight();
         // System.out.println(turtleHeight);
         double turtleWidth = turtle.getTurtleImage().getFitWidth();
@@ -275,8 +275,8 @@ public class GUI extends Application{
     	
     	//rename to Set Turtle Position
     	
-    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
-    	
+    	turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	System.out.println("turtle to update: "+ activeTurtleNumber.get());
     	
         turtle.setPastXPos(turtle.getCurrentXPos());
         turtle.setPastYPos(turtle.getCurrentYPos());
@@ -311,6 +311,7 @@ public class GUI extends Application{
         */
         
         
+        
         /*
         Path path = new Path();
         path.getElements().add(new MoveTo(Pos[0],Pos[1]));
@@ -324,7 +325,7 @@ public class GUI extends Application{
         */
         
         
-        KeyFrame frame = new KeyFrame(Duration.millis(100),
+        KeyFrame frame = new KeyFrame(Duration.millis(10),
                 e -> { if((turtle.getCurrentXPos() != Pos[0]) || (turtle.getCurrentYPos() !=Pos[1])){
                 	System.out.println("need to move");
                 	if(forward){
@@ -355,7 +356,7 @@ public class GUI extends Application{
     }
 
     public double[] getTurtlePosition () {
-    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	turtle = turtleList.get(activeTurtleNumber.get()-1);
         double[] pos = new double[2];
         pos[0] = turtle.getCurrentXPos();
         pos[1] = turtle.getCurrentYPos();
@@ -364,12 +365,12 @@ public class GUI extends Application{
     }
 
     public double getTurtleDirection () {
-    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	turtle = turtleList.get(activeTurtleNumber.get()-1);
     	return turtle.getDirection();
     }
 
     public void setTurtleDirection (double angle) {
-    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	turtle = turtleList.get(activeTurtleNumber.get()-1);
         turtle.setDirection(angle);
 
 
@@ -378,7 +379,7 @@ public class GUI extends Application{
     }
 
     public boolean getPenBool () {
-    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	turtle = turtleList.get(activeTurtleNumber.get()-1);
         return turtle.isPenDown();
     }
 
@@ -388,12 +389,12 @@ public class GUI extends Application{
     }
 
     public void setTurtleVisible (boolean showing) {
-    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	turtle = turtleList.get(activeTurtleNumber.get()-1);
         turtle.setVisible(showing);
     }
 
     public boolean getTurtleVisible () {
-    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	turtle = turtleList.get(activeTurtleNumber.get()-1);
     	return turtle.getVisible();
     }
     
