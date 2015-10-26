@@ -7,10 +7,6 @@ import java.util.Map;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.beans.value.ObservableNumberValue;
-import javafx.beans.value.ObservableValue;
 import javafx.stage.Stage;
 import model.BackEndController;
 import view.GUI;
@@ -124,7 +120,6 @@ public class Controller extends Application {
 
 	
 	//ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
-	//refactor these to only get and set values for myActiveTurtle id number
 	public void setBackgroundColor(int index) {
 		//TODO sets background color to specified color (by index)
 	}
@@ -153,6 +148,19 @@ public class Controller extends Application {
 	public int getShape() {
 		//TODO returns the index of the active turtle's shape
 		return 0;
+	}
+	
+	public void makeStamp() {
+		//TODO makes a stamp of the active turtle
+	}
+	
+	public int getNumStamps() {
+		//TODO returns number of stamps on the canvas
+		return 0;
+	}
+	
+	public void clearStamps() {
+		//TODO clears all stamps off the canvas (similar to clearLines())
 	}
 	
 	public int getNumTurtles() {

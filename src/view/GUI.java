@@ -95,11 +95,9 @@ public class GUI extends Application{
 					turtleList.get(newValue.intValue()-1).setTurtleImage(image);
 					turtleList.get(newValue.intValue()-1).setTurtleID(newValue.intValue());
 					canvasBox.getChildren().add(turtleList.get(newValue.intValue()-1).getTurtleImage());
-				//System.out.println("got here");
 				}
 				//make sure this works, if does rename to active turtle
 				//turtle = turtleList.get(activeTurtleNumber.get()-1);
-				System.out.println("active turtle is " + newValue.intValue()+ " and was "+oldValue.intValue());
 			}});
 
         
@@ -250,7 +248,6 @@ public class GUI extends Application{
     public void drawLine () {
     	turtle = turtleList.get(activeTurtleNumber.get()-1);
         double turtleHeight = turtle.getTurtleImage().getFitHeight();
-        // System.out.println(turtleHeight);
         double turtleWidth = turtle.getTurtleImage().getFitWidth();
         Line line = new Line();
         line.setStartX(turtle.getPastXPos() + turtleWidth / 2);
@@ -276,7 +273,6 @@ public class GUI extends Application{
     	//rename to Set Turtle Position
     	
     	turtle = turtleList.get(activeTurtleNumber.get()-1);
-    	System.out.println("turtle to update: "+ activeTurtleNumber.get());
     	
         turtle.setPastXPos(turtle.getCurrentXPos());
         turtle.setPastYPos(turtle.getCurrentYPos());
@@ -363,10 +359,6 @@ public class GUI extends Application{
     public void setTurtleDirection (double angle) {
     	turtle = turtleList.get(activeTurtleNumber.get()-1);
         turtle.setDirection(angle);
-
-
-        System.out.println(activeTurtleNumber.intValue());
-
     }
 
     public boolean getPenBool () {
