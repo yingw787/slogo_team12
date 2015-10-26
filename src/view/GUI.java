@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import com.sun.istack.internal.logging.Logger;
 import engine.Controller;
+import javafx.animation.KeyFrame;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
+import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -37,13 +41,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
-public class GUI {
+public class GUI extends Application{
 
     private GUIfactory myFactory;
 
@@ -208,7 +215,13 @@ public class GUI {
         // WIDTH AND HEIGHT, MORE DETAILS FOR SCENE
         primaryStage.setScene(new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT));
         primaryStage.show();
-
+       
+        try {
+			start(primaryStage);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public void addToHistory (String stringFromGUI) {
@@ -278,6 +291,7 @@ public class GUI {
         	slope = deltaY/deltaX;
         }
        
+       /*
         while((turtle.getCurrentXPos() != Pos[0]) || (turtle.getCurrentYPos() !=Pos[1])){
         	System.out.println("in while loop to animate");
         	if(forward){
@@ -294,8 +308,43 @@ public class GUI {
         	
         	
         }
+        */
         
         
+        /*
+        Path path = new Path();
+        path.getElements().add(new MoveTo(Pos[0],Pos[1]));
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(4000));
+        pathTransition.setPath(path);
+        pathTransition.setNode(turtle.getTurtleImage());
+        pathTransition.setCycleCount(Timeline.INDEFINITE);
+        pathTransition.setAutoReverse(true);
+        pathTransition.play();
+        */
+        
+        
+        KeyFrame frame = new KeyFrame(Duration.millis(100),
+                e -> { if((turtle.getCurrentXPos() != Pos[0]) || (turtle.getCurrentYPos() !=Pos[1])){
+                	System.out.println("need to move");
+                	if(forward){
+                	turtle.setCurrentXPos(turtle.getCurrentXPos()+1);
+                	turtle.setCurrentYPos(turtle.getCurrentYPos()+slope);
+                	}
+                	if(!forward && deltaX != 0){
+                		turtle.setCurrentXPos(turtle.getCurrentXPos()-1);
+                    	turtle.setCurrentYPos(turtle.getCurrentYPos()-slope);
+                	}
+                	if(deltaX == 0){
+                		turtle.setCurrentYPos(turtle.getCurrentYPos()+deltaY/Math.abs(deltaY));
+                	}
+                	
+                	
+                }});
+		Timeline animation = new Timeline();
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		animation.play();
         
         
         //turtle.setCurrentXPos(Pos[0]);
@@ -395,6 +444,13 @@ public class GUI {
 
 	public int getNumTurtles() {
 		return turtleList.size();
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		
+		
 	}
 
 }
