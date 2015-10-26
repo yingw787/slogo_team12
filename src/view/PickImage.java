@@ -11,13 +11,14 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 
 public class PickImage extends Clickable<Button> {
-    Button pickImage;
-    FileChooser fileChooser;
+    private Button pickImage;
+    private FileChooser fileChooser;
 
     public PickImage (Pane canvasBox, Turtle turtle) {
         fileChooser = initFileChooser();
         pickImage = new Button("Pick Image");
         pickImage.setOnAction(e -> this.imagePrompt(canvasBox, turtle));
+        
     }
 
     private void imagePrompt (Pane canvasBox, Turtle turtle) {

@@ -54,24 +54,28 @@ public class GUI {
     // immutable histList
 
     public GUI (Controller controller, String language, ReadOnlyIntegerProperty myActiveTurtle) {
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+        myHistList = FXCollections.observableArrayList();
+        myColorsList = FXCollections.observableArrayList();
         turtle = new Turtle(SCREEN_WIDTH, SCREEN_HEIGHT);
+        myController = controller;
+        myFactory = new GUIfactory(myResources, myController);
 
         activeTurtle = myActiveTurtle;
 
-        myHistList = FXCollections.observableArrayList();
-        myColorsList = FXCollections.observableArrayList();
         initColors(myColorsList);// myHistList.add("History");
-        myController = controller;
-
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
-        myFactory = new GUIfactory(myResources, myController);
+        TextArea t = myFactory.makeTextArea();
+        canvasBox = myFactory.makePane();
 
         root = myFactory.makeBorderPane();
 
         HBox optionsBox = myFactory.makeHBox();
         root.setTop(optionsBox);
+        HBox commandAndVarBox = myFactory.makeHBox();
+        commandAndVarBox.setMaxHeight(SCREEN_HEIGHT / 5);
+        commandAndVarBox.getChildren().add(t);
+        root.setBottom(commandAndVarBox);
 
-        canvasBox = myFactory.makePane();
 
         /*
          * Background canvasBG = new Background(???);
@@ -85,18 +89,19 @@ public class GUI {
         canvasBox.setPrefSize(SCREEN_WIDTH * (3 / 4), SCREEN_HEIGHT * (3 / 4));
         root.setCenter(canvasBox);
 
-        ClickableManager myClickableManager = new ClickableManager(canvasBox, turtle, myColorsList);
+        ClickableManager myClickableManager =
+                new ClickableManager(canvasBox, turtle, myColorsList, myController, t);
         List<Clickable> optionsBoxClickables = myClickableManager.getOptionsBoxClickables();
+        List<Clickable> commandAndVarBoxClickables =
+                myClickableManager.getCommandAndVarBoxClickables();
+
         for (Clickable g : optionsBoxClickables) {
             optionsBox.getChildren().add((Node) g.getClickable());
         }
+        for (Clickable g : commandAndVarBoxClickables) {
+            commandAndVarBox.getChildren().add((Node) g.getClickable());
+        }
 
-        HBox commandAndVarBox = myFactory.makeHBox();
-        commandAndVarBox.setMaxHeight(SCREEN_HEIGHT / 5);
-        root.setBottom(commandAndVarBox);
-
-        TextArea t = myFactory.makeTextArea();
-        commandAndVarBox.getChildren().add(t);
 
         VBox historyBox = myFactory.makeVBox();
         historyBox.setMaxWidth(SCREEN_WIDTH / 4);
@@ -121,8 +126,6 @@ public class GUI {
         });
 
         // makeButton: setOnAction(e-> myController.submit(t.getText()));
-        commandAndVarBox.getChildren()
-                .add(myFactory.makeButton("Go", e -> myController.submit(t.getText(), "English")));
 
         VBox variablesBox = myFactory.makeVBox();
         variablesBox.getChildren().add(new Text("Variables"));
@@ -146,8 +149,6 @@ public class GUI {
         canvasBox.getChildren().add(turtle.getTurtleImage());
 
     }
-
-
 
     private void initColors (ObservableList<String> myColorsList) {
         myColorsList.add("white");
@@ -175,7 +176,6 @@ public class GUI {
         // currently controller directly calls this in submit
 
     }
-
 
     public void drawLine () {
         // turtle.setCurrentXPos(turtle.getCurrentXPos() + 20);

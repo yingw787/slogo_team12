@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 
 
 public class PaneColorSelect extends Clickable<ComboBox> {
-    ComboBox paneColorSelect;
+    private ComboBox paneColorSelect;
 
     public PaneColorSelect (Pane canvasBox, ObservableList<String> colorsList) {
         paneColorSelect = new ComboBox();
