@@ -48,7 +48,6 @@ public class GUI {
     private ObservableList<String> myHistList;
     private ObservableList<String> myColorsList;
     private Pane canvasBox;
-    final FileChooser fileChooser;
     private Turtle turtle;
     private ReadOnlyIntegerProperty activeTurtle;
     // consider adding a public method called get myHistList, that returns
@@ -62,8 +61,6 @@ public class GUI {
         myHistList = FXCollections.observableArrayList();
         myColorsList = FXCollections.observableArrayList();
         initColors(myColorsList);// myHistList.add("History");
-
-        fileChooser = initFileChooser();
         myController = controller;
 
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
@@ -143,8 +140,6 @@ public class GUI {
         variablesBox.getChildren().add(myFactory.makeClickableList(listOfVariables));
         commandAndVarBox.getChildren().add(variablesBox);
 
-        optionsBox.getChildren()
-                .add(myFactory.makeButton("pickImageButton", e -> this.pickImage()));
         // make a root, etc, layout everything with the GUIfactory
         Image image = new Image(getClass().getClassLoader().getResourceAsStream("turtle.gif"));
         turtle.setTurtleImage(image);
@@ -152,12 +147,7 @@ public class GUI {
 
     }
 
-    private FileChooser initFileChooser () {
-        FileChooser f = new FileChooser();
-        f.setTitle("Open Image File");
-        f.getExtensionFilters().add(new ExtensionFilter("Image File", "*.png", "*.jpg", "*.gif"));
-        return f;
-    }
+
 
     private void initColors (ObservableList<String> myColorsList) {
         myColorsList.add("white");
@@ -186,15 +176,6 @@ public class GUI {
 
     }
 
-    private void pickImage () {
-        File file = fileChooser.showOpenDialog(null);
-        if (file != null) {
-            Image image1 = new Image(file.toURI().toString());
-            canvasBox.getChildren().remove(turtle.getTurtleImage());
-            turtle.setTurtleImage(image1);
-            canvasBox.getChildren().add(turtle.getTurtleImage());
-        }
-    }
 
     public void drawLine () {
         // turtle.setCurrentXPos(turtle.getCurrentXPos() + 20);

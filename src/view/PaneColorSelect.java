@@ -15,6 +15,7 @@ public class PaneColorSelect extends Clickable<ComboBox> {
         // paneColorSelect.setVal
         paneColorSelect.setItems(colorsList);
         paneColorSelect.setPromptText("Background Color");
+        //TODO: Do i even need e here?
         paneColorSelect.setOnAction(e -> this
                 .changePaneColor(canvasBox,
                                  paneColorSelect.getSelectionModel().getSelectedItem().toString()));

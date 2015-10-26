@@ -34,8 +34,10 @@ public class ClickableManager {
     private void initializeOptionsBoxClickables () {
         PaneColorSelect paneColorSelect = new PaneColorSelect(canvasBox, colorsList);
         PenColorSelect penColorSelect = new PenColorSelect(turtle, colorsList);
+        PickImage pickImage = new PickImage(canvasBox, turtle);
         optionsBoxClickables.add(paneColorSelect);
         optionsBoxClickables.add(penColorSelect);
+        optionsBoxClickables.add(pickImage);
     }
 
     private void initializecommandAndVarBoxClickables () {
