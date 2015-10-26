@@ -150,6 +150,19 @@ public class Controller extends Application {
 		return 0;
 	}
 	
+	public void makeStamp() {
+		//TODO makes a stamp of the active turtle
+	}
+	
+	public int getNumStamps() {
+		//TODO returns number of stamps on the canvas
+		return 0;
+	}
+	
+	public void clearStamps() {
+		//TODO clears all stamps off the canvas (similar to clearLines())
+	}
+	
 	public int getNumTurtles() {
 		//TODO get the max turtle ID aka number of turtles
 		return myGUI.getNumTurtles();

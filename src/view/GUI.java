@@ -95,7 +95,6 @@ public class GUI extends Application{
 					turtleList.get(newValue.intValue()-1).setTurtleImage(image);
 					turtleList.get(newValue.intValue()-1).setTurtleID(newValue.intValue());
 					canvasBox.getChildren().add(turtleList.get(newValue.intValue()-1).getTurtleImage());
-				//System.out.println("got here");
 				}
 				//make sure this works, if does rename to active turtle
 				//turtle = turtleList.get(activeTurtleNumber.get()-1);

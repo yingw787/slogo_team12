@@ -143,6 +143,10 @@ public class CommandFactory {
 			return new GetPenColor();
 		case ("GetShape"):
 			return new GetShape();
+		case ("Stamp"):
+			return new Stamp();
+		case ("ClearStamps"):
+			return new ClearStamps();
 		default:
 			return null;
 		}
