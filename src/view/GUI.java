@@ -177,9 +177,9 @@ public class GUI extends Application{
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				if(turtleList.size()<newValue.intValue()){
-					turtleList.add(newValue.intValue()-1, new Turtle(SCREEN_WIDTH, SCREEN_HEIGHT, image));
-					turtleList.get(newValue.intValue()-1).setTurtleImage(image);
-					turtleList.get(newValue.intValue()-1).setTurtleID(newValue.intValue());
+					turtleList.add(newValue.intValue()-1, new Turtle(SCREEN_WIDTH*CANVAS_RATIO, SCREEN_HEIGHT*CANVAS_RATIO, image, newValue.intValue()));
+					//turtleList.get(newValue.intValue()-1).setTurtleImage(image);
+					//turtleList.get(newValue.intValue()-1).setTurtleID(newValue.intValue());
 					canvasBox.getChildren().add(turtleList.get(newValue.intValue()-1).getTurtleImage());
 				}
 				//make sure this works, if does rename to active turtle
@@ -188,9 +188,9 @@ public class GUI extends Application{
 	}
 
 	private void initTurtle(Image image, int ID) {
-		turtle = new Turtle(SCREEN_WIDTH*CANVAS_RATIO, SCREEN_HEIGHT*CANVAS_RATIO, image);
-		turtle.setTurtleID(ID);
-		turtle.setTurtleImage(image);
+		turtle = new Turtle(SCREEN_WIDTH*CANVAS_RATIO, SCREEN_HEIGHT*CANVAS_RATIO, image, 1);
+		//turtle.setTurtleID(ID);
+		//turtle.setTurtleImage(image);
 	}
 
 	private void initCommandAndVarBoxButtons(HBox commandAndVarBox, TextArea t) {
