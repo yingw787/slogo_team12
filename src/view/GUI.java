@@ -340,6 +340,9 @@ public class GUI extends Application{
                 	}
                 	
                 	
+                	//This math is all messed up tho
+                	
+                	drawLine();
                 }});
 		Timeline animation = new Timeline();
 		animation.setCycleCount(Timeline.INDEFINITE);
