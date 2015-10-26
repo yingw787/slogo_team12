@@ -188,14 +188,6 @@ public abstract class Command {
 		return argument.getExpression();
 	}
 	
-	protected double convertRadiansToDegrees(double radianValue) {
-		return radianValue*(180/Math.PI);
-	}
-	
-	protected double convertDegreesToRadians(double degreesValue) {
-		return degreesValue/(180/Math.PI);
-	}
-	
 	protected double calculateDistance(double[] startPos, double[] endPos) {
 		return Math.sqrt(Math.pow(endPos[0]-startPos[0], 2) + Math.pow(endPos[1]-startPos[1], 2));
 	}
@@ -209,7 +201,7 @@ public abstract class Command {
 	}
 	
 	protected double performUnaryTrigOp(Function<Double, Double> trigFunc) {
-		return convertRadiansToDegrees(trigFunc.apply(convertDegreesToRadians(myParameters.get(0).returnDoubleValue())));
+		return Math.toDegrees(trigFunc.apply(Math.toRadians(myParameters.get(0).returnDoubleValue())));
 	}
 	
 	protected boolean performBinaryBooleanOp(BiFunction<Double, Double, Boolean> func) {

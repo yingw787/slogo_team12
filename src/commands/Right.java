@@ -33,7 +33,7 @@ public class Right extends TurtleCommand {
 	private double calculateNewDirection() {
 		double degrees = returnDoubleValue();
 		double newDirection = super.getController().getTurtleDirection() - degrees;
-		return newDirection < 0 ? 360 + newDirection : newDirection;
+		return newDirection;
 	}
 
 }
