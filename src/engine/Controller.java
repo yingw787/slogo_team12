@@ -91,7 +91,6 @@ public class Controller extends Application {
 	}
 	
 	public void setActiveTurtleID(int newID) {
-		System.out.println("controller.setActiveTurtleId called with id " +newID);
 		myActiveTurtle.set(newID);
 		
 	}
@@ -194,16 +193,9 @@ public class Controller extends Application {
 	public void setTurtlePosition(double[] newPos) {
 	
 		myGUI.updateTurtle(newPos);
-		/*
 		if(isTurtlePenDown()){
 		myGUI.drawLine();
 		}
-		*/
-		//setActiveTurtleID(2);
-		//sets turtle's x,y position
-		
-		
-		
 	}
 	
 	public boolean isTurtlePenDown() {
