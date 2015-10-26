@@ -1,6 +1,9 @@
 package view;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,6 +71,7 @@ public class GUI extends Application{
     final FileChooser fileChooser;
     private List<Turtle> turtleList;
     private Turtle turtle;
+    private Stage myStage;
     
     private ReadOnlyIntegerProperty activeTurtleNumber;
     // consider adding a public method called get myHistList, that returns
@@ -107,7 +111,7 @@ public class GUI extends Application{
         myColorsList = FXCollections.observableArrayList();
         initColors(myColorsList);// myHistList.add("History");
 
-        fileChooser = initFileChooser();
+        fileChooser = initImageFileChooser();
         myController = controller;
 
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
@@ -167,7 +171,27 @@ public class GUI extends Application{
 
         });
 
-        VBox commandAndVarBoxButtonsHolder = new VBox();
+        initCommandAndVarBoxButtons(commandAndVarBox, t);
+    
+        VBox variablesDisplayContainer = myFactory.makeVBox();
+        HBox variablesBox = myFactory.makeHBox();
+        variablesDisplayContainer.getChildren().add(new Text("Variables"));
+
+       
+        renderVariablesMap(variablesBox);
+        variablesDisplayContainer.getChildren().add(variablesBox);
+        commandAndVarBox.getChildren().add(variablesDisplayContainer);
+
+        optionsBox.getChildren()
+                .add(myFactory.makeButton("pickImageButton", e -> this.pickImage()));
+        // make a root, etc, layout everything with the GUIfactory
+        
+        canvasBox.getChildren().add(turtle.getTurtleImage());
+
+    }
+
+	private void initCommandAndVarBoxButtons(HBox commandAndVarBox, TextArea t) {
+		VBox commandAndVarBoxButtonsHolder = new VBox();
         commandAndVarBoxButtonsHolder.getChildren()
         	.add(myFactory.makeButton("Go", e -> myController.submit(t.getText(), "English")));
         commandAndVarBoxButtonsHolder.getChildren()
@@ -181,32 +205,48 @@ public class GUI extends Application{
     			//TODO: add catch for bad file name type
     			result.ifPresent(name -> myController.onSave(t.getText(), name));
     											}));
+        commandAndVarBoxButtonsHolder.getChildren()
+        			.add(myFactory.makeButton("Load", e-> {
+        				 FileChooser fileChooser = new FileChooser();
+        				 fileChooser.setTitle("Select Logo Program To Load");
+        				 fileChooser.setInitialDirectory(new File("src/userPrograms/"));
+        				 File file = fileChooser.showOpenDialog(null);
+        	                if(file != null){
+        	                    t.setText(readFile(file));
+        	                }
+        												}));
+        
         
         commandAndVarBox.getChildren().add(commandAndVarBoxButtonsHolder);
-    
-        VBox variablesDisplayContainer = myFactory.makeVBox();
-        HBox variablesBox = myFactory.makeHBox();
-        variablesDisplayContainer.getChildren().add(new Text("Variables"));
+	}
 
-        ///////// The list of variables needs to come from backend. updated by
-        ///////// backend.
-        /// Rather than be a list of strings, list of some type of object
-        ///////// (variables object?) that
-        ///////// can
-        // be changed on click. To change on click see lambda function for history command box.
-        renderVariablesMap(variablesBox);
-        variablesDisplayContainer.getChildren().add(variablesBox);
-        commandAndVarBox.getChildren().add(variablesDisplayContainer);
-
-        optionsBox.getChildren()
-                .add(myFactory.makeButton("pickImageButton", e -> this.pickImage()));
-        // make a root, etc, layout everything with the GUIfactory
+    private String readFile(File file){
+        StringBuilder stringBuffer = new StringBuilder();
+        BufferedReader bufferedReader = null;
+         
+        try {
+ 
+            bufferedReader = new BufferedReader(new FileReader(file));
+             
+            String text;
+            while ((text = bufferedReader.readLine()) != null) {
+                stringBuffer.append(text);
+            }
+ 
+        } catch (FileNotFoundException ex) {
         
-        canvasBox.getChildren().add(turtle.getTurtleImage());
-
+        } catch (IOException ex) {
+           
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (IOException ex) {
+            	}
+        } 
+         
+        return stringBuffer.toString();
     }
-
-    private FileChooser initFileChooser () {
+    private FileChooser initImageFileChooser () {
         FileChooser f = new FileChooser();
         f.setTitle("Open Image File");
         f.getExtensionFilters().add(new ExtensionFilter("Image File", "*.png", "*.jpg", "*.gif"));
