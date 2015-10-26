@@ -96,7 +96,9 @@ public class Controller extends Application {
 	}
 	
 	public void setActiveTurtleID(int newID) {
+		System.out.println("controller.setActiveTurtleId called with id " +newID);
 		myActiveTurtle.set(newID);
+		
 	}
 	
 	public Map<String,Double> getUnmodifiableVariablesMap() {
@@ -156,7 +158,7 @@ public class Controller extends Application {
 	
 	public int getNumTurtles() {
 		//TODO get the max turtle ID aka number of turtles
-		return 1;
+		return myGUI.getNumTurtles();
 	}
 	
 	public void clear() {
@@ -191,6 +193,8 @@ public class Controller extends Application {
 		if(isTurtlePenDown()){
 		myGUI.drawLine();
 		}
+		
+		//setActiveTurtleID(2);
 		//sets turtle's x,y position
 		
 		

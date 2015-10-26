@@ -25,6 +25,7 @@ public class Turtle {
 		direction = 0;
 	}
 
+	
 	public double getPastXPos() {
 		return pastXPos;
 	}

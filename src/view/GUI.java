@@ -2,12 +2,14 @@ package view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
@@ -15,7 +17,9 @@ import com.sun.istack.internal.logging.Logger;
 import engine.Controller;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -55,16 +59,43 @@ public class GUI {
     private ObservableList<String> myColorsList;
     private Pane canvasBox;
     final FileChooser fileChooser;
+    private List<Turtle> turtleList;
     private Turtle turtle;
-    private ReadOnlyIntegerProperty activeTurtle;
+    
+    private ReadOnlyIntegerProperty activeTurtleNumber;
     // consider adding a public method called get myHistList, that returns
     // immutable histList
 
-    public GUI (Controller controller, String language, ReadOnlyIntegerProperty myActiveTurtle) {
+    public GUI (Controller controller, String language, ReadOnlyIntegerProperty myActiveTurtleNum) {
         turtle = new Turtle(SCREEN_WIDTH, SCREEN_HEIGHT);
+        turtle.setTurtleID(1);
+        turtleList = new ArrayList<Turtle>();
+        turtleList.add(turtle);
+      
+        
 
-        activeTurtle = myActiveTurtle;
+        Image image = new Image(getClass().getClassLoader().getResourceAsStream("turtle.gif"));
+        turtle.setTurtleImage(image);
+        
+        
+        activeTurtleNumber = myActiveTurtleNum;
+        activeTurtleNumber.addListener(new ChangeListener<Number>(){
 
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				if(turtleList.size()<newValue.intValue()){
+					turtleList.add(newValue.intValue()-1, new Turtle(SCREEN_WIDTH, SCREEN_HEIGHT));
+					turtleList.get(newValue.intValue()-1).setTurtleImage(image);
+					turtleList.get(newValue.intValue()-1).setTurtleID(newValue.intValue());
+					canvasBox.getChildren().add(turtleList.get(newValue.intValue()-1).getTurtleImage());
+				//System.out.println("got here");
+				}
+				//make sure this works, if does rename to active turtle
+				turtle = turtleList.get(activeTurtleNumber.get()-1);
+				System.out.println("active turtle is " + newValue.intValue()+ " and was "+oldValue.intValue());
+			}});
+
+        
         myHistList = FXCollections.observableArrayList();
         myVariableNames = FXCollections.observableArrayList();
         myVariableValues = FXCollections.observableArrayList();
@@ -152,8 +183,7 @@ public class GUI {
         optionsBox.getChildren()
                 .add(myFactory.makeButton("pickImageButton", e -> this.pickImage()));
         // make a root, etc, layout everything with the GUIfactory
-        Image image = new Image(getClass().getClassLoader().getResourceAsStream("turtle.gif"));
-        turtle.setTurtleImage(image);
+        
         canvasBox.getChildren().add(turtle.getTurtleImage());
 
     }
@@ -193,6 +223,8 @@ public class GUI {
     }
 
     private void pickImage () {
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	
         File file = fileChooser.showOpenDialog(null);
         if (file != null) {
             Image image1 = new Image(file.toURI().toString());
@@ -203,8 +235,7 @@ public class GUI {
     }
 
     public void drawLine () {
-        // turtle.setCurrentXPos(turtle.getCurrentXPos() + 20);
-        // turtle.setCurrentYPos(turtle.getCurrentYPos() + 20);
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
         double turtleHeight = turtle.getTurtleImage().getFitHeight();
         // System.out.println(turtleHeight);
         double turtleWidth = turtle.getTurtleImage().getFitWidth();
@@ -228,15 +259,51 @@ public class GUI {
     }
 
     public void updateTurtle (double[] Pos) {
-
+    	
+    	//rename to Set Turtle Position
+    	
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	
+    	
         turtle.setPastXPos(turtle.getCurrentXPos());
         turtle.setPastYPos(turtle.getCurrentYPos());
-        turtle.setCurrentXPos(Pos[0]);
-        turtle.setCurrentYPos(Pos[1]);
+        double slope;
+        double deltaX = Pos[0] - turtle.getPastXPos();
+        boolean forward = deltaX >0;
+        double deltaY = Pos[1] - turtle.getPastYPos();
+       
+        if(deltaX==0){
+        	slope = 1;
+        }else{
+        	slope = deltaY/deltaX;
+        }
+       
+        while((turtle.getCurrentXPos() != Pos[0]) || (turtle.getCurrentYPos() !=Pos[1])){
+        	System.out.println("in while loop to animate");
+        	if(forward){
+        	turtle.setCurrentXPos(turtle.getCurrentXPos()+1);
+        	turtle.setCurrentYPos(turtle.getCurrentYPos()+slope);
+        	}
+        	if(!forward && deltaX != 0){
+        		turtle.setCurrentXPos(turtle.getCurrentXPos()-1);
+            	turtle.setCurrentYPos(turtle.getCurrentYPos()-slope);
+        	}
+        	if(deltaX == 0){
+        		turtle.setCurrentYPos(turtle.getCurrentYPos()+deltaY/Math.abs(deltaY));
+        	}
+        	
+        	
+        }
+        
+        
+        
+        
+        //turtle.setCurrentXPos(Pos[0]);
+        //turtle.setCurrentYPos(Pos[1]);
     }
 
     public double[] getTurtlePosition () {
-
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
         double[] pos = new double[2];
         pos[0] = turtle.getCurrentXPos();
         pos[1] = turtle.getCurrentYPos();
@@ -245,33 +312,35 @@ public class GUI {
     }
 
     public double getTurtleDirection () {
-        return turtle.getDirection();
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	return turtle.getDirection();
     }
 
     public void setTurtleDirection (double angle) {
-
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
         turtle.setDirection(angle);
 
-        System.out.println(activeTurtle.intValue());
+        System.out.println(activeTurtleNumber.intValue());
     }
 
     public boolean getPenBool () {
-
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
         return turtle.isPenDown();
     }
 
     public void setTurtlePen (boolean penDown) {
-
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
         turtle.setPenDown(penDown);
     }
 
     public void setTurtleVisible (boolean showing) {
-
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
         turtle.setVisible(showing);
     }
 
     public boolean getTurtleVisible () {
-        return turtle.getVisible();
+    	//turtle = turtleList.get(activeTurtleNumber.get()-1);
+    	return turtle.getVisible();
     }
     
 	public void updateVariablesMap() {
@@ -322,6 +391,10 @@ public class GUI {
 		if (!newValue.equals("")) {
 			myController.changeVariableValue(key, newValue);
 		}
+	}
+
+	public int getNumTurtles() {
+		return turtleList.size();
 	}
 
 }
