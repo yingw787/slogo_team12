@@ -393,7 +393,6 @@ public class GUI extends Application{
         
         turtle.setCurrentXPos(Pos[0]);
         turtle.setCurrentYPos(Pos[1]);
-        drawLine();
     }
 
     public double[] getTurtlePosition () {
