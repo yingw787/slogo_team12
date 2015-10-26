@@ -229,4 +229,8 @@ public class Controller extends Application {
 	private void initializeActiveTurtleProperty(){
 		myActiveTurtle = new SimpleIntegerProperty(1);
 	}
+
+	public void onSave(String input, String programTitle) {
+		myBackend.saveProgram(input, programTitle);
+	}
 }

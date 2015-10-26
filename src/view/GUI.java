@@ -167,10 +167,23 @@ public class GUI extends Application{
 
         });
 
-        // makeButton: setOnAction(e-> myController.submit(t.getText()));
-        commandAndVarBox.getChildren()
-                .add(myFactory.makeButton("Go", e -> myController.submit(t.getText(), "English")));
-
+        VBox commandAndVarBoxButtonsHolder = new VBox();
+        commandAndVarBoxButtonsHolder.getChildren()
+        	.add(myFactory.makeButton("Go", e -> myController.submit(t.getText(), "English")));
+        commandAndVarBoxButtonsHolder.getChildren()
+    		.add(myFactory.makeButton("Save", e-> { 
+    			
+    			TextInputDialog textDialog = new TextInputDialog();
+    			textDialog.setTitle("Program Name");
+    			textDialog.setHeaderText("Enter the name for your program");
+    			    			
+    			Optional<String> result = textDialog.showAndWait();	
+    			//TODO: add catch for bad file name type
+    			result.ifPresent(name -> myController.onSave(t.getText(), name));
+    											}));
+        
+        commandAndVarBox.getChildren().add(commandAndVarBoxButtonsHolder);
+    
         VBox variablesDisplayContainer = myFactory.makeVBox();
         HBox variablesBox = myFactory.makeHBox();
         variablesDisplayContainer.getChildren().add(new Text("Variables"));
