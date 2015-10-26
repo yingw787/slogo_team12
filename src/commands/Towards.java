@@ -40,7 +40,7 @@ public class Towards extends TurtleCommand {
 		Command xValue = params.get(0);
 		Command yValue = params.get(1);
 		double radianAngle = Math.atan2(xValue.returnDoubleValue(), yValue.returnDoubleValue());
-		double finalAngle = convertRadiansToDegrees(radianAngle);
+		double finalAngle = Math.toDegrees(radianAngle);
 		return finalAngle;
 	}
 
