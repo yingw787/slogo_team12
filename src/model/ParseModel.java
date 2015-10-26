@@ -29,9 +29,9 @@ public class ParseModel {
 	private List<ExpressionNode> myCommandList;
 	private Map<String,UserCommand> myUserCommands;
 	
-	public ParseModel(String input, String languageFile) {
+	public ParseModel(String input, String languageFile, Map<String,UserCommand> userCommands) {
 		myInput = initInput(input);
-		myUserCommands = new HashMap<String,UserCommand>();
+		myUserCommands = userCommands;
 		myCommandFactory = new CommandFactory(myUserCommands);
 		myRegExUtil = new RegExUtil(languageFile);
 	}
