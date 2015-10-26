@@ -21,12 +21,12 @@ public class Translator {
 	private Queue<TurtleStatus> myTurtleUpdates;
 	private Map<String, UserCommand> myUserCommands;
 	
-	public Translator(List<ExpressionNode> commands, Map<String,UserCommand> userCommands, Controller controller) {
+	public Translator(List<ExpressionNode> commands, Map<String,UserCommand> userCommands, Map<String,Double> variablesMap, Controller controller) {
 		myCommandList = commands;
 		myController = controller;
 		myUserCommands = userCommands;
+		myVariables = variablesMap;
 		myCommandFactory = new CommandFactory(myUserCommands);
-		myVariables = new HashMap<String,Double>();
 		myTurtleUpdates = new LinkedList<TurtleStatus>();
 	}
 	
@@ -34,6 +34,7 @@ public class Translator {
 	 * Iterates through queue of commands and executes each command
 	 */
 	public Queue<TurtleStatus> executeCommands() { 
+		myController.setVariablesMap(myVariables);
 		Queue<Command> commandQueue = translateParseTree();
 		for (Command command: commandQueue) {
 			command.executeCommand(c -> executeNestedCommands(c));

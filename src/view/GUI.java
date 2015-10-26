@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import com.sun.istack.internal.logging.Logger;
@@ -21,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -46,6 +50,8 @@ public class GUI {
     private static final int SCREEN_WIDTH = 800;
     private static final int SCREEN_HEIGHT = 600;
     private ObservableList<String> myHistList;
+    private ObservableList<String> myVariableNames;
+    private ObservableList<String> myVariableValues;
     private ObservableList<String> myColorsList;
     private Pane canvasBox;
     final FileChooser fileChooser;
@@ -60,6 +66,8 @@ public class GUI {
         activeTurtle = myActiveTurtle;
 
         myHistList = FXCollections.observableArrayList();
+        myVariableNames = FXCollections.observableArrayList();
+        myVariableValues = FXCollections.observableArrayList();
         myColorsList = FXCollections.observableArrayList();
         initColors(myColorsList);// myHistList.add("History");
 
@@ -127,21 +135,19 @@ public class GUI {
         commandAndVarBox.getChildren()
                 .add(myFactory.makeButton("Go", e -> myController.submit(t.getText(), "English")));
 
-        VBox variablesBox = myFactory.makeVBox();
-        variablesBox.getChildren().add(new Text("Variables"));
+        VBox variablesDisplayContainer = myFactory.makeVBox();
+        HBox variablesBox = myFactory.makeHBox();
+        variablesDisplayContainer.getChildren().add(new Text("Variables"));
 
         ///////// The list of variables needs to come from backend. updated by
         ///////// backend.
         /// Rather than be a list of strings, list of some type of object
         ///////// (variables object?) that
         ///////// can
-        // be changed on click. To change on click see lambda function for
-        ///////// history command box.
-        ObservableList<String> listOfVariables = FXCollections.observableArrayList();
-        listOfVariables.add("Variable 1");
-
-        variablesBox.getChildren().add(myFactory.makeClickableList(listOfVariables));
-        commandAndVarBox.getChildren().add(variablesBox);
+        // be changed on click. To change on click see lambda function for history command box.
+        renderVariablesMap(variablesBox);
+        variablesDisplayContainer.getChildren().add(variablesBox);
+        commandAndVarBox.getChildren().add(variablesDisplayContainer);
 
         optionsBox.getChildren()
                 .add(myFactory.makeButton("pickImageButton", e -> this.pickImage()));
@@ -265,8 +271,57 @@ public class GUI {
     }
 
     public boolean getTurtleVisible () {
-        // TODO Auto-generated method stub
         return turtle.getVisible();
     }
+    
+	public void updateVariablesMap() {
+		myVariableNames.clear();
+		myVariableValues.clear();
+		Map<String,Double> variablesMap = myController.getUnmodifiableVariablesMap();
+        for (String key : variablesMap.keySet()) {
+        	if (!myVariableNames.contains(key)) {
+            	myVariableNames.add(key);
+            	myVariableValues.add(variablesMap.get(key).toString());
+        	}
+        }
+	}
+	
+	private void renderVariablesMap(HBox variablesBox) {
+		ListView variableNames = myFactory.makeClickableList(myVariableNames);
+		ListView variableValues = myFactory.makeClickableList(myVariableValues);
+		variableNames.setOnMouseClicked(e -> launchVariablePopUp("Change variable name", variableNames, 
+				(a,b) -> onVariableNameChange(a,b)));
+		variableValues.setOnMouseClicked(e -> launchVariablePopUp("Change variable value", variableValues,
+				(a,b) -> onVariableValueChange(a, b)));
+        variablesBox.getChildren().add(variableNames);
+        variablesBox.getChildren().add(variableValues);
+        variablesBox.setMaxWidth(SCREEN_WIDTH/4);
+	}
+	
+	private void launchVariablePopUp(String displayMessage, ListView variableBox, BiConsumer<String,String> changeVariableFunc) {
+		int selectedIndex = variableBox.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			String originalValue = myVariableNames.get(selectedIndex);
+			TextInputDialog variablePopup = new TextInputDialog();
+			variablePopup.setTitle("Variable Definition");
+			variablePopup.setHeaderText("Modify Variable");
+			variablePopup.setContentText(displayMessage);
+			Optional<String> input = variablePopup.showAndWait();
+			changeVariableFunc.accept(originalValue, input.get() == null ? "" : input.get());
+			updateVariablesMap();
+		}
+	}
+	
+	private void onVariableNameChange(String oldName, String newName) {
+		if (!newName.equals("")) {
+			myController.changeVariableName(oldName, newName);
+		}
+	}
+	
+	private void onVariableValueChange(String key, String newValue) {
+		if (!newValue.equals("")) {
+			myController.changeVariableValue(key, newValue);
+		}
+	}
 
 }
