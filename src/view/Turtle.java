@@ -3,7 +3,6 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -139,9 +138,7 @@ public class Turtle {
 		this.turtleImage.setY(currentYPos);
 		
 		makeTooltip();
-		
-		
-		// this.turtleImage.setRotate(90);
+	
 	}
 
 
