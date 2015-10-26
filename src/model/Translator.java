@@ -19,12 +19,14 @@ public class Translator {
 	private Controller myController;
 	private Map<String,Double> myVariables;
 	private Queue<TurtleStatus> myTurtleUpdates;
+	private List<Integer> myActiveTurtles;
 	private Map<String, UserCommand> myUserCommands;
 	
-	public Translator(List<ExpressionNode> commands, Map<String,UserCommand> userCommands, Map<String,Double> variablesMap, Controller controller) {
+	public Translator(List<ExpressionNode> commands, Map<String,UserCommand> userCommands, List<Integer> activeTurtles, Map<String,Double> variablesMap, Controller controller) {
 		myCommandList = commands;
 		myController = controller;
 		myUserCommands = userCommands;
+		myActiveTurtles = activeTurtles;
 		myVariables = variablesMap;
 		myCommandFactory = new CommandFactory(myUserCommands);
 		myTurtleUpdates = new LinkedList<TurtleStatus>();
@@ -117,6 +119,7 @@ public class Translator {
 			command.setValue(node.getExpression());
 			command.setVariableMap(myVariables);
 			command.setTurtleUpdates(myTurtleUpdates);
+			command.setActiveTurtles(myActiveTurtles);
 			command.setController(myController);
 			command.setUserCommands(myUserCommands);
 			return command;

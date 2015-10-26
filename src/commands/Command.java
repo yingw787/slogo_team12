@@ -1,6 +1,5 @@
 package commands;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -22,22 +21,18 @@ public abstract class Command {
 	
 	public Command() {
 		//do nothing
-		myActiveTurtles = new ArrayList<Integer>();
 	}
 	
 	public Command(Map<String,Double> variables) {
-		myActiveTurtles = new ArrayList<Integer>();
 		myVariables = variables;
 	}
 	
 	public Command(String expression, List<Command> params) {
-		myActiveTurtles = new ArrayList<Integer>();
 		myExpression = expression;
 		myParameters = params;
 	}
 	
 	public Command(Controller controller, String expression, List<Command> params) {
-		myActiveTurtles = new ArrayList<Integer>();
 		myExpression = expression;
 		myParameters = params;
 		myController = controller;

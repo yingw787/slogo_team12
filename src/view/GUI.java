@@ -251,8 +251,6 @@ public class GUI {
     public void setTurtleDirection (double angle) {
 
         turtle.setDirection(angle);
-
-        System.out.println(activeTurtle.intValue());
     }
 
     public boolean getPenBool () {
