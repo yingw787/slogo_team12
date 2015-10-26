@@ -312,17 +312,7 @@ public class GUI extends Application{
         
         
         
-        /*
-        Path path = new Path();
-        path.getElements().add(new MoveTo(Pos[0],Pos[1]));
-        PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(4000));
-        pathTransition.setPath(path);
-        pathTransition.setNode(turtle.getTurtleImage());
-        pathTransition.setCycleCount(Timeline.INDEFINITE);
-        pathTransition.setAutoReverse(true);
-        pathTransition.play();
-        */
+       /*
         
         
         KeyFrame frame = new KeyFrame(Duration.millis(10),
@@ -350,9 +340,10 @@ public class GUI extends Application{
 		animation.getKeyFrames().add(frame);
 		animation.play();
         
+        */
         
-        //turtle.setCurrentXPos(Pos[0]);
-        //turtle.setCurrentYPos(Pos[1]);
+        turtle.setCurrentXPos(Pos[0]);
+        turtle.setCurrentYPos(Pos[1]);
     }
 
     public double[] getTurtlePosition () {
