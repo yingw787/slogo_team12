@@ -1,5 +1,9 @@
 package engine;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -18,8 +22,11 @@ public class Controller extends Application {
 	private Stage myStage;
 	private String myLanguage = "English";
 	private IntegerProperty myActiveTurtle;
+	private Map<String,Double> myVariablesMap;
 	
-	//IntegerProperty active = new SimpleIntegerProperty(1);
+	public Controller() {
+		myVariablesMap = new HashMap<String,Double>();
+	}
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -65,8 +72,9 @@ public class Controller extends Application {
 	public void submit(String stringFromGUI, String myLanguage){
 		
 		if (stringFromGUI.trim().length() > 0) {
-		myGUI.addToHistory(stringFromGUI);
-		myBackend.generateTurtleCommands(stringFromGUI, myLanguage);
+			myGUI.addToHistory(stringFromGUI);
+			myBackend.generateTurtleCommands(stringFromGUI, myLanguage);
+			myGUI.updateVariablesMap();
 		}
 	}
 	
@@ -89,6 +97,28 @@ public class Controller extends Application {
 	
 	public void setActiveTurtleID(int newID) {
 		myActiveTurtle.set(newID);
+	}
+	
+	public Map<String,Double> getUnmodifiableVariablesMap() {
+		return Collections.unmodifiableMap(myVariablesMap);
+	}
+	
+	public Map<String,Double> getVariablesMap() {
+		return myVariablesMap;
+	}
+	
+	public void setVariablesMap(Map<String,Double> variablesMap) {
+		myVariablesMap = variablesMap;
+	}
+	
+	public void changeVariableName(String oldName, String newName) {
+		double value = myVariablesMap.get(oldName);
+		myVariablesMap.remove(oldName);
+		myVariablesMap.put(newName, value);
+	}
+	
+	public void changeVariableValue(String key, String newValue) {
+		myVariablesMap.put(key, Double.parseDouble(newValue));
 	}
 
 	
