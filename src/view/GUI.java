@@ -33,6 +33,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -54,6 +55,7 @@ public class GUI extends Application {
     private ObservableList<String> myVariableValues;
     private Map<Integer, Color> myColors;
     private ObservableList<Integer> myColorsIndex;
+    private ObservableList<Rectangle> colorView;
     private Pane canvasBox;
     private List<Turtle> turtleList;
     private Turtle turtle;
@@ -95,7 +97,8 @@ public class GUI extends Application {
         root.setCenter(canvasBox);
 
         ClickableManager myClickableManager =
-                new ClickableManager(canvasBox, turtle, myColorsIndex, myColors, myController, t,
+                new ClickableManager(canvasBox, turtle, myColorsIndex, myColors, colorView,
+                                     myController, t,
                                      myHistList,
                                      myVariableNames, myVariableValues, this);
 
@@ -147,7 +150,24 @@ public class GUI extends Application {
         myVariableNames = FXCollections.observableArrayList();
         myVariableValues = FXCollections.observableArrayList();
         myColorsIndex = FXCollections.observableArrayList();
+        colorView = FXCollections.observableArrayList();
         myColors = new HashMap<Integer, Color>();
+        initColors(myColorsIndex,colorView,myColors);
+    }
+
+    private void initColors (ObservableList<Integer> myColorsIndex,
+                             ObservableList<Rectangle> colorView,
+                             Map<Integer, Color> myColors) {
+       myColorsIndex.addAll(1, 2, 3, 4,5);
+       myColors.put(1, Color.rgb(255, 0, 0));
+       myColors.put(2, Color.rgb(0, 255, 0));
+       myColors.put(3, Color.rgb(0, 0, 255));
+       myColors.put(4, Color.rgb(0, 0, 0));
+       myColors.put(5, Color.rgb(255, 255, 255));
+        for (Color g : myColors.values()) {
+            colorView.add(new Rectangle(10, 10, g));
+        }
+        
     }
 
     private void setUpTurtles (ReadOnlyIntegerProperty myActiveTurtleNum) {
@@ -242,6 +262,9 @@ public class GUI extends Application {
         }
         myColorsIndex.add(index);
         myColors.put(index, color);
+        for (Color g : myColors.values()) {
+            colorView.add(new Rectangle(10, 10, g));
+        }
     }
 
     public void drawLine (Turtle turt) {

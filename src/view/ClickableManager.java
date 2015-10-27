@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 
 public class ClickableManager {
@@ -16,6 +17,7 @@ public class ClickableManager {
     private Pane canvasBox;
     private Turtle turtle;
     private ObservableList<Integer> colorsList;
+    private ObservableList<Rectangle> colorView;
     private Map<Integer,Color> myColors;
     private Controller controller;
     private TextArea t;
@@ -32,6 +34,7 @@ public class ClickableManager {
                              Turtle turtle,
                              ObservableList<Integer> ColorsList,
                              Map<Integer,Color> myColors,
+                             ObservableList<Rectangle> colorView,
                              Controller controller,
                              TextArea t,
                              ObservableList<String> myHistList,
@@ -41,6 +44,7 @@ public class ClickableManager {
         this.canvasBox = canvasBox;
         this.colorsList = ColorsList;
         this.myColors = myColors;
+        this.colorView = colorView;
         this.turtle = turtle;
         this.controller = controller;
         this.t = t;
@@ -59,8 +63,8 @@ public class ClickableManager {
     }
 
     private void initializeOptionsBoxClickables () {
-        PaneColorSelect paneColorSelect = new PaneColorSelect(canvasBox, colorsList,controller);
-        PenColorSelect penColorSelect = new PenColorSelect(turtle, colorsList,controller);
+        ColorIndexes paneColorSelect = new ColorIndexes(canvasBox, colorsList,controller);
+        ColorViews penColorSelect = new ColorViews(turtle, colorView,controller);
         PickImage pickImage = new PickImage(canvasBox, turtle);
         optionsBoxClickables.add(paneColorSelect);
         optionsBoxClickables.add(penColorSelect);

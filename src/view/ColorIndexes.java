@@ -10,33 +10,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 
-public class PaneColorSelect extends Clickable<ComboBox> {
+public class ColorIndexes extends Clickable<ComboBox> {
     private ComboBox paneColorSelect;
     private Controller controller;
-    public PaneColorSelect (Pane canvasBox,
+    public ColorIndexes (Pane canvasBox,
                             ObservableList<Integer> colorsList,
                             Controller controller) {
         this.controller = controller;
         paneColorSelect = new ComboBox();
         // paneColorSelect.setVal
         paneColorSelect.setItems(colorsList);
-        paneColorSelect.setPromptText("Background Color");
+        paneColorSelect.setPromptText("Color Indexes");
         // TODO: Do i even need e here?
-        paneColorSelect.setOnAction(e -> this
-                .changePaneColor(canvasBox,
-                                 paneColorSelect.getSelectionModel().getSelectedItem()));
+       
 
     }
 
-    private void changePaneColor (Pane canvasBox, Object object) {
-        try {
-            controller.setBackgroundColor((int) object);
-        }
-        catch (Exception e) {
-            // invalid color
-        }
-
-    }
+   
 
 
     @Override
