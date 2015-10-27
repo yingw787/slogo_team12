@@ -191,10 +191,9 @@ public class Controller extends Application {
 	}
 	
 	public void setTurtlePosition(double[] newPos) {
-		myGUI.updateTurtle(newPos);
-		if(isTurtlePenDown()){
-			myGUI.drawLine();
-		}
+		myGUI.updateTurtle(newPos, myActiveTurtle.get());
+		
+	
 	}
 	
 	public boolean isTurtlePenDown() {
