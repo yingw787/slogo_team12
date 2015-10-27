@@ -55,11 +55,11 @@ public class Controller extends Application {
 		myGUI = new GUI(this, myLanguage, myActiveTurtle);
 		myGUI.setAndShowScene(myStage);
 		myBackend = new BackEndController(this);
-	
-
+		
+		
 		//clear history, reset turtle, clear everythibg.
 		//just make new Gui object and set it? decide what to do
-
+		
 		
 		
 	}
