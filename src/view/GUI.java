@@ -97,23 +97,15 @@ public class GUI extends Application {
         List<Clickable> optionsBoxClickables = myClickableManager.getOptionsBoxClickables();
         List<Clickable> commandAndVarBoxClickables =
                 myClickableManager.getCommandAndVarBoxClickables();
-        for (Clickable g : optionsBoxClickables) {
-            optionsBox.getChildren().add((Node) g.getClickable());
-        }
+        List<Clickable> variableBoxClickables = myClickableManager.getVariableBoxClickables();
+        List<Clickable> historyBoxClickables = myClickableManager.getHistoryBoxClickables();
 
         initializeSlider();
         // dont know how to add to clickables manager since slide needs control on GUI
-        optionsBox.getChildren().add(new Text("animation duration\n (in ms)"));
-        optionsBox.getChildren().add(mySlider);
-        optionsBox.getChildren().add(myFactory.makeButton("Pause", e -> animation.pause()));
-        optionsBox.getChildren().add(myFactory.makeButton("Play", e -> {
-            if (animation.getStatus() != Status.STOPPED) {
-                animation.play();
-            }
-        }));
+        initOptionsBox(optionsBox, optionsBoxClickables);
         // optionsBox.getChildren().add(myFactory.makeButton("Reset Animation", e -> anima))
 
-        setUpHistory(historyBox, t);
+        initHistory(historyBox, t, historyBoxClickables);
 
         initCommandAndVarBoxButtons(commandAndVarBox, commandAndVarBoxClickables);
         commandAndVarBox.getChildren().add(t);
@@ -129,23 +121,29 @@ public class GUI extends Application {
         canvasBox.getChildren().add(turtle.getTurtleImage());
     }
 
-    private void setUpHistory (VBox historyBox, TextArea t) {
+    private void initOptionsBox (HBox optionsBox, List<Clickable> optionsBoxClickables) {
+        for (Clickable g : optionsBoxClickables) {
+            optionsBox.getChildren().add((Node) g.getClickable());
+        }
+        optionsBox.getChildren().add(new Text("animation duration\n (in ms)"));
+        optionsBox.getChildren().add(mySlider);
+        optionsBox.getChildren().add(myFactory.makeButton("Pause", e -> animation.pause()));
+        optionsBox.getChildren().add(myFactory.makeButton("Play", e -> {
+            if (animation.getStatus() != Status.STOPPED) {
+                animation.play();
+            }
+        }));
+    }
+
+    private void initHistory (VBox historyBox, TextArea t, List<Clickable> historyBoxClickables) {
         root.setRight(historyBox);
         historyBox.setMaxWidth(SCREEN_WIDTH / 4);
         historyBox.getChildren().add(new Text("History"));
+        for (Clickable g : historyBoxClickables) {
+            historyBox.getChildren().add((Node) g.getClickable());
+        }
+        
 
-        ListView myHistListView = myFactory.makeClickableList(myHistList);
-        historyBox.getChildren().add(myHistListView);
-        historyBox.getChildren().add(myFactory.makeButton("reset", e -> myController.reset()));
-        historyBox.getChildren().add(myFactory
-                .makeButton("New Window", e -> myController.makeNewWindow(new Stage())));
-
-        myHistListView.setOnMouseClicked(e -> {
-            if (!(myHistListView.getSelectionModel().getSelectedItem() == null)) {
-                t.setText((myHistListView.getSelectionModel().getSelectedItem().toString()));
-            }
-
-        });
     }
 
     private void initializeHistVarAndColorsLists () {
@@ -206,6 +204,7 @@ public class GUI extends Application {
     }
 
     private void initColors (ObservableList<String> myColorsList) {
+        myColorsList.add("black");
         myColorsList.add("white");
         myColorsList.add("blue");
         myColorsList.add("red");
