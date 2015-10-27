@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import engine.Controller;
+import exceptions.NotEnoughParametersException;
 import model.BackEndProperties;
 import model.TurtleStatus;
 
@@ -47,10 +48,15 @@ public abstract class Command {
 	
 	public abstract void execute();
 	
-	public void executeCommandOverActiveTurtles() {
+	public void executeCommandOverActiveTurtles() throws NotEnoughParametersException {
 		if (myActiveTurtles.size() == 0) {
 			myActiveTurtles.add(1);
 		}
+		if(this.myParameters.size() == 0){
+			throw new NotEnoughParametersException(); 
+		}
+		
+		
 		executeCommandOverMultipleTurtles(myActiveTurtles);
 	}
 	

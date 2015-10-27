@@ -12,6 +12,7 @@ import commands.CommandFactory;
 import commands.UserCommand;
 import engine.Controller;
 import exceptions.CommandNotFoundException;
+import exceptions.NotEnoughParametersException;
 import exceptions.PopupError;
 
 // Translator extends Observable as exception handling results must be forwarded to the view 
@@ -44,7 +45,13 @@ public class Translator {
 			if(command == null){
 				throw new CommandNotFoundException(); 
 			}
-			command.executeCommandOverActiveTurtles();
+			try {
+				command.executeCommandOverActiveTurtles();
+			} catch (NotEnoughParametersException e) {
+				PopupError popup = new PopupError(); 
+				popup.generateError("Not enough parameters");
+//				System.out.println("I am in Translator.java");
+			}
 		}
 		return myTurtleUpdates;
 	}
