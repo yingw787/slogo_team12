@@ -42,23 +42,8 @@ public abstract class TurtleCommand extends Command {
 	 * Changes direction of turtle's movement depending on quadrant of turtleDirection
 	 */
 	private double[] calculateToPosition(double distance, double turtleDirection, double[] startPos) {
-		turtleDirection = turtleDirection >= 360 ? 360 - turtleDirection : turtleDirection;
-		turtleDirection = turtleDirection < 0 ? 360 + turtleDirection : turtleDirection;
-		double newX = 0;
-		double newY = 0;
-		if (0 <= turtleDirection && turtleDirection < 90) {
-			newX = startPos[0] + distance * Math.cos(turtleDirection);
-			newY = startPos[1] - distance * Math.sin(turtleDirection);
-		} else if (90 <= turtleDirection && turtleDirection < 180) {
-			newX = startPos[0] - distance * Math.cos(turtleDirection);
-			newY = startPos[1] - distance * Math.sin(turtleDirection);
-		} else if (180 <= turtleDirection && turtleDirection < 270) {
-			newX = startPos[0] - distance * Math.cos(turtleDirection);
-			newY = startPos[1] + distance * Math.sin(turtleDirection);
-		} else {
-			newX = startPos[0] + distance * Math.cos(turtleDirection);
-			newY = startPos[1] + distance * Math.sin(turtleDirection);
-		}
+		double newX = startPos[0] + distance * Math.cos(turtleDirection);
+		double newY = startPos[1] - distance * Math.sin(turtleDirection);
 		double[] newPos = { newX, newY };
 		return newPos;
 	}
@@ -67,9 +52,8 @@ public abstract class TurtleCommand extends Command {
 		double turtleDirection = super.getController().getTurtleDirection();
 		if (direction == -1) {
 			turtleDirection += 180;
-			turtleDirection = turtleDirection > 360 ? 360 - turtleDirection : turtleDirection;
 		}
-		turtleDirection = convertDegreesToRadians(turtleDirection);
+		turtleDirection = Math.toRadians(turtleDirection);
 		return turtleDirection;
 	}
 

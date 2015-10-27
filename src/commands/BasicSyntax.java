@@ -28,18 +28,4 @@ public abstract class BasicSyntax extends Command {
 	@Override
 	public abstract void execute();
 	
-	protected Command executeNestedCommands(Command command) {
-		if (command.getNumParameters() == 0) {
-			return execute(command);
-		} else {
-			command.getParameters().stream()
-				.map(c -> executeNestedCommands(c));
-			return execute(command);
-		}
-	}
-	
-	private Command execute(Command command) {
-		command.execute();
-		return command;
-	}
 }

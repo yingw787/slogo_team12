@@ -1,5 +1,9 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -7,8 +11,8 @@ import javafx.scene.paint.Color;
 public class Turtle {
 	private int turtleID;
 	private double direction;
-	private int SCREEN_WIDTH;
-	private int SCREEN_HEIGHT;
+	private double CANVAS_WIDTH;
+	private double CANVAS_HEIGHT;
 	private double pastXPos;
 	private double pastYPos;
 	private double currentXPos;
@@ -16,14 +20,57 @@ public class Turtle {
 	private boolean penDown;
 	private Color penColor;
 	private ImageView turtleImage;
+	private List<String> statsList;
+	private Tooltip statsTooltip;
 
-	public Turtle(int SCREEN_WIDTH, int SCREEN_HEIGHT) {
-		this.SCREEN_HEIGHT = SCREEN_HEIGHT;
-		this.SCREEN_WIDTH = SCREEN_WIDTH;
-		penColor = Color.BLACK;
-		penDown = true;
-		direction = 0;
+	public Turtle(double d, double e, Image image, int ID) {
+		this.CANVAS_HEIGHT = e;
+		this.CANVAS_WIDTH = d;
+		this.penColor = Color.BLACK;
+		this.penDown = true;
+		this.direction = 0;
+		this.turtleID = ID;
+	
+		statsList = new ArrayList<String>();
+		
+		
+		
+		try{
+		setTurtleImage(image);
+		currentXPos = d/2 - this.getTurtleImage().getFitWidth()/2;
+		currentYPos = e/2 - this.getTurtleImage().getFitHeight()/2;
+		this.getTurtleImage().setX(currentXPos);
+		this.getTurtleImage().setY(currentYPos);
+		}catch (Exception fail){
+			//image was bad
+			
+			System.out.println("bad image");
+		}
+		
+		updateTooltip();
 	}
+
+
+	private void updateTooltip() {
+		initStatsList();
+		statsTooltip.setText(statsList.toString());
+		Tooltip.install(this.getTurtleImage(), statsTooltip );
+	}
+
+	
+	private void initStatsList() {
+		statsList.clear();
+		double xdisplay =currentXPos-278.5;
+		double ydisplay = currentYPos-205;
+		statsList.add("Turtle ID: "+turtleID+"\n");
+		statsList.add("Pen down: "+penDown+"\n");
+		statsList.add("Coordinates: "+ xdisplay+", " + ydisplay+"\n");
+		statsList.add("Heading: "+direction+"\n");
+		statsList.add("Pen Color" +penColor.toString()+"\n");
+		
+		
+	}
+
 
 	public double getPastXPos() {
 		return pastXPos;
@@ -49,7 +96,7 @@ public class Turtle {
 
 		this.currentXPos = currentXPos;
 		turtleImage.setX(currentXPos);
-
+		updateTooltip();
 	}
 
 	public double getCurrentYPos() {
@@ -59,6 +106,7 @@ public class Turtle {
 	public void setCurrentYPos(double currentYPos) {
 		this.currentYPos = currentYPos;
 		turtleImage.setY(currentYPos);
+		updateTooltip();
 	}
 
 	public boolean isPenDown() {
@@ -67,6 +115,7 @@ public class Turtle {
 
 	public void setPenDown(boolean penDown) {
 		this.penDown = penDown;
+		updateTooltip();
 	}
 
 	public ImageView getTurtleImage() {
@@ -87,7 +136,15 @@ public class Turtle {
 
 		this.turtleImage.setX(currentXPos);
 		this.turtleImage.setY(currentYPos);
-		// this.turtleImage.setRotate(90);
+		
+		makeTooltip();
+	
+	}
+
+
+	private void makeTooltip() {
+		statsTooltip = new Tooltip(" ");
+		Tooltip.install(getTurtleImage(), statsTooltip);
 	}
 
 	public int getTurtleID() {
@@ -96,6 +153,7 @@ public class Turtle {
 
 	public void setTurtleID(int turtleID) {
 		this.turtleID = turtleID;
+		updateTooltip();
 	}
 
 	public Color getPenColor() {
@@ -104,10 +162,12 @@ public class Turtle {
 
 	public void setPenColor(Color penColor) {
 		this.penColor = penColor;
+		updateTooltip();
 	}
 
 	public void setVisible(boolean showing) {
 		turtleImage.setVisible(showing);
+		
 	}
 
 	public boolean getVisible() {
@@ -124,6 +184,8 @@ public class Turtle {
 		this.direction = direction;
 
 		this.turtleImage.setRotate(-direction);
+		
+		updateTooltip();
 	}
 
 }

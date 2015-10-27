@@ -1,11 +1,11 @@
 package commands;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import engine.Controller;
 import model.BackEndProperties;
@@ -22,22 +22,18 @@ public abstract class Command {
 	
 	public Command() {
 		//do nothing
-		myActiveTurtles = new ArrayList<Integer>();
 	}
 	
 	public Command(Map<String,Double> variables) {
-		myActiveTurtles = new ArrayList<Integer>();
 		myVariables = variables;
 	}
 	
 	public Command(String expression, List<Command> params) {
-		myActiveTurtles = new ArrayList<Integer>();
 		myExpression = expression;
 		myParameters = params;
 	}
 	
 	public Command(Controller controller, String expression, List<Command> params) {
-		myActiveTurtles = new ArrayList<Integer>();
 		myExpression = expression;
 		myParameters = params;
 		myController = controller;
@@ -51,27 +47,50 @@ public abstract class Command {
 	
 	public abstract void execute();
 	
-	public void executeCommand(Function<Command,Command> executeFunction) {
+	public void executeCommandOverActiveTurtles() {
 		if (myActiveTurtles.size() == 0) {
 			myActiveTurtles.add(1);
 		}
-		int startID = myController.getActiveTurtleID();
-		for (Integer i: myActiveTurtles) {
-			myController.setActiveTurtleID(i);
-			executeFunction.apply(this);
-		}
-		myController.setActiveTurtleID(startID);
+		executeCommandOverMultipleTurtles(myActiveTurtles);
 	}
 	
-	public void executeCommandOverMultipleTurtles(List<Integer> turtleIDs) {
-		int startID = myController.getActiveTurtleID();
-		if (getCommandType().equals(BackEndProperties.TURTLE_COMMAND) || getCommandType().equals(BackEndProperties.SPECIAL_FORM)) {
-			for (Integer i: turtleIDs) {
-				myController.setActiveTurtleID(i);
-				execute();
-			}
+	public void executeCommandOverMultipleTurtles(List<Integer> turtleList) {
+		if (!this.getCommandType().equals(BackEndProperties.MULTIPLE_TURTLE_COMMAND)) {
+			int startID = myController.getActiveTurtleID();
+			turtleList.forEach(i -> setActiveTurtleAndExecute(i));
+			myController.setActiveTurtleID(startID);
+		} else {
+			this.executeNestedCommands();
 		}
-		myController.setActiveTurtleID(startID);
+	}
+
+	private void setActiveTurtleAndExecute(Integer i) {
+		myController.setActiveTurtleID(i);
+		this.executeNestedCommands();
+	}
+	
+	/**
+	 * Executes a command by recursively checking for nested commands and executing those first
+	 */
+	protected Command executeNestedCommands() {
+		if (this.getNumParameters() == 0 || this.shouldNotExecuteNestedCommands()) {
+			return executeCommand();
+		} else {
+			this.getParameters().stream()
+				.map(c -> c.executeNestedCommands())
+				.collect(Collectors.toList());
+			return executeCommand();
+		}
+	}
+	
+	private boolean shouldNotExecuteNestedCommands() {
+		return this.getCommandType().equals(BackEndProperties.SPECIAL_FORM) || 
+				this.getCommandType().equals(BackEndProperties.MULTIPLE_TURTLE_COMMAND);
+	}
+	
+	private Command executeCommand() {
+		this.execute();
+		return this;
 	}
 	
 	public String getExpression() {
@@ -130,6 +149,11 @@ public abstract class Command {
 		this.myActiveTurtles = activeTurtles;
 	}
 	
+	protected void repopulateActiveTurtles(List<Integer> newActiveTurtles) {
+		this.myActiveTurtles.clear();
+		this.myActiveTurtles.addAll(newActiveTurtles);
+	}
+	
 	protected void addVariable(String variableName, Double value) {
 		myVariables.put(variableName, value);
 	}
@@ -164,14 +188,6 @@ public abstract class Command {
 		return argument.getExpression();
 	}
 	
-	protected double convertRadiansToDegrees(double radianValue) {
-		return radianValue*(180/Math.PI);
-	}
-	
-	protected double convertDegreesToRadians(double degreesValue) {
-		return degreesValue/(180/Math.PI);
-	}
-	
 	protected double calculateDistance(double[] startPos, double[] endPos) {
 		return Math.sqrt(Math.pow(endPos[0]-startPos[0], 2) + Math.pow(endPos[1]-startPos[1], 2));
 	}
@@ -185,7 +201,7 @@ public abstract class Command {
 	}
 	
 	protected double performUnaryTrigOp(Function<Double, Double> trigFunc) {
-		return convertRadiansToDegrees(trigFunc.apply(convertDegreesToRadians(myParameters.get(0).returnDoubleValue())));
+		return Math.toDegrees(trigFunc.apply(Math.toRadians(myParameters.get(0).returnDoubleValue())));
 	}
 	
 	protected boolean performBinaryBooleanOp(BiFunction<Double, Double, Boolean> func) {
