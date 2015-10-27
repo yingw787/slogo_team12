@@ -16,6 +16,7 @@ public class ClickableManager {
     private ObservableList<String> colorsList;
     private Controller controller;
     private TextArea t;
+    private ObservableList<String> myHistList;
     private List<Clickable> optionsBoxClickables = new ArrayList<Clickable>();
     private List<Clickable> variableBoxClickables = new ArrayList<Clickable>();;
     private List<Clickable> historyBoxClickables = new ArrayList<Clickable>();;
@@ -25,12 +26,14 @@ public class ClickableManager {
                              Turtle turtle,
                              ObservableList<String> ColorsList,
                              Controller controller,
-                             TextArea t) {
+                             TextArea t,
+                             ObservableList<String> myHistList) {
         this.canvasBox = canvasBox;
         this.colorsList = ColorsList;
         this.turtle = turtle;
         this.controller = controller;
         this.t = t;
+        this.myHistList = myHistList;
         initializeClickables();
     }
 
@@ -66,8 +69,12 @@ public class ClickableManager {
     }
 
     private void initializehistoryBoxClickables () {
+        HistListView histListView = new HistListView(t, myHistList);
         Reset reset = new Reset(controller);
+        NewWindow newWindow = new NewWindow(controller);
+        historyBoxClickables.add(histListView);
         historyBoxClickables.add(reset);
+        historyBoxClickables.add(newWindow);
 
     }
 

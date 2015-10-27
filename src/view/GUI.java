@@ -107,7 +107,7 @@ public class GUI extends Application {
         root.setRight(historyBox);
 
         ClickableManager myClickableManager =
-                new ClickableManager(canvasBox, turtle, myColorsList, myController, t);
+                new ClickableManager(canvasBox, turtle, myColorsList, myController, t, myHistList);
 
 
         // Make VARIABLE CHANGEABLE BY BACKEND
@@ -117,31 +117,13 @@ public class GUI extends Application {
 
         List<Clickable> optionsBoxClickables = myClickableManager.getOptionsBoxClickables();
         List<Clickable> commandAndVarBoxClickables = myClickableManager.getCommandAndVarBoxClickables();
-        for (Clickable g : optionsBoxClickables) {
-            optionsBox.getChildren().add((Node) g.getClickable());
-        }
+        List<Clickable> historyBoxClickables = myClickableManager.getHistoryBoxClickables();
 
-        historyBox.setMaxWidth(SCREEN_WIDTH / 4);
-        historyBox.getChildren().add(new Text("History"));
+        initOptionsBox(optionsBox, optionsBoxClickables); 
+        initHistoryBox(historyBox, historyBoxClickables);
 
-        ListView myHistListView = myFactory.makeClickableList(myHistList);
-        historyBox.getChildren().add(myHistListView);
-        historyBox.getChildren().add(myFactory.makeButton("reset", e -> myController.reset()));
-        historyBox.getChildren().add(myFactory
-                .makeButton("New Window", e -> myController.makeNewWindow(new Stage())));
 
-        // this should be moved to a more appropriate place
-        myHistListView.setOnMouseClicked(e -> {
-            // lambda, checks if selected is not null, if its not, populate the
-            // command box with the
-            // selected history
-            if (!(myHistListView.getSelectionModel().getSelectedItem() == null)) {
-                t.setText((myHistListView.getSelectionModel().getSelectedItem().toString()));
-            }
-
-        });
-
-        initCommandAndVarBoxButtons(commandAndVarBox, commandAndVarBoxClickables);
+        initCommandAndVarBox(commandAndVarBox, commandAndVarBoxClickables);
 
         VBox variablesDisplayContainer = myFactory.makeVBox();
         HBox variablesBox = myFactory.makeHBox();
@@ -153,6 +135,21 @@ public class GUI extends Application {
 
         canvasBox.getChildren().add(turtle.getTurtleImage());
 
+    }
+
+    private void initOptionsBox (HBox optionsBox, List<Clickable> optionsBoxClickables) {
+        for (Clickable g : optionsBoxClickables) {
+            optionsBox.getChildren().add((Node) g.getClickable());
+        }
+    }
+
+    private void initHistoryBox (VBox historyBox, List<Clickable> historyBoxClickables) {
+        historyBox.setMaxWidth(SCREEN_WIDTH / 4);
+        historyBox.getChildren().add(new Text("History"));
+
+        for(Clickable g: historyBoxClickables){
+            historyBox.getChildren().add((Node) g.getClickable());
+        }
     }
 
     private void setUpTurtleList (ReadOnlyIntegerProperty myActiveTurtleNum, Image image) {
@@ -188,7 +185,7 @@ public class GUI extends Application {
         // turtle.setTurtleImage(image);
     }
 
-    private void initCommandAndVarBoxButtons (HBox commandAndVarBox,List<Clickable> commandAndVarBoxClickables ) {
+    private void initCommandAndVarBox (HBox commandAndVarBox,List<Clickable> commandAndVarBoxClickables ) {
         VBox commandAndVarBoxButtonsHolder = new VBox();
         for (Clickable g : commandAndVarBoxClickables) {
             commandAndVarBoxButtonsHolder.getChildren().add((Node) g.getClickable());
@@ -201,6 +198,7 @@ public class GUI extends Application {
 
 
     private void initColors (ObservableList<String> myColorsList) {
+        myColorsList.add("black");
         myColorsList.add("white");
         myColorsList.add("blue");
         myColorsList.add("red");
