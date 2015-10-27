@@ -17,6 +17,9 @@ public class ClickableManager {
     private Controller controller;
     private TextArea t;
     private ObservableList<String> myHistList;
+    private ObservableList<String> myVariableNames;
+    private ObservableList<String> myVariableValues;
+    private GUI gui;
     private List<Clickable> optionsBoxClickables = new ArrayList<Clickable>();
     private List<Clickable> variableBoxClickables = new ArrayList<Clickable>();;
     private List<Clickable> historyBoxClickables = new ArrayList<Clickable>();;
@@ -27,13 +30,19 @@ public class ClickableManager {
                              ObservableList<String> ColorsList,
                              Controller controller,
                              TextArea t,
-                             ObservableList<String> myHistList) {
+                             ObservableList<String> myHistList,
+                             ObservableList<String> myVariableNames,
+                             ObservableList<String> myVariableValues,
+                             GUI gui) {
         this.canvasBox = canvasBox;
         this.colorsList = ColorsList;
         this.turtle = turtle;
         this.controller = controller;
         this.t = t;
         this.myHistList = myHistList;
+        this.myVariableNames = myVariableNames;
+        this.myVariableValues = myVariableValues;
+        this.gui = gui;
         initializeClickables();
     }
 
@@ -64,7 +73,10 @@ public class ClickableManager {
     }
 
     private void initializevariableBoxClickables () {
-        // TODO Auto-generated method stub
+        VarNameListView variableNames = new VarNameListView(controller, myVariableNames, gui);
+        VarValueListView variableValues = new VarValueListView(controller, myVariableValues, gui);
+        variableBoxClickables.add(variableNames);
+        variableBoxClickables.add(variableValues);
 
     }
 
@@ -82,15 +94,16 @@ public class ClickableManager {
 
         return optionsBoxClickables;
     }
+
     public List<Clickable> getVariableBoxClickables () {
 
         return variableBoxClickables;
     }
+
     public List<Clickable> getHistoryBoxClickables () {
 
         return historyBoxClickables;
     }
-
 
     public List<Clickable> getCommandAndVarBoxClickables () {
         return commandAndVarBoxClickables;

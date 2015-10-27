@@ -18,7 +18,7 @@ public class PickImage extends Clickable<Button> {
         fileChooser = initFileChooser();
         pickImage = new Button("Pick Image");
         pickImage.setOnAction(e -> this.imagePrompt(canvasBox, turtle));
-        
+
     }
 
     private void imagePrompt (Pane canvasBox, Turtle turtle) {

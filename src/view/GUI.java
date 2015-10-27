@@ -89,7 +89,6 @@ public class GUI extends Application {
         myColorsList = FXCollections.observableArrayList();
         initColors(myColorsList);// myHistList.add("History");
 
-
         myController = controller;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
         myFactory = new GUIfactory(myResources, myController);
@@ -107,21 +106,21 @@ public class GUI extends Application {
         root.setRight(historyBox);
 
         ClickableManager myClickableManager =
-                new ClickableManager(canvasBox, turtle, myColorsList, myController, t, myHistList);
-
+                new ClickableManager(canvasBox, turtle, myColorsList, myController, t, myHistList,
+                                     myVariableNames, myVariableValues, this);
 
         // Make VARIABLE CHANGEABLE BY BACKEND
 
         commandAndVarBox.getChildren().add(t);
 
-
         List<Clickable> optionsBoxClickables = myClickableManager.getOptionsBoxClickables();
-        List<Clickable> commandAndVarBoxClickables = myClickableManager.getCommandAndVarBoxClickables();
+        List<Clickable> commandAndVarBoxClickables =
+                myClickableManager.getCommandAndVarBoxClickables();
         List<Clickable> historyBoxClickables = myClickableManager.getHistoryBoxClickables();
+        List<Clickable> variableBoxClickables = myClickableManager.getVariableBoxClickables();
 
-        initOptionsBox(optionsBox, optionsBoxClickables); 
+        initOptionsBox(optionsBox, optionsBoxClickables);
         initHistoryBox(historyBox, historyBoxClickables);
-
 
         initCommandAndVarBox(commandAndVarBox, commandAndVarBoxClickables);
 
@@ -129,7 +128,7 @@ public class GUI extends Application {
         HBox variablesBox = myFactory.makeHBox();
         variablesDisplayContainer.getChildren().add(new Text("Variables"));
 
-        renderVariablesMap(variablesBox);
+        renderVariablesMap(variablesBox, variableBoxClickables);
         variablesDisplayContainer.getChildren().add(variablesBox);
         commandAndVarBox.getChildren().add(variablesDisplayContainer);
 
@@ -147,7 +146,7 @@ public class GUI extends Application {
         historyBox.setMaxWidth(SCREEN_WIDTH / 4);
         historyBox.getChildren().add(new Text("History"));
 
-        for(Clickable g: historyBoxClickables){
+        for (Clickable g : historyBoxClickables) {
             historyBox.getChildren().add((Node) g.getClickable());
         }
     }
@@ -185,17 +184,15 @@ public class GUI extends Application {
         // turtle.setTurtleImage(image);
     }
 
-    private void initCommandAndVarBox (HBox commandAndVarBox,List<Clickable> commandAndVarBoxClickables ) {
+    private void initCommandAndVarBox (HBox commandAndVarBox,
+                                       List<Clickable> commandAndVarBoxClickables) {
         VBox commandAndVarBoxButtonsHolder = new VBox();
         for (Clickable g : commandAndVarBoxClickables) {
             commandAndVarBoxButtonsHolder.getChildren().add((Node) g.getClickable());
         }
 
-
         commandAndVarBox.getChildren().add(commandAndVarBoxButtonsHolder);
     }
-
-
 
     private void initColors (ObservableList<String> myColorsList) {
         myColorsList.add("black");
@@ -231,7 +228,6 @@ public class GUI extends Application {
         // currently controller directly calls this in submit
 
     }
-
 
     public void drawLine () {
         // turtle = turtleList.get(activeTurtleNumber.get()-1);
@@ -367,46 +363,11 @@ public class GUI extends Application {
         }
     }
 
-    private void renderVariablesMap (HBox variablesBox) {
-        ListView variableNames = myFactory.makeClickableList(myVariableNames);
-        ListView variableValues = myFactory.makeClickableList(myVariableValues);
-        variableNames
-                .setOnMouseClicked(e -> launchVariablePopUp("Change variable name", variableNames,
-                                                            (a, b) -> onVariableNameChange(a, b)));
-        variableValues
-                .setOnMouseClicked(e -> launchVariablePopUp("Change variable value", variableValues,
-                                                            (a, b) -> onVariableValueChange(a, b)));
-        variablesBox.getChildren().add(variableNames);
-        variablesBox.getChildren().add(variableValues);
+    private void renderVariablesMap (HBox variablesBox, List<Clickable> variableBoxClickables) {
+        for (Clickable g : variableBoxClickables) {
+            variablesBox.getChildren().add((Node) g.getClickable());
+        }
         variablesBox.setMaxWidth(SCREEN_WIDTH / 4);
-    }
-
-    private void launchVariablePopUp (String displayMessage,
-                                      ListView variableBox,
-                                      BiConsumer<String, String> changeVariableFunc) {
-        int selectedIndex = variableBox.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            String originalValue = myVariableNames.get(selectedIndex);
-            TextInputDialog variablePopup = new TextInputDialog();
-            variablePopup.setTitle("Variable Definition");
-            variablePopup.setHeaderText("Modify Variable");
-            variablePopup.setContentText(displayMessage);
-            Optional<String> input = variablePopup.showAndWait();
-            changeVariableFunc.accept(originalValue, input.get() == null ? "" : input.get());
-            updateVariablesMap();
-        }
-    }
-
-    private void onVariableNameChange (String oldName, String newName) {
-        if (!newName.equals("")) {
-            myController.changeVariableName(oldName, newName);
-        }
-    }
-
-    private void onVariableValueChange (String key, String newValue) {
-        if (!newValue.equals("")) {
-            myController.changeVariableValue(key, newValue);
-        }
     }
 
     public int getNumTurtles () {

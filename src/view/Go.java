@@ -9,8 +9,8 @@ public class Go extends Clickable<Button> {
     private Button go;
 
     public Go (TextArea t, Controller controller) {
-       go = new Button("Go");
-       go.setOnAction(e -> controller.submit(t.getText(), "English"));
+        go = new Button("Go");
+        go.setOnAction(e -> controller.submit(t.getText(), "English"));
     }
 
     @Override
