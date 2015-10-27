@@ -107,16 +107,8 @@ public class GUI extends Application {
 
         initHistory(historyBox, t, historyBoxClickables);
 
-        initCommandAndVarBoxButtons(commandAndVarBox, commandAndVarBoxClickables);
-        commandAndVarBox.getChildren().add(t);
+        initCommandAndVarBox(commandAndVarBox, commandAndVarBoxClickables, t,variableBoxClickables);
 
-        VBox variablesDisplayContainer = myFactory.makeVBox();
-        HBox variablesBox = myFactory.makeHBox();
-        variablesDisplayContainer.getChildren().add(new Text("Variables"));
-
-        renderVariablesMap(variablesBox);
-        variablesDisplayContainer.getChildren().add(variablesBox);
-        commandAndVarBox.getChildren().add(variablesDisplayContainer);
 
         canvasBox.getChildren().add(turtle.getTurtleImage());
     }
@@ -193,14 +185,23 @@ public class GUI extends Application {
         // turtle.setTurtleImage(image);
     }
 
-    private void initCommandAndVarBoxButtons (HBox commandAndVarBox,
-                                              List<Clickable> commandAndVarBoxClickables) {
+    private void initCommandAndVarBox (HBox commandAndVarBox,
+                                              List<Clickable> commandAndVarBoxClickables, TextArea t, List<Clickable> variableBoxClickables) {
         VBox commandAndVarBoxButtonsHolder = new VBox();
         for (Clickable g : commandAndVarBoxClickables) {
             commandAndVarBoxButtonsHolder.getChildren().add((Node) g.getClickable());
         }
 
         commandAndVarBox.getChildren().add(commandAndVarBoxButtonsHolder);
+        commandAndVarBox.getChildren().add(t);
+
+        VBox variablesDisplayContainer = myFactory.makeVBox();
+        HBox variablesBox = myFactory.makeHBox();
+        variablesDisplayContainer.getChildren().add(new Text("Variables"));
+
+        renderVariablesMap(variablesBox, variableBoxClickables);
+        variablesDisplayContainer.getChildren().add(variablesBox);
+        commandAndVarBox.getChildren().add(variablesDisplayContainer);
     }
 
     private void initColors (ObservableList<String> myColorsList) {
@@ -347,47 +348,14 @@ public class GUI extends Application {
         }
     }
 
-    private void renderVariablesMap (HBox variablesBox) {
-        ListView variableNames = myFactory.makeClickableList(myVariableNames);
-        ListView variableValues = myFactory.makeClickableList(myVariableValues);
-        variableNames
-                .setOnMouseClicked(e -> launchVariablePopUp("Change variable name", variableNames,
-                                                            (a, b) -> onVariableNameChange(a, b)));
-        variableValues
-                .setOnMouseClicked(e -> launchVariablePopUp("Change variable value", variableValues,
-                                                            (a, b) -> onVariableValueChange(a, b)));
-        variablesBox.getChildren().add(variableNames);
-        variablesBox.getChildren().add(variableValues);
+    private void renderVariablesMap (HBox variablesBox, List<Clickable> variableBoxClickables) {
+        for (Clickable g : variableBoxClickables) {
+            variablesBox.getChildren().add((Node) g.getClickable());
+        }
+
         variablesBox.setMaxWidth(SCREEN_WIDTH / 4);
     }
 
-    private void launchVariablePopUp (String displayMessage,
-                                      ListView variableBox,
-                                      BiConsumer<String, String> changeVariableFunc) {
-        int selectedIndex = variableBox.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            String originalValue = myVariableNames.get(selectedIndex);
-            TextInputDialog variablePopup = new TextInputDialog();
-            variablePopup.setTitle("Variable Definition");
-            variablePopup.setHeaderText("Modify Variable");
-            variablePopup.setContentText(displayMessage);
-            Optional<String> input = variablePopup.showAndWait();
-            changeVariableFunc.accept(originalValue, input.get() == null ? "" : input.get());
-            updateVariablesMap();
-        }
-    }
-
-    private void onVariableNameChange (String oldName, String newName) {
-        if (!newName.equals("")) {
-            myController.changeVariableName(oldName, newName);
-        }
-    }
-
-    private void onVariableValueChange (String key, String newValue) {
-        if (!newValue.equals("")) {
-            myController.changeVariableValue(key, newValue);
-        }
-    }
 
     public int getNumTurtles () {
         return turtleList.size();
