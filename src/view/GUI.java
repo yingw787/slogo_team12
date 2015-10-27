@@ -9,6 +9,8 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import engine.Controller;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -28,384 +30,364 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class GUI extends Application {
 
-    private GUIfactory myFactory;
+	private GUIfactory myFactory;
 
-    public static final String DEFAULT_RESOURCE_PACKAGE = "resources.languages/";
-    private ResourceBundle myResources;
-    private Controller myController;
-    private BorderPane root;
-    private static final double SCREEN_WIDTH = 800;
-    private static final double SCREEN_HEIGHT = 600;
-    private static final double CANVAS_RATIO = 0.75;
-    private ObservableList<String> myHistList;
-    private ObservableList<String> myVariableNames;
-    private ObservableList<String> myVariableValues;
-    private ObservableList<String> myColorsList;
-    private Pane canvasBox;
-    private List<Turtle> turtleList;
-    private Turtle turtle;
-    private Stage myStage;
-    private Image image;
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources.languages/";
+	private ResourceBundle myResources;
+	private Controller myController;
+	private BorderPane root;
+	private static final double SCREEN_WIDTH = 800;
+	private static final double SCREEN_HEIGHT = 600;
+	private static final double CANVAS_RATIO = 0.75;
+	private ObservableList<String> myHistList;
+	private ObservableList<String> myVariableNames;
+	private ObservableList<String> myVariableValues;
+	private ObservableList<String> myColorsList;
+	private Pane canvasBox;
+	private List<Turtle> turtleList;
+	private Turtle turtle;
+	private Stage myStage;
+	private Image image;
+	private KeyFrame frame;
 
-    private ReadOnlyIntegerProperty activeTurtleNumber;
+	private ReadOnlyIntegerProperty activeTurtleNumber;
 
-    public GUI (Controller controller, String language, ReadOnlyIntegerProperty myActiveTurtleNum) {
-       
-    	
-    	setUpTurtles(myActiveTurtleNum);
-        initializeHistVarAndColorsLists();
-        myController = controller;
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
-        myFactory = new GUIfactory(myResources, myController);
-        layOutGUI();
+	public GUI (Controller controller, String language, ReadOnlyIntegerProperty myActiveTurtleNum) {
 
-    }
+
+		setUpTurtles(myActiveTurtleNum);
+		initializeHistVarAndColorsLists();
+		myController = controller;
+		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+		myFactory = new GUIfactory(myResources, myController);
+		layOutGUI();
+
+	}
 
 	private void layOutGUI() {
 		root = myFactory.makeBorderPane();
-        VBox historyBox = myFactory.makeVBox();
-        
-        HBox optionsBox = myFactory.makeHBox();
-        
-        HBox commandAndVarBox = myFactory.makeHBox();
-        
-        commandAndVarBox.setMaxHeight(SCREEN_HEIGHT / 5);
-        canvasBox = myFactory.makePane();
-        canvasBox.setPrefSize(SCREEN_WIDTH * (CANVAS_RATIO), SCREEN_HEIGHT * (CANVAS_RATIO));
-        TextArea t = myFactory.makeTextArea();
-        root.setTop(optionsBox);
-        root.setBottom(commandAndVarBox);
-        root.setCenter(canvasBox);
-        
+		VBox historyBox = myFactory.makeVBox();
 
-        ClickableManager myClickableManager =
-                new ClickableManager(canvasBox, turtle, myColorsList, myController, t);
+		HBox optionsBox = myFactory.makeHBox();
+
+		HBox commandAndVarBox = myFactory.makeHBox();
+
+		commandAndVarBox.setMaxHeight(SCREEN_HEIGHT / 5);
+		canvasBox = myFactory.makePane();
+		canvasBox.setPrefSize(SCREEN_WIDTH * (CANVAS_RATIO), SCREEN_HEIGHT * (CANVAS_RATIO));
+		TextArea t = myFactory.makeTextArea();
+		root.setTop(optionsBox);
+		root.setBottom(commandAndVarBox);
+		root.setCenter(canvasBox);
 
 
-        List<Clickable> optionsBoxClickables = myClickableManager.getOptionsBoxClickables();
-        List<Clickable> commandAndVarBoxClickables = myClickableManager.getCommandAndVarBoxClickables();
-        for (Clickable g : optionsBoxClickables) {
-            optionsBox.getChildren().add((Node) g.getClickable());
-        }
+		ClickableManager myClickableManager =
+				new ClickableManager(canvasBox, turtle, myColorsList, myController, t);
 
-        setUpHistory(historyBox, t);
 
-        initCommandAndVarBoxButtons(commandAndVarBox, commandAndVarBoxClickables);
-        commandAndVarBox.getChildren().add(t);
-        
-        VBox variablesDisplayContainer = myFactory.makeVBox();
-        HBox variablesBox = myFactory.makeHBox();
-        variablesDisplayContainer.getChildren().add(new Text("Variables"));
+		List<Clickable> optionsBoxClickables = myClickableManager.getOptionsBoxClickables();
+		List<Clickable> commandAndVarBoxClickables = myClickableManager.getCommandAndVarBoxClickables();
+		for (Clickable g : optionsBoxClickables) {
+			optionsBox.getChildren().add((Node) g.getClickable());
+		}
 
-        renderVariablesMap(variablesBox);
-        variablesDisplayContainer.getChildren().add(variablesBox);
-        commandAndVarBox.getChildren().add(variablesDisplayContainer);
+		setUpHistory(historyBox, t);
 
-        canvasBox.getChildren().add(turtle.getTurtleImage());
+		initCommandAndVarBoxButtons(commandAndVarBox, commandAndVarBoxClickables);
+		commandAndVarBox.getChildren().add(t);
+
+		VBox variablesDisplayContainer = myFactory.makeVBox();
+		HBox variablesBox = myFactory.makeHBox();
+		variablesDisplayContainer.getChildren().add(new Text("Variables"));
+
+		renderVariablesMap(variablesBox);
+		variablesDisplayContainer.getChildren().add(variablesBox);
+		commandAndVarBox.getChildren().add(variablesDisplayContainer);
+
+		canvasBox.getChildren().add(turtle.getTurtleImage());
 	}
 
 	private void setUpHistory(VBox historyBox, TextArea t) {
 		root.setRight(historyBox);
-        historyBox.setMaxWidth(SCREEN_WIDTH / 4);
-        historyBox.getChildren().add(new Text("History"));
+		historyBox.setMaxWidth(SCREEN_WIDTH / 4);
+		historyBox.getChildren().add(new Text("History"));
 
-        ListView myHistListView = myFactory.makeClickableList(myHistList);
-        historyBox.getChildren().add(myHistListView);
-        historyBox.getChildren().add(myFactory.makeButton("reset", e -> myController.reset()));
-        historyBox.getChildren().add(myFactory
-                .makeButton("New Window", e -> myController.makeNewWindow(new Stage())));
+		ListView myHistListView = myFactory.makeClickableList(myHistList);
+		historyBox.getChildren().add(myHistListView);
+		historyBox.getChildren().add(myFactory.makeButton("reset", e -> myController.reset()));
+		historyBox.getChildren().add(myFactory
+				.makeButton("New Window", e -> myController.makeNewWindow(new Stage())));
 
-       
-        myHistListView.setOnMouseClicked(e -> {
-            if (!(myHistListView.getSelectionModel().getSelectedItem() == null)) {
-                t.setText((myHistListView.getSelectionModel().getSelectedItem().toString()));
-            }
 
-        });
+		myHistListView.setOnMouseClicked(e -> {
+			if (!(myHistListView.getSelectionModel().getSelectedItem() == null)) {
+				t.setText((myHistListView.getSelectionModel().getSelectedItem().toString()));
+			}
+
+		});
 	}
 
 	private void initializeHistVarAndColorsLists() {
 		myHistList = FXCollections.observableArrayList();
-        myVariableNames = FXCollections.observableArrayList();
-        myVariableValues = FXCollections.observableArrayList();
-        myColorsList = FXCollections.observableArrayList();
-        initColors(myColorsList);// myHistList.add("History");
+		myVariableNames = FXCollections.observableArrayList();
+		myVariableValues = FXCollections.observableArrayList();
+		myColorsList = FXCollections.observableArrayList();
+		initColors(myColorsList);// myHistList.add("History");
 	}
 
 	private void setUpTurtles(ReadOnlyIntegerProperty myActiveTurtleNum) {
 		image = new Image(getClass().getClassLoader().getResourceAsStream("turtle.gif"));
-        initTurtle(image, 1);
-        setUpTurtleList(myActiveTurtleNum, image);
+		initTurtle(image, 1);
+		setUpTurtleList(myActiveTurtleNum, image);
 	}
 
-    private void setUpTurtleList (ReadOnlyIntegerProperty myActiveTurtleNum, Image image) {
-        turtleList = new ArrayList<Turtle>();
-        turtleList.add(turtle);
+	private void setUpTurtleList (ReadOnlyIntegerProperty myActiveTurtleNum, Image image) {
+		turtleList = new ArrayList<Turtle>();
+		turtleList.add(turtle);
 
-        activeTurtleNumber = myActiveTurtleNum;
-        activeTurtleNumber.addListener(new ChangeListener<Number>() {
+		activeTurtleNumber = myActiveTurtleNum;
+		activeTurtleNumber.addListener(new ChangeListener<Number>() {
 
-            @Override
-            public void changed (ObservableValue<? extends Number> observable,
-                                 Number oldValue,
-                                 Number newValue) {
-                if (turtleList.size() < newValue.intValue()) {
-                    turtleList.add(newValue.intValue() - 1,
-                                   new Turtle(SCREEN_WIDTH * CANVAS_RATIO,
-                                              SCREEN_HEIGHT * CANVAS_RATIO, image,
-                                              newValue.intValue()));
-                    // turtleList.get(newValue.intValue()-1).setTurtleImage(image);
-                    // turtleList.get(newValue.intValue()-1).setTurtleID(newValue.intValue());
-                    canvasBox.getChildren()
-                            .add(turtleList.get(newValue.intValue() - 1).getTurtleImage());
-                }
-                // make sure this works, if does rename to active turtle
-                turtle = turtleList.get(activeTurtleNumber.get() - 1);
-            }
-        });
-    }
+			@Override
+			public void changed (ObservableValue<? extends Number> observable,
+					Number oldValue,
+					Number newValue) {
+				if (turtleList.size() < newValue.intValue()) {
+					turtleList.add(newValue.intValue() - 1,
+							new Turtle(SCREEN_WIDTH * CANVAS_RATIO,
+									SCREEN_HEIGHT * CANVAS_RATIO, image,
+									newValue.intValue()));
+					// turtleList.get(newValue.intValue()-1).setTurtleImage(image);
+					// turtleList.get(newValue.intValue()-1).setTurtleID(newValue.intValue());
+					canvasBox.getChildren()
+					.add(turtleList.get(newValue.intValue() - 1).getTurtleImage());
+				}
+				// make sure this works, if does rename to active turtle
+				turtle = turtleList.get(activeTurtleNumber.get() - 1);
+			}
+		});
+	}
 
-    private void initTurtle (Image image, int ID) {
-        turtle = new Turtle(SCREEN_WIDTH * CANVAS_RATIO, SCREEN_HEIGHT * CANVAS_RATIO, image, 1);
-        // turtle.setTurtleID(ID);
-        // turtle.setTurtleImage(image);
-    }
+	private void initTurtle (Image image, int ID) {
+		turtle = new Turtle(SCREEN_WIDTH * CANVAS_RATIO, SCREEN_HEIGHT * CANVAS_RATIO, image, 1);
+		// turtle.setTurtleID(ID);
+		// turtle.setTurtleImage(image);
+	}
 
-    private void initCommandAndVarBoxButtons (HBox commandAndVarBox,List<Clickable> commandAndVarBoxClickables ) {
-        VBox commandAndVarBoxButtonsHolder = new VBox();
-        for (Clickable g : commandAndVarBoxClickables) {
-            commandAndVarBoxButtonsHolder.getChildren().add((Node) g.getClickable());
-        }
-
-
-        commandAndVarBox.getChildren().add(commandAndVarBoxButtonsHolder);
-    }
+	private void initCommandAndVarBoxButtons (HBox commandAndVarBox,List<Clickable> commandAndVarBoxClickables ) {
+		VBox commandAndVarBoxButtonsHolder = new VBox();
+		for (Clickable g : commandAndVarBoxClickables) {
+			commandAndVarBoxButtonsHolder.getChildren().add((Node) g.getClickable());
+		}
 
 
-
-    private void initColors (ObservableList<String> myColorsList) {
-        myColorsList.add("white");
-        myColorsList.add("blue");
-        myColorsList.add("red");
-        myColorsList.add("purple");
-        myColorsList.add("orange");
-        myColorsList.add("green");
-    }
-
-    public void setAndShowScene (Stage primaryStage) {
-        // WIDTH AND HEIGHT, MORE DETAILS FOR SCENE
-        primaryStage.setScene(new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT));
-        primaryStage.show();
-
-        try {
-            start(primaryStage);
-        }
-        catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public void addToHistory (String stringFromGUI) {
-
-        if (stringFromGUI.trim().length() > 0) {
-            // checks that its not just all whitespace
-            myHistList.add(stringFromGUI);
-        }
-        // this will become private when we set up an observer relationship
-        // currently controller directly calls this in submit
-
-    }
+		commandAndVarBox.getChildren().add(commandAndVarBoxButtonsHolder);
+	}
 
 
-    public void drawLine () {
-        // turtle = turtleList.get(activeTurtleNumber.get()-1);
-        double turtleHeight = turtle.getTurtleImage().getFitHeight();
-        double turtleWidth = turtle.getTurtleImage().getFitWidth();
-        Line line = new Line();
-        line.setStartX(turtle.getPastXPos() + turtleWidth / 2);
-        line.setStartY(turtle.getPastYPos() + turtleHeight / 2);
-        line.setEndX(turtle.getCurrentXPos() + turtleWidth / 2);
-        line.setEndY(turtle.getCurrentYPos() + turtleHeight / 2);
-        line.setStroke(turtle.getPenColor());
-        canvasBox.getChildren().add(line);
 
-    }
+	private void initColors (ObservableList<String> myColorsList) {
+		myColorsList.add("white");
+		myColorsList.add("blue");
+		myColorsList.add("red");
+		myColorsList.add("purple");
+		myColorsList.add("orange");
+		myColorsList.add("green");
+	}
 
-    public void clearLines () {
-        List<Node> newChildren = canvasBox.getChildren().stream()
-                .filter(child -> !child.getClass().equals(new Line().getClass()))
-                .collect(Collectors.toList());
-        canvasBox.getChildren().clear();
-        canvasBox.getChildren().addAll(newChildren);
+	public void setAndShowScene (Stage primaryStage) {
+		// WIDTH AND HEIGHT, MORE DETAILS FOR SCENE
+		primaryStage.setScene(new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT));
+		primaryStage.show();
 
-    }
+		try {
+			start(primaryStage);
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-    public void updateTurtle (double[] Pos) {
+	public void addToHistory (String stringFromGUI) {
 
-        // rename to Set Turtle Position
+		if (stringFromGUI.trim().length() > 0) {
+			// checks that its not just all whitespace
+			myHistList.add(stringFromGUI);
+		}
+		// this will become private when we set up an observer relationship
+		// currently controller directly calls this in submit
 
-        turtle = turtleList.get(activeTurtleNumber.get() - 1);
+	}
 
-        turtle.setPastXPos(turtle.getCurrentXPos());
-        turtle.setPastYPos(turtle.getCurrentYPos());
-        double slope;
-        double deltaX = Pos[0] - turtle.getPastXPos();
-        boolean forward = deltaX > 0;
-        double deltaY = Pos[1] - turtle.getPastYPos();
 
-        if (deltaX == 0) {
-            slope = 1;
-        }
-        else {
-            slope = deltaY / deltaX;
-        }
+	public void drawLine (Turtle turt) {
+		// turtle = turtleList.get(activeTurtleNumber.get()-1);
+		double turtleHeight = turt.getTurtleImage().getFitHeight();
+		double turtleWidth = turt.getTurtleImage().getFitWidth();
+		Line line = new Line();
+		line.setStartX(turt.getPastXPos() + turtleWidth / 2);
+		line.setStartY(turt.getPastYPos() + turtleHeight / 2);
+		line.setEndX(turt.getCurrentXPos() + turtleWidth / 2);
+		line.setEndY(turt.getCurrentYPos() + turtleHeight / 2);
+		line.setStroke(turt.getPenColor());
+		canvasBox.getChildren().add(line);
 
-        /*
-         * KeyFrame frame = new KeyFrame(Duration.millis(10),
-         * e -> {
-         * 
-         * if((turtle.getCurrentXPos() != Pos[0]) || (turtle.getCurrentYPos() !=Pos[1])){
-         * System.out.println("need to move");
-         * if(forward){
-         * turtle.setCurrentXPos(turtle.getCurrentXPos()+1);
-         * turtle.setCurrentYPos(turtle.getCurrentYPos()+slope);
-         * }
-         * if(!forward && deltaX != 0){
-         * turtle.setCurrentXPos(turtle.getCurrentXPos()-1);
-         * turtle.setCurrentYPos(turtle.getCurrentYPos()-slope);
-         * }
-         * if(deltaX == 0){
-         * turtle.setCurrentYPos(turtle.getCurrentYPos()+deltaY/Math.abs(deltaY));
-         * }
-         * 
-         * 
-         * //This math is all messed up tho
-         * 
-         * drawLine();
-         * }});
-         * Timeline animation = new Timeline();
-         * animation.setCycleCount(Timeline.INDEFINITE);
-         * animation.getKeyFrames().add(frame);
-         * animation.play();
-         * 
-         */
+	}
 
-        turtle.setCurrentXPos(Pos[0]);
-        turtle.setCurrentYPos(Pos[1]);
-        if (turtle.isPenDown())
+	public void clearLines () {
+		List<Node> newChildren = canvasBox.getChildren().stream()
+				.filter(child -> !child.getClass().equals(new Line().getClass()))
+				.collect(Collectors.toList());
+		canvasBox.getChildren().clear();
+		canvasBox.getChildren().addAll(newChildren);
 
-        {
-            drawLine();
-        }
+	}
 
-    }
+	public void updateTurtle (double[] Pos, int ID) {
 
-    public double[] getTurtlePosition () {
-        // turtle = turtleList.get(activeTurtleNumber.get()-1);
-        double[] pos = new double[2];
-        pos[0] = turtle.getCurrentXPos();
-        pos[1] = turtle.getCurrentYPos();
+		Turtle tempTurtle = turtleList.get(ID - 1);
+		double deltaX = Pos[0] - tempTurtle.getCurrentXPos();
+		double deltaY = Pos[1] - tempTurtle.getCurrentYPos();
+		
+		
+		frame = new KeyFrame(Duration.millis(10),
+				e -> {
+					
+						tempTurtle.setPastXPos(tempTurtle.getCurrentXPos());
+						tempTurtle.setPastYPos(tempTurtle.getCurrentYPos());
+						tempTurtle.setCurrentXPos(tempTurtle.getCurrentXPos()+(deltaX)/10);
+						tempTurtle.setCurrentYPos(tempTurtle.getCurrentYPos()+(deltaY)/10);
+						
+						if (tempTurtle.isPenDown()){
+							drawLine(tempTurtle);
+						}
+						
+						if (Math.abs(tempTurtle.getCurrentXPos()-Pos[0]) < 0.009){
+							tempTurtle.setCurrentXPos(Pos[0]);
+						}
+						if (Math.abs(tempTurtle.getCurrentYPos()-Pos[1]) < 0.009){
+							tempTurtle.setCurrentYPos(Pos[1]);
+						}
+						
+					
+				});
+		Timeline animation = new Timeline();
+		animation.setCycleCount(10);
+		animation.getKeyFrames().add(frame);
+		animation.play();
+		
 
-        return pos;
-    }
+		
 
-    public double getTurtleDirection () {
-        // turtle = turtleList.get(activeTurtleNumber.get()-1);
-        return turtle.getDirection();
-    }
+	}
 
-    public void setTurtleDirection (double angle) {
-        // turtle = turtleList.get(activeTurtleNumber.get()-1);
-        turtle.setDirection(angle);
-    }
+	public double[] getTurtlePosition () {
+		// turtle = turtleList.get(activeTurtleNumber.get()-1);
+		double[] pos = new double[2];
+		pos[0] = turtle.getCurrentXPos();
+		pos[1] = turtle.getCurrentYPos();
 
-    public boolean getPenBool () {
-        // turtle = turtleList.get(activeTurtleNumber.get()-1);
-        return turtle.isPenDown();
-    }
+		return pos;
+	}
 
-    public void setTurtlePen (boolean penDown) {
-        turtle = turtleList.get(activeTurtleNumber.get() - 1);
-        turtle.setPenDown(penDown);
-    }
+	public double getTurtleDirection () {
+		// turtle = turtleList.get(activeTurtleNumber.get()-1);
+		return turtle.getDirection();
+	}
 
-    public void setTurtleVisible (boolean showing) {
-        // turtle = turtleList.get(activeTurtleNumber.get()-1);
-        turtle.setVisible(showing);
-    }
+	public void setTurtleDirection (double angle) {
+		// turtle = turtleList.get(activeTurtleNumber.get()-1);
+		turtle.setDirection(angle);
+	}
 
-    public boolean getTurtleVisible () {
-        // turtle = turtleList.get(activeTurtleNumber.get()-1);
-        return turtle.getVisible();
-    }
+	public boolean getPenBool () {
+		// turtle = turtleList.get(activeTurtleNumber.get()-1);
+		return turtle.isPenDown();
+	}
 
-    public void updateVariablesMap () {
-        myVariableNames.clear();
-        myVariableValues.clear();
-        Map<String, Double> variablesMap = myController.getUnmodifiableVariablesMap();
-        for (String key : variablesMap.keySet()) {
-            if (!myVariableNames.contains(key)) {
-                myVariableNames.add(key);
-                myVariableValues.add(variablesMap.get(key).toString());
-            }
-        }
-    }
+	public void setTurtlePen (boolean penDown) {
+		turtle = turtleList.get(activeTurtleNumber.get() - 1);
+		turtle.setPenDown(penDown);
+	}
 
-    private void renderVariablesMap (HBox variablesBox) {
-        ListView variableNames = myFactory.makeClickableList(myVariableNames);
-        ListView variableValues = myFactory.makeClickableList(myVariableValues);
-        variableNames
-                .setOnMouseClicked(e -> launchVariablePopUp("Change variable name", variableNames,
-                                                            (a, b) -> onVariableNameChange(a, b)));
-        variableValues
-                .setOnMouseClicked(e -> launchVariablePopUp("Change variable value", variableValues,
-                                                            (a, b) -> onVariableValueChange(a, b)));
-        variablesBox.getChildren().add(variableNames);
-        variablesBox.getChildren().add(variableValues);
-        variablesBox.setMaxWidth(SCREEN_WIDTH / 4);
-    }
+	public void setTurtleVisible (boolean showing) {
+		// turtle = turtleList.get(activeTurtleNumber.get()-1);
+		turtle.setVisible(showing);
+	}
 
-    private void launchVariablePopUp (String displayMessage,
-                                      ListView variableBox,
-                                      BiConsumer<String, String> changeVariableFunc) {
-        int selectedIndex = variableBox.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            String originalValue = myVariableNames.get(selectedIndex);
-            TextInputDialog variablePopup = new TextInputDialog();
-            variablePopup.setTitle("Variable Definition");
-            variablePopup.setHeaderText("Modify Variable");
-            variablePopup.setContentText(displayMessage);
-            Optional<String> input = variablePopup.showAndWait();
-            changeVariableFunc.accept(originalValue, input.get() == null ? "" : input.get());
-            updateVariablesMap();
-        }
-    }
+	public boolean getTurtleVisible () {
+		// turtle = turtleList.get(activeTurtleNumber.get()-1);
+		return turtle.getVisible();
+	}
 
-    private void onVariableNameChange (String oldName, String newName) {
-        if (!newName.equals("")) {
-            myController.changeVariableName(oldName, newName);
-        }
-    }
+	public void updateVariablesMap () {
+		myVariableNames.clear();
+		myVariableValues.clear();
+		Map<String, Double> variablesMap = myController.getUnmodifiableVariablesMap();
+		for (String key : variablesMap.keySet()) {
+			if (!myVariableNames.contains(key)) {
+				myVariableNames.add(key);
+				myVariableValues.add(variablesMap.get(key).toString());
+			}
+		}
+	}
 
-    private void onVariableValueChange (String key, String newValue) {
-        if (!newValue.equals("")) {
-            myController.changeVariableValue(key, newValue);
-        }
-    }
+	private void renderVariablesMap (HBox variablesBox) {
+		ListView variableNames = myFactory.makeClickableList(myVariableNames);
+		ListView variableValues = myFactory.makeClickableList(myVariableValues);
+		variableNames
+		.setOnMouseClicked(e -> launchVariablePopUp("Change variable name", variableNames,
+				(a, b) -> onVariableNameChange(a, b)));
+		variableValues
+		.setOnMouseClicked(e -> launchVariablePopUp("Change variable value", variableValues,
+				(a, b) -> onVariableValueChange(a, b)));
+		variablesBox.getChildren().add(variableNames);
+		variablesBox.getChildren().add(variableValues);
+		variablesBox.setMaxWidth(SCREEN_WIDTH / 4);
+	}
 
-    public int getNumTurtles () {
-        return turtleList.size();
-    }
+	private void launchVariablePopUp (String displayMessage,
+			ListView variableBox,
+			BiConsumer<String, String> changeVariableFunc) {
+		int selectedIndex = variableBox.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			String originalValue = myVariableNames.get(selectedIndex);
+			TextInputDialog variablePopup = new TextInputDialog();
+			variablePopup.setTitle("Variable Definition");
+			variablePopup.setHeaderText("Modify Variable");
+			variablePopup.setContentText(displayMessage);
+			Optional<String> input = variablePopup.showAndWait();
+			changeVariableFunc.accept(originalValue, input.get() == null ? "" : input.get());
+			updateVariablesMap();
+		}
+	}
 
-    @Override
-    public void start (Stage primaryStage) throws Exception {
-        // TODO Auto-generated method stub
+	private void onVariableNameChange (String oldName, String newName) {
+		if (!newName.equals("")) {
+			myController.changeVariableName(oldName, newName);
+		}
+	}
 
-    }
+	private void onVariableValueChange (String key, String newValue) {
+		if (!newValue.equals("")) {
+			myController.changeVariableValue(key, newValue);
+		}
+	}
+
+	public int getNumTurtles () {
+		return turtleList.size();
+	}
+
+	@Override
+	public void start (Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
 
 }
