@@ -9,7 +9,7 @@ public class CommandFactory {
 		myUserCommands = userCommands;
 	}
 	
-	public Command getCommand(String command, String expression) throws Exception {
+	public Command getCommand(String command, String expression) {
 		switch (command) {
 		//BasicSyntax
 		case ("Constant"):

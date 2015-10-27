@@ -11,7 +11,9 @@ import commands.Command;
 import commands.CommandFactory;
 import commands.UserCommand;
 import engine.Controller;
+import exceptions.CommandNotFoundException;
 
+// Translator extends Observable as exception handling results must be forwarded to the view 
 public class Translator {
 	private List<ExpressionNode> myCommandList;
 	private CommandFactory myCommandFactory;
@@ -80,7 +82,7 @@ public class Translator {
 			command.setParameters(parameterCommands);
 			return command;
 		}
-		catch (Exception e){
+		catch (CommandNotFoundException e){
 			// TODO: exception handling logic goes here 
 			// TODO: create an event that can react to a frontend listener in order to create a popup to notify the user that the program cannot compile correctly 
 			System.out.println("Exception found");
@@ -89,10 +91,14 @@ public class Translator {
 		
 	}
 	
-	private Command initializeCommandObject(ExpressionNode node) throws Exception{
-		try
-		{
+	private Command initializeCommandObject(ExpressionNode node) throws CommandNotFoundException{
+//		try
+//		{
 			Command command = myCommandFactory.getCommand(node.getCommand(), node.getExpression());
+			
+			if(command == null){
+				throw new CommandNotFoundException(); 
+			}
 			command.setValue(node.getExpression());
 			command.setVariableMap(myVariables);
 			command.setTurtleUpdates(myTurtleUpdates);
@@ -100,12 +106,12 @@ public class Translator {
 			command.setController(myController);
 			command.setUserCommands(myUserCommands);
 			return command;
-		}
-		catch (Exception e)
-		{
-			System.out.println("I have caught this exception");
-		}
-		
-		return null;
+//		}
+//		catch (Exception e)
+//		{
+//			System.out.println("I have caught this exception");
+//		}
+//		
+//		return null;
 	}
 }

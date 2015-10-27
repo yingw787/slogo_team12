@@ -57,7 +57,7 @@ public class ParseModel {
 	private ExpressionNode buildSubTree(List<String> input, ExpressionNode parentNode) {
 		
 		//TODO put in try catch here?
-		try {
+//		try {
 			Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand(), parentNode.getExpression());
 			int numChildren = getNumChildren(input, parentNode, parentCommand);
 			if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
@@ -69,11 +69,11 @@ public class ParseModel {
 			}
 			
 			return parentNode;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return null;
 		
 	}
 	
