@@ -52,7 +52,11 @@ public class ClickableManager {
 
     private void initializecommandAndVarBoxClickables () {
         Go go = new Go(t, controller);
+        Save save = new Save(controller, t);
+        Load load = new Load(t);
         commandAndVarBoxClickables.add(go);
+        commandAndVarBoxClickables.add(save);
+        commandAndVarBoxClickables.add(load);
 
     }
 
@@ -62,7 +66,8 @@ public class ClickableManager {
     }
 
     private void initializehistoryBoxClickables () {
-        // TODO Auto-generated method stub
+        Reset reset = new Reset(controller);
+        historyBoxClickables.add(reset);
 
     }
 
@@ -70,6 +75,15 @@ public class ClickableManager {
 
         return optionsBoxClickables;
     }
+    public List<Clickable> getVariableBoxClickables () {
+
+        return variableBoxClickables;
+    }
+    public List<Clickable> getHistoryBoxClickables () {
+
+        return historyBoxClickables;
+    }
+
 
     public List<Clickable> getCommandAndVarBoxClickables () {
         return commandAndVarBoxClickables;

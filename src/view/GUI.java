@@ -69,7 +69,6 @@ public class GUI extends Application {
     private ObservableList<String> myVariableValues;
     private ObservableList<String> myColorsList;
     private Pane canvasBox;
-    final FileChooser fileChooser;
     private List<Turtle> turtleList;
     private Turtle turtle;
     private Stage myStage;
@@ -90,44 +89,40 @@ public class GUI extends Application {
         myColorsList = FXCollections.observableArrayList();
         initColors(myColorsList);// myHistList.add("History");
 
-        fileChooser = initImageFileChooser();
 
         myController = controller;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
         myFactory = new GUIfactory(myResources, myController);
         root = myFactory.makeBorderPane();
+        VBox historyBox = myFactory.makeVBox();
         HBox optionsBox = myFactory.makeHBox();
-        root.setTop(optionsBox);
-        canvasBox = myFactory.makePane();
-
-        /*
-         * Background canvasBG = new Background(???);
-         * canvasBox.setBackground(canvasBG);
-         */
-
-        // Make VARIABLE CHANGEABLE BY BACKEND
-
         HBox commandAndVarBox = myFactory.makeHBox();
         commandAndVarBox.setMaxHeight(SCREEN_HEIGHT / 5);
-        root.setBottom(commandAndVarBox);
-        // canvasBox.getChildren().add(new Rectangle(50,50));
-        TextArea t = myFactory.makeTextArea();
-        commandAndVarBox.getChildren().add(t);
-        // not sure if this actually works
+        canvasBox = myFactory.makePane();
         canvasBox.setPrefSize(SCREEN_WIDTH * (CANVAS_RATIO), SCREEN_HEIGHT * (CANVAS_RATIO));
+        TextArea t = myFactory.makeTextArea();
+        root.setTop(optionsBox);
+        root.setBottom(commandAndVarBox);
         root.setCenter(canvasBox);
+        root.setRight(historyBox);
 
         ClickableManager myClickableManager =
                 new ClickableManager(canvasBox, turtle, myColorsList, myController, t);
+
+
+        // Make VARIABLE CHANGEABLE BY BACKEND
+
+        commandAndVarBox.getChildren().add(t);
+
+
         List<Clickable> optionsBoxClickables = myClickableManager.getOptionsBoxClickables();
+        List<Clickable> commandAndVarBoxClickables = myClickableManager.getCommandAndVarBoxClickables();
         for (Clickable g : optionsBoxClickables) {
             optionsBox.getChildren().add((Node) g.getClickable());
         }
 
-        VBox historyBox = myFactory.makeVBox();
         historyBox.setMaxWidth(SCREEN_WIDTH / 4);
         historyBox.getChildren().add(new Text("History"));
-        root.setRight(historyBox);
 
         ListView myHistListView = myFactory.makeClickableList(myHistList);
         historyBox.getChildren().add(myHistListView);
@@ -146,7 +141,7 @@ public class GUI extends Application {
 
         });
 
-        initCommandAndVarBoxButtons(commandAndVarBox, t);
+        initCommandAndVarBoxButtons(commandAndVarBox, commandAndVarBoxClickables);
 
         VBox variablesDisplayContainer = myFactory.makeVBox();
         HBox variablesBox = myFactory.makeHBox();
@@ -155,10 +150,6 @@ public class GUI extends Application {
         renderVariablesMap(variablesBox);
         variablesDisplayContainer.getChildren().add(variablesBox);
         commandAndVarBox.getChildren().add(variablesDisplayContainer);
-
-        optionsBox.getChildren()
-                .add(myFactory.makeButton("pickImageButton", e -> this.pickImage()));
-        // make a root, etc, layout everything with the GUIfactory
 
         canvasBox.getChildren().add(turtle.getTurtleImage());
 
@@ -197,72 +188,17 @@ public class GUI extends Application {
         // turtle.setTurtleImage(image);
     }
 
-    private void initCommandAndVarBoxButtons (HBox commandAndVarBox, TextArea t) {
+    private void initCommandAndVarBoxButtons (HBox commandAndVarBox,List<Clickable> commandAndVarBoxClickables ) {
         VBox commandAndVarBoxButtonsHolder = new VBox();
-        commandAndVarBoxButtonsHolder.getChildren()
-                .add(myFactory.makeButton("Go", e -> myController.submit(t.getText(), "English")));
-        commandAndVarBoxButtonsHolder.getChildren()
-                .add(myFactory.makeButton("Save", e -> {
+        for (Clickable g : commandAndVarBoxClickables) {
+            commandAndVarBoxButtonsHolder.getChildren().add((Node) g.getClickable());
+        }
 
-                    TextInputDialog textDialog = new TextInputDialog();
-                    textDialog.setTitle("Program Name");
-                    textDialog.setHeaderText("Enter the name for your program");
-
-                    Optional<String> result = textDialog.showAndWait();
-                    // TODO: add catch for bad file name type
-                    result.ifPresent(name -> myController.onSave(t.getText(), name));
-                }));
-        commandAndVarBoxButtonsHolder.getChildren()
-                .add(myFactory.makeButton("Load", e -> {
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.setTitle("Select Logo Program To Load");
-                    fileChooser.setInitialDirectory(new File("src/userPrograms/"));
-                    File file = fileChooser.showOpenDialog(null);
-                    if (file != null) {
-                        t.setText(readFile(file));
-                    }
-                }));
 
         commandAndVarBox.getChildren().add(commandAndVarBoxButtonsHolder);
     }
 
-    private String readFile (File file) {
-        StringBuilder stringBuffer = new StringBuilder();
-        BufferedReader bufferedReader = null;
 
-        try {
-
-            bufferedReader = new BufferedReader(new FileReader(file));
-
-            String text;
-            while ((text = bufferedReader.readLine()) != null) {
-                stringBuffer.append(text);
-            }
-
-        }
-        catch (FileNotFoundException ex) {
-
-        }
-        catch (IOException ex) {
-
-        }
-        finally {
-            try {
-                bufferedReader.close();
-            }
-            catch (IOException ex) {
-            }
-        }
-
-        return stringBuffer.toString();
-    }
-
-    private FileChooser initImageFileChooser () {
-        FileChooser f = new FileChooser();
-        f.setTitle("Open Image File");
-        f.getExtensionFilters().add(new ExtensionFilter("Image File", "*.png", "*.jpg", "*.gif"));
-        return f;
-    }
 
     private void initColors (ObservableList<String> myColorsList) {
         myColorsList.add("white");
@@ -298,17 +234,6 @@ public class GUI extends Application {
 
     }
 
-    private void pickImage () {
-        // turtle = turtleList.get(activeTurtleNumber.get()-1);
-
-        File file = fileChooser.showOpenDialog(null);
-        if (file != null) {
-            Image image1 = new Image(file.toURI().toString());
-            canvasBox.getChildren().remove(turtle.getTurtleImage());
-            turtle.setTurtleImage(image1);
-            canvasBox.getChildren().add(turtle.getTurtleImage());
-        }
-    }
 
     public void drawLine () {
         // turtle = turtleList.get(activeTurtleNumber.get()-1);
