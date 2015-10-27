@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -29,6 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -49,7 +52,8 @@ public class GUI extends Application {
     private ObservableList<String> myHistList;
     private ObservableList<String> myVariableNames;
     private ObservableList<String> myVariableValues;
-    private ObservableList<String> myColorsList;
+    private Map<Integer, Color> myColors;
+    private ObservableList<Integer> myColorsIndex;
     private Pane canvasBox;
     private List<Turtle> turtleList;
     private Turtle turtle;
@@ -91,7 +95,8 @@ public class GUI extends Application {
         root.setCenter(canvasBox);
 
         ClickableManager myClickableManager =
-                new ClickableManager(canvasBox, turtle, myColorsList, myController, t, myHistList,
+                new ClickableManager(canvasBox, turtle, myColorsIndex, myColors, myController, t,
+                                     myHistList,
                                      myVariableNames, myVariableValues, this);
 
         List<Clickable> optionsBoxClickables = myClickableManager.getOptionsBoxClickables();
@@ -107,8 +112,8 @@ public class GUI extends Application {
 
         initHistory(historyBox, t, historyBoxClickables);
 
-        initCommandAndVarBox(commandAndVarBox, commandAndVarBoxClickables, t,variableBoxClickables);
-
+        initCommandAndVarBox(commandAndVarBox, commandAndVarBoxClickables, t,
+                             variableBoxClickables);
 
         canvasBox.getChildren().add(turtle.getTurtleImage());
     }
@@ -134,7 +139,6 @@ public class GUI extends Application {
         for (Clickable g : historyBoxClickables) {
             historyBox.getChildren().add((Node) g.getClickable());
         }
-        
 
     }
 
@@ -142,8 +146,8 @@ public class GUI extends Application {
         myHistList = FXCollections.observableArrayList();
         myVariableNames = FXCollections.observableArrayList();
         myVariableValues = FXCollections.observableArrayList();
-        myColorsList = FXCollections.observableArrayList();
-        initColors(myColorsList);// myHistList.add("History");
+        myColorsIndex = FXCollections.observableArrayList();
+        myColors = new HashMap<Integer, Color>();
     }
 
     private void setUpTurtles (ReadOnlyIntegerProperty myActiveTurtleNum) {
@@ -186,7 +190,9 @@ public class GUI extends Application {
     }
 
     private void initCommandAndVarBox (HBox commandAndVarBox,
-                                              List<Clickable> commandAndVarBoxClickables, TextArea t, List<Clickable> variableBoxClickables) {
+                                       List<Clickable> commandAndVarBoxClickables,
+                                       TextArea t,
+                                       List<Clickable> variableBoxClickables) {
         VBox commandAndVarBoxButtonsHolder = new VBox();
         for (Clickable g : commandAndVarBoxClickables) {
             commandAndVarBoxButtonsHolder.getChildren().add((Node) g.getClickable());
@@ -202,16 +208,6 @@ public class GUI extends Application {
         renderVariablesMap(variablesBox, variableBoxClickables);
         variablesDisplayContainer.getChildren().add(variablesBox);
         commandAndVarBox.getChildren().add(variablesDisplayContainer);
-    }
-
-    private void initColors (ObservableList<String> myColorsList) {
-        myColorsList.add("black");
-        myColorsList.add("white");
-        myColorsList.add("blue");
-        myColorsList.add("red");
-        myColorsList.add("purple");
-        myColorsList.add("orange");
-        myColorsList.add("green");
     }
 
     public void setAndShowScene (Stage primaryStage) {
@@ -237,6 +233,15 @@ public class GUI extends Application {
         // this will become private when we set up an observer relationship
         // currently controller directly calls this in submit
 
+    }
+
+    public void setPalette (int index, Color color) {
+        if (myColorsIndex.contains(index)) {
+            myColorsIndex.remove((Integer) index);
+            myColors.remove(index);
+        }
+        myColorsIndex.add(index);
+        myColors.put(index, color);
     }
 
     public void drawLine (Turtle turt) {
@@ -311,6 +316,15 @@ public class GUI extends Application {
         return turtle.getDirection();
     }
 
+    public void setTurtlePenColor (int index) {
+        turtle.setPenIndex(index);
+        turtle.setPenColor(myColors.get(index));
+    }
+
+    public int getTurtlePenIndex () {
+        return turtle.getPenIndex();
+    }
+
     public void setTurtleDirection (double angle) {
         // turtle = turtleList.get(activeTurtleNumber.get()-1);
         turtle.setDirection(angle);
@@ -356,9 +370,22 @@ public class GUI extends Application {
         variablesBox.setMaxWidth(SCREEN_WIDTH / 4);
     }
 
-
     public int getNumTurtles () {
         return turtleList.size();
+    }
+
+    public void setBackgroundColor (int index) {
+        canvasBox
+                .setStyle("-fx-background-color: " + getCssSpec((Color) myColors.get(index)) + ";");
+    }
+
+    // This code from stack overflow
+    // http://stackoverflow.com/questions/21321482/easier-way-to-assign-instyle-css
+    private String getCssSpec (Color c) {
+        int r = (int) (c.getRed() * 256);
+        int g = (int) (c.getGreen() * 256);
+        int b = (int) (c.getBlue() * 256);
+        return String.format("rgb(%d, %d, %d)", r, g, b);
     }
 
     private void initializeSlider () {

@@ -19,9 +19,8 @@ public class SetPalette extends DisplayCommand {
 		double red = getParameterDoubleValue(1);
 		double green = getParameterDoubleValue(2);
 		double blue = getParameterDoubleValue(3);
-		Color newColor = new Color(red, green, blue, 1.0);
-		String newColorString = newColor.toString();
-		super.getController().setPalette((int)returnDoubleValue(), newColorString);
+		Color newColor = Color.rgb((int)red, (int)green, (int)blue, 1.0);
+		super.getController().setPalette((int)returnDoubleValue(), newColor);
 	}
 
 }

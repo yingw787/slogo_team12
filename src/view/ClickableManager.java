@@ -2,18 +2,21 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import engine.Controller;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 
 public class ClickableManager {
 
     private Pane canvasBox;
     private Turtle turtle;
-    private ObservableList<String> colorsList;
+    private ObservableList<Integer> colorsList;
+    private Map<Integer,Color> myColors;
     private Controller controller;
     private TextArea t;
     private ObservableList<String> myHistList;
@@ -27,7 +30,8 @@ public class ClickableManager {
 
     public ClickableManager (Pane canvasBox,
                              Turtle turtle,
-                             ObservableList<String> ColorsList,
+                             ObservableList<Integer> ColorsList,
+                             Map<Integer,Color> myColors,
                              Controller controller,
                              TextArea t,
                              ObservableList<String> myHistList,
@@ -36,6 +40,7 @@ public class ClickableManager {
                              GUI gui) {
         this.canvasBox = canvasBox;
         this.colorsList = ColorsList;
+        this.myColors = myColors;
         this.turtle = turtle;
         this.controller = controller;
         this.t = t;
@@ -54,8 +59,8 @@ public class ClickableManager {
     }
 
     private void initializeOptionsBoxClickables () {
-        PaneColorSelect paneColorSelect = new PaneColorSelect(canvasBox, colorsList);
-        PenColorSelect penColorSelect = new PenColorSelect(turtle, colorsList);
+        PaneColorSelect paneColorSelect = new PaneColorSelect(canvasBox, colorsList,controller);
+        PenColorSelect penColorSelect = new PenColorSelect(turtle, colorsList,controller);
         PickImage pickImage = new PickImage(canvasBox, turtle);
         optionsBoxClickables.add(paneColorSelect);
         optionsBoxClickables.add(penColorSelect);
