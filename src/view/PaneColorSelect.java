@@ -8,13 +8,14 @@ import javafx.scene.text.Text;
 
 
 public class PaneColorSelect extends Clickable<ComboBox> {
-    ComboBox paneColorSelect;
+    private ComboBox paneColorSelect;
 
     public PaneColorSelect (Pane canvasBox, ObservableList<String> colorsList) {
         paneColorSelect = new ComboBox();
         // paneColorSelect.setVal
         paneColorSelect.setItems(colorsList);
         paneColorSelect.setPromptText("Background Color");
+        //TODO: Do i even need e here?
         paneColorSelect.setOnAction(e -> this
                 .changePaneColor(canvasBox,
                                  paneColorSelect.getSelectionModel().getSelectedItem().toString()));

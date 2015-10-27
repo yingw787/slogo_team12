@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 
 
 public class PenColorSelect extends Clickable<ComboBox> {
-    ComboBox penColorSelect;
+    private ComboBox penColorSelect;
 
     public PenColorSelect (Turtle turtle, ObservableList<String> colorsList) {
         penColorSelect = new ComboBox();
