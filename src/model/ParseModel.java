@@ -61,6 +61,7 @@ public class ParseModel {
 		try {
 			Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand(), parentNode.getExpression());
 			int numChildren = getNumChildren(input, parentNode, parentCommand);
+//			if(numChildren != myInput.size())
 			if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
 				return parentNode;
 			}
