@@ -17,9 +17,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -54,8 +56,12 @@ public class GUI extends Application {
 	private Stage myStage;
 	private Image image;
 	private KeyFrame frame;
+	private Timeline animation;
+	private int ANIMATION_DURATION = 10;
 
 	private ReadOnlyIntegerProperty activeTurtleNumber;
+
+	private Slider mySlider;
 
 	public GUI (Controller controller, String language, ReadOnlyIntegerProperty myActiveTurtleNum) {
 
@@ -95,7 +101,14 @@ public class GUI extends Application {
 		for (Clickable g : optionsBoxClickables) {
 			optionsBox.getChildren().add((Node) g.getClickable());
 		}
-
+		
+		initializeSlider();
+		//dont know how to add to clickables manager since slide needs control on GUI
+		optionsBox.getChildren().add(new Text("animation duration\n (in ms)"));
+		optionsBox.getChildren().add(mySlider);
+		//optionsBox.getChildren().add(myFactory.makeButton("Pause", e -> animation.stop()));
+		//optionsBox.getChildren().add(myFactory.makeButton("Play", e -> animation.play()));
+		
 		setUpHistory(historyBox, t);
 
 		initCommandAndVarBoxButtons(commandAndVarBox, commandAndVarBoxClickables);
@@ -256,7 +269,7 @@ public class GUI extends Application {
 		double deltaY = Pos[1] - tempTurtle.getCurrentYPos();
 		
 		
-		frame = new KeyFrame(Duration.millis(10),
+		frame = new KeyFrame(Duration.millis(ANIMATION_DURATION),
 				e -> {
 					
 						tempTurtle.setPastXPos(tempTurtle.getCurrentXPos());
@@ -277,7 +290,7 @@ public class GUI extends Application {
 						
 					
 				});
-		Timeline animation = new Timeline();
+		animation = new Timeline();
 		animation.setCycleCount(10);
 		animation.getKeyFrames().add(frame);
 		animation.play();
@@ -382,6 +395,21 @@ public class GUI extends Application {
 
 	public int getNumTurtles () {
 		return turtleList.size();
+	}
+	
+    private void initializeSlider(){
+		this.mySlider = new Slider(10,2000,ANIMATION_DURATION*10);
+		this.mySlider.setOrientation(Orientation.HORIZONTAL);
+		this.mySlider.setShowTickMarks(false);
+		this.mySlider.setShowTickLabels(true);
+		this.mySlider.setMajorTickUnit(1000);
+		//this.mySlider.setBlockIncrement(OPTION_SLIDER_BLOCK_INCREMENT);
+		this.mySlider.valueProperty().addListener((observable, oldValue, newValue)->handleSliderChange(observable, oldValue, newValue));
+		//this.myOptionBox.getChildren().add(this.mySlider);
+	}
+
+	private void handleSliderChange(ObservableValue<? extends Number> observable,Number oldValue,Number newValue){
+		ANIMATION_DURATION = newValue.intValue()/10;
 	}
 
 	@Override
