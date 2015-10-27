@@ -6,6 +6,7 @@ import java.util.Map;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.BackEndController;
 import view.GUI;
@@ -112,11 +113,11 @@ public class Controller extends Application {
 
     // ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
     public void setBackgroundColor (int index) {
-        // TODO sets background color to specified color (by index)
+        myGUI.setBackgroundColor(index);
     }
 
     public void setPenColor (int index) {
-        // TODO sets pen color to specified color (by index) (for active turtle!)
+        myGUI.setTurtlePenColor(index);
     }
 
     public void setPenSize (double pixels) {
@@ -127,13 +128,12 @@ public class Controller extends Application {
         // TODO sets shape of turtle to that represented by index
     }
 
-    public void setPalette (int index, String newColor) {
-        // TODO sets color in palette at index to newColor
+    public void setPalette (int index, Color newColor) {
+        myGUI.setPalette(index, newColor);
     }
 
     public int getPenColor () {
-        // TODO returns the index of the active turtle's pen color
-        return 0;
+        return myGUI.getTurtlePenIndex();
     }
 
     public int getShape () {

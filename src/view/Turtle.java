@@ -17,6 +17,7 @@ public class Turtle {
 	private double pastYPos;
 	private double currentXPos;
 	private double currentYPos;
+	private int index;
 	private boolean penDown;
 	private Color penColor;
 	private ImageView turtleImage;
@@ -187,5 +188,13 @@ public class Turtle {
 		
 		updateTooltip();
 	}
+
+
+    public void setPenIndex (int index) {
+       this.index = index; 
+    }
+    public int getPenIndex(){
+        return index;
+    }
 
 }
