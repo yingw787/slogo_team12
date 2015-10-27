@@ -9,6 +9,7 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import engine.Controller;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -106,8 +107,13 @@ public class GUI extends Application {
 		//dont know how to add to clickables manager since slide needs control on GUI
 		optionsBox.getChildren().add(new Text("animation duration\n (in ms)"));
 		optionsBox.getChildren().add(mySlider);
-		//optionsBox.getChildren().add(myFactory.makeButton("Pause", e -> animation.stop()));
-		//optionsBox.getChildren().add(myFactory.makeButton("Play", e -> animation.play()));
+		optionsBox.getChildren().add(myFactory.makeButton("Pause", e -> animation.pause()));
+		optionsBox.getChildren().add(myFactory.makeButton("Play", e -> { 
+															if(animation.getStatus()!=Status.STOPPED){
+															animation.play();
+															}
+																}));
+		//optionsBox.getChildren().add(myFactory.makeButton("Reset Animation", e -> anima))
 		
 		setUpHistory(historyBox, t);
 
