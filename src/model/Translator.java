@@ -12,6 +12,7 @@ import commands.CommandFactory;
 import commands.UserCommand;
 import engine.Controller;
 import exceptions.CommandNotFoundException;
+import exceptions.PopupError;
 
 // Translator extends Observable as exception handling results must be forwarded to the view 
 public class Translator {
@@ -36,10 +37,13 @@ public class Translator {
 	/**
 	 * Iterates through queue of commands and executes each command
 	 */
-	public Queue<TurtleStatus> executeCommands() { 
+	public Queue<TurtleStatus> executeCommands() throws CommandNotFoundException { 
 		myController.setVariablesMap(myVariables);
 		Queue<Command> commandQueue = translateParseTree();
 		for (Command command: commandQueue) {
+			if(command == null){
+				throw new CommandNotFoundException(); 
+			}
 			command.executeCommandOverActiveTurtles();
 		}
 		return myTurtleUpdates;
@@ -52,13 +56,13 @@ public class Translator {
 	private Queue<Command> translateParseTree(){
 		Queue<Command> commandQueue = new LinkedList<Command>(); 
 		for (ExpressionNode command: myCommandList) { 
-			try{
+//			try{
 				commandQueue.add(translate(command));
 			}
-			catch (Exception e){
-				System.out.println("I am here");
-			}
-		}
+//			catch (Exception e){
+//				System.out.println("I am here");
+//			}
+//		}
 		return commandQueue;
 	}
 	
@@ -85,7 +89,10 @@ public class Translator {
 		catch (CommandNotFoundException e){
 			// TODO: exception handling logic goes here 
 			// TODO: create an event that can react to a frontend listener in order to create a popup to notify the user that the program cannot compile correctly 
-			System.out.println("Exception found");
+			// TODO: halt execution of program; 
+			PopupError popup = new PopupError(); 
+			popup.generateError("Exception found");
+			
 		}
 		return null; 
 		

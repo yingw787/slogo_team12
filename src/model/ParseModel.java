@@ -9,6 +9,7 @@ import java.util.Stack;
 import commands.Command;
 import commands.CommandFactory;
 import commands.UserCommand;
+import exceptions.PopupError;
 
 public class ParseModel {
 	public static final String VARIABLE = "Variable";
@@ -57,7 +58,7 @@ public class ParseModel {
 	private ExpressionNode buildSubTree(List<String> input, ExpressionNode parentNode) {
 		
 		//TODO put in try catch here?
-//		try {
+		try {
 			Command parentCommand = myCommandFactory.getCommand(parentNode.getCommand(), parentNode.getExpression());
 			int numChildren = getNumChildren(input, parentNode, parentCommand);
 			if (myInput.size() == 0 || parentNode.getChildren().size() == numChildren) {
@@ -69,11 +70,13 @@ public class ParseModel {
 			}
 			
 			return parentNode;
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
+		} catch (Exception e) {
+			PopupError popup = new PopupError();
+			popup.generateError("Unparseable Command");
+			// TODO Auto-generated catch block
 //			e.printStackTrace();
-//		}
-//		return null;
+		}
+		return null;
 		
 	}
 	

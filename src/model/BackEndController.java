@@ -11,6 +11,8 @@ import java.util.Queue;
 
 import commands.UserCommand;
 import engine.Controller;
+import exceptions.CommandNotFoundException;
+import exceptions.PopupError;
 
 public class BackEndController {
 	private static final String PATH = "src/userPrograms/";
@@ -42,7 +44,13 @@ public class BackEndController {
 		myParser = new ParseModel(input, "resources/languages/" + language, myUserCommands);
 		List<ExpressionNode> parseModel = myParser.createParseModel();
 		Translator translator = new Translator(parseModel, myUserCommands, myActiveTurtles, myController.getVariablesMap(), myController);
-		return translator.executeCommands();
+		try {
+			return translator.executeCommands();
+		} catch (CommandNotFoundException e) {
+			PopupError popup = new PopupError(); 
+			popup.generateError("Queue of Turtle Status Objects cannot be generated");
+		}
+		return null; 
 	}
 
 }
