@@ -1,56 +1,33 @@
 package view;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
-import javax.imageio.ImageIO;
-import com.sun.istack.internal.logging.Logger;
+
 import engine.Controller;
-import javafx.animation.KeyFrame;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableIntegerValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 
 public class GUI extends Application {
@@ -72,31 +49,30 @@ public class GUI extends Application {
     private List<Turtle> turtleList;
     private Turtle turtle;
     private Stage myStage;
+    private Image image;
 
     private ReadOnlyIntegerProperty activeTurtleNumber;
-    // consider adding a public method called get myHistList, that returns
-    // immutable histList
 
     public GUI (Controller controller, String language, ReadOnlyIntegerProperty myActiveTurtleNum) {
-        Image image = new Image(getClass().getClassLoader().getResourceAsStream("turtle.gif"));
-
-        initTurtle(image, 1);
-        setUpTurtleList(myActiveTurtleNum, image);
-
-        myHistList = FXCollections.observableArrayList();
-        myVariableNames = FXCollections.observableArrayList();
-        myVariableValues = FXCollections.observableArrayList();
-        myColorsList = FXCollections.observableArrayList();
-        initColors(myColorsList);// myHistList.add("History");
-
-
+       
+    	
+    	setUpTurtles(myActiveTurtleNum);
+        initializeHistVarAndColorsLists();
         myController = controller;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
         myFactory = new GUIfactory(myResources, myController);
-        root = myFactory.makeBorderPane();
+        layOutGUI();
+
+    }
+
+	private void layOutGUI() {
+		root = myFactory.makeBorderPane();
         VBox historyBox = myFactory.makeVBox();
+        
         HBox optionsBox = myFactory.makeHBox();
+        
         HBox commandAndVarBox = myFactory.makeHBox();
+        
         commandAndVarBox.setMaxHeight(SCREEN_HEIGHT / 5);
         canvasBox = myFactory.makePane();
         canvasBox.setPrefSize(SCREEN_WIDTH * (CANVAS_RATIO), SCREEN_HEIGHT * (CANVAS_RATIO));
@@ -104,15 +80,10 @@ public class GUI extends Application {
         root.setTop(optionsBox);
         root.setBottom(commandAndVarBox);
         root.setCenter(canvasBox);
-        root.setRight(historyBox);
+        
 
         ClickableManager myClickableManager =
                 new ClickableManager(canvasBox, turtle, myColorsList, myController, t);
-
-
-        // Make VARIABLE CHANGEABLE BY BACKEND
-
-        commandAndVarBox.getChildren().add(t);
 
 
         List<Clickable> optionsBoxClickables = myClickableManager.getOptionsBoxClickables();
@@ -121,28 +92,11 @@ public class GUI extends Application {
             optionsBox.getChildren().add((Node) g.getClickable());
         }
 
-        historyBox.setMaxWidth(SCREEN_WIDTH / 4);
-        historyBox.getChildren().add(new Text("History"));
-
-        ListView myHistListView = myFactory.makeClickableList(myHistList);
-        historyBox.getChildren().add(myHistListView);
-        historyBox.getChildren().add(myFactory.makeButton("reset", e -> myController.reset()));
-        historyBox.getChildren().add(myFactory
-                .makeButton("New Window", e -> myController.makeNewWindow(new Stage())));
-
-        // this should be moved to a more appropriate place
-        myHistListView.setOnMouseClicked(e -> {
-            // lambda, checks if selected is not null, if its not, populate the
-            // command box with the
-            // selected history
-            if (!(myHistListView.getSelectionModel().getSelectedItem() == null)) {
-                t.setText((myHistListView.getSelectionModel().getSelectedItem().toString()));
-            }
-
-        });
+        setUpHistory(historyBox, t);
 
         initCommandAndVarBoxButtons(commandAndVarBox, commandAndVarBoxClickables);
-
+        commandAndVarBox.getChildren().add(t);
+        
         VBox variablesDisplayContainer = myFactory.makeVBox();
         HBox variablesBox = myFactory.makeHBox();
         variablesDisplayContainer.getChildren().add(new Text("Variables"));
@@ -152,8 +106,41 @@ public class GUI extends Application {
         commandAndVarBox.getChildren().add(variablesDisplayContainer);
 
         canvasBox.getChildren().add(turtle.getTurtleImage());
+	}
 
-    }
+	private void setUpHistory(VBox historyBox, TextArea t) {
+		root.setRight(historyBox);
+        historyBox.setMaxWidth(SCREEN_WIDTH / 4);
+        historyBox.getChildren().add(new Text("History"));
+
+        ListView myHistListView = myFactory.makeClickableList(myHistList);
+        historyBox.getChildren().add(myHistListView);
+        historyBox.getChildren().add(myFactory.makeButton("reset", e -> myController.reset()));
+        historyBox.getChildren().add(myFactory
+                .makeButton("New Window", e -> myController.makeNewWindow(new Stage())));
+
+       
+        myHistListView.setOnMouseClicked(e -> {
+            if (!(myHistListView.getSelectionModel().getSelectedItem() == null)) {
+                t.setText((myHistListView.getSelectionModel().getSelectedItem().toString()));
+            }
+
+        });
+	}
+
+	private void initializeHistVarAndColorsLists() {
+		myHistList = FXCollections.observableArrayList();
+        myVariableNames = FXCollections.observableArrayList();
+        myVariableValues = FXCollections.observableArrayList();
+        myColorsList = FXCollections.observableArrayList();
+        initColors(myColorsList);// myHistList.add("History");
+	}
+
+	private void setUpTurtles(ReadOnlyIntegerProperty myActiveTurtleNum) {
+		image = new Image(getClass().getClassLoader().getResourceAsStream("turtle.gif"));
+        initTurtle(image, 1);
+        setUpTurtleList(myActiveTurtleNum, image);
+	}
 
     private void setUpTurtleList (ReadOnlyIntegerProperty myActiveTurtleNum, Image image) {
         turtleList = new ArrayList<Turtle>();
