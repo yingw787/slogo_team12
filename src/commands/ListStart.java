@@ -27,13 +27,13 @@ public class ListStart extends BasicSyntax {
 	@Override
 	public void execute() {
 		for (Command command: super.getParameters()) {
-			try {
+//			try {
 				command.executeCommandOverActiveTurtles();
-			} catch (NotEnoughParametersException e) {
-//				System.out.println("I am in SLogoList.java");
-				// should not need to come here in order to handle the exception; should be handled within Translator.java 
-//				e.printStackTrace();
-			}
+//			} catch (NotEnoughParametersException e) {
+////				System.out.println("I am in SLogoList.java");
+//				// should not need to come here in order to handle the exception; should be handled within Translator.java 
+////				e.printStackTrace();
+//			}
 		}
 	}
 }

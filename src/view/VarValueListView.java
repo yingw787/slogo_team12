@@ -11,14 +11,16 @@ import javafx.scene.control.TextInputDialog;
 public class VarValueListView extends Clickable<ListView> {
     private Controller myController;
     private ObservableList<String> myVariableValues;
+    private ObservableList<String> myVariableNames;
     private ListView variableValues;
     private GUI gui;
 
     public VarValueListView (Controller myController,
-                             ObservableList<String> myVariableValues,
+                             ObservableList<String> myVariableValues, ObservableList<String> variableNames,
                              GUI gui) {
         this.myController = myController;
         this.myVariableValues = myVariableValues;
+        this.myVariableNames = variableNames;
         this.gui = gui;
         variableValues = new ListView();
         variableValues.setItems(myVariableValues);
@@ -32,7 +34,7 @@ public class VarValueListView extends Clickable<ListView> {
                                       BiConsumer<String, String> changeVariableFunc) {
         int selectedIndex = variableBox.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
-            String originalValue = myVariableValues.get(selectedIndex);
+            String originalValue = myVariableNames.get(selectedIndex);
             TextInputDialog variablePopup = new TextInputDialog();
             variablePopup.setTitle("Variable Definition");
             variablePopup.setHeaderText("Modify Variable");

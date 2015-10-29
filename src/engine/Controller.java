@@ -17,7 +17,7 @@ public class Controller extends Application {
     private GUI myGUI;
     private BackEndController myBackend;
     private Stage myStage;
-    private String myLanguage = "English";
+    private String myLanguage = "Spanish";
     private IntegerProperty myActiveTurtle;
     private Map<String, Double> myVariablesMap;
 

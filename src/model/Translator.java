@@ -45,13 +45,12 @@ public class Translator {
 			if(command == null){
 				throw new CommandNotFoundException(); 
 			}
-			try {
+//			try {
 				command.executeCommandOverActiveTurtles();
-			} catch (NotEnoughParametersException e) {
-				PopupError popup = new PopupError(); 
-				popup.generateError("Not enough parameters");
-//				System.out.println("I am in Translator.java");
-			}
+//			} catch (NotEnoughParametersException e) {
+//				PopupError popup = new PopupError(); 
+//				popup.generateError("Not enough parameters");
+//			}
 		}
 		return myTurtleUpdates;
 	}
@@ -63,13 +62,8 @@ public class Translator {
 	private Queue<Command> translateParseTree(){
 		Queue<Command> commandQueue = new LinkedList<Command>(); 
 		for (ExpressionNode command: myCommandList) { 
-//			try{
-				commandQueue.add(translate(command));
-			}
-//			catch (Exception e){
-//				System.out.println("I am here");
-//			}
-//		}
+			commandQueue.add(translate(command));
+		}
 		return commandQueue;
 	}
 	
@@ -106,26 +100,17 @@ public class Translator {
 	}
 	
 	private Command initializeCommandObject(ExpressionNode node) throws CommandNotFoundException{
-//		try
-//		{
-			Command command = myCommandFactory.getCommand(node.getCommand(), node.getExpression());
-			
-			if(command == null){
-				throw new CommandNotFoundException(); 
-			}
-			command.setValue(node.getExpression());
-			command.setVariableMap(myVariables);
-			command.setTurtleUpdates(myTurtleUpdates);
-			command.setActiveTurtles(myActiveTurtles);
-			command.setController(myController);
-			command.setUserCommands(myUserCommands);
-			return command;
-//		}
-//		catch (Exception e)
-//		{
-//			System.out.println("I have caught this exception");
-//		}
-//		
-//		return null;
+		Command command = myCommandFactory.getCommand(node.getCommand(), node.getExpression());
+		
+		if(command == null){
+			throw new CommandNotFoundException(); 
+		}
+		command.setValue(node.getExpression());
+		command.setVariableMap(myVariables);
+		command.setTurtleUpdates(myTurtleUpdates);
+		command.setActiveTurtles(myActiveTurtles);
+		command.setController(myController);
+		command.setUserCommands(myUserCommands);
+		return command;
 	}
 }

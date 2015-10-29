@@ -83,7 +83,7 @@ public class ClickableManager {
 
     private void initializevariableBoxClickables () {
         VarNameListView variableNames = new VarNameListView(controller, myVariableNames, gui);
-        VarValueListView variableValues = new VarValueListView(controller, myVariableValues, gui);
+        VarValueListView variableValues = new VarValueListView(controller, myVariableValues, myVariableNames, gui);
         variableBoxClickables.add(variableNames);
         variableBoxClickables.add(variableValues);
 

@@ -296,6 +296,7 @@ public class GUI extends Application {
         double deltaX = Pos[0] - tempTurtle.getCurrentXPos();
         double deltaY = Pos[1] - tempTurtle.getCurrentYPos();
 
+        
         frame = new KeyFrame(Duration.millis(ANIMATION_DURATION),
                              e -> {
 
@@ -310,6 +311,7 @@ public class GUI extends Application {
                                      drawLine(tempTurtle);
                                  }
 
+                                 
                                  if (Math.abs(tempTurtle.getCurrentXPos() - Pos[0]) < 0.009) {
                                      tempTurtle.setCurrentXPos(Pos[0]);
                                  }
@@ -323,6 +325,13 @@ public class GUI extends Application {
         animation.getKeyFrames().add(frame);
         animation.play();
 
+        /*
+        tempTurtle.setPastXPos(tempTurtle.getCurrentXPos());
+        tempTurtle.setPastYPos(tempTurtle.getCurrentYPos());
+        tempTurtle.setCurrentXPos(Pos[0]);
+        tempTurtle.setCurrentYPos(Pos[1]);
+        drawLine(tempTurtle);
+		*/
     }
 
     public double[] getTurtlePosition () {

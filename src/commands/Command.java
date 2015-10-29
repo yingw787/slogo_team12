@@ -53,12 +53,12 @@ public abstract class Command {
 	
 	public abstract void execute();
 	
-	public void executeCommandOverActiveTurtles() throws NotEnoughParametersException {
+	public void executeCommandOverActiveTurtles() {
 		if (myActiveTurtles.size() == 0) {
 			myActiveTurtles.add(1);
 		}
 		if(this.myParameters.size() == 0){
-			throw new NotEnoughParametersException(); 
+			//throw new NotEnoughParametersException(); 
 		}
 		
 		
