@@ -4,13 +4,13 @@ import java.util.List;
 
 import exceptions.NotEnoughParametersException;
 
-public class SlogoList extends BasicSyntax {
+public class ListStart extends BasicSyntax {
 
-	public SlogoList() {
+	public ListStart() {
 		super();
 	}
 	
-	public SlogoList(String expression, List<Command> parameters) {
+	public ListStart(String expression, List<Command> parameters) {
 		super(expression, parameters);
 	}
 	

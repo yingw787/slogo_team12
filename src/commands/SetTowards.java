@@ -4,13 +4,13 @@ import java.util.List;
 
 import engine.Controller;
 
-public class Towards extends TurtleCommand {
+public class SetTowards extends TurtleCommand {
 	
-	public Towards() {
+	public SetTowards() {
 		super();
 	}
 	
-	public Towards(Controller controller, String expression, List<Command> parameters) {
+	public SetTowards(Controller controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	
