@@ -20,24 +20,29 @@ public abstract class Command {
 	private Map<String,UserCommand> myUserCommands;
 	private List<Integer> myActiveTurtles;
 	private Queue<TurtleStatus> myTurtleUpdates;
+	private CommandUtil myUtil;
 	
 	public Command() {
 		//do nothing
+		myUtil = new CommandUtil();
 	}
 	
 	public Command(Map<String,Double> variables) {
 		myVariables = variables;
+		myUtil = new CommandUtil();
 	}
 	
 	public Command(String expression, List<Command> params) {
 		myExpression = expression;
 		myParameters = params;
+		myUtil = new CommandUtil();
 	}
 	
 	public Command(Controller controller, String expression, List<Command> params) {
 		myExpression = expression;
 		myParameters = params;
 		myController = controller;
+		myUtil = new CommandUtil();
 	}
 	
 	public abstract String getCommandType();
@@ -180,6 +185,10 @@ public abstract class Command {
 		myUserCommands.remove(commandName);
 	}
 	
+	protected void addUpdatedTurtleStatus() {
+		myTurtleUpdates.add(new TurtleStatus(myController));
+	}
+	
 	protected Command getParameter(int index) {
 		return myParameters.get(index);
 	}
@@ -194,24 +203,24 @@ public abstract class Command {
 		return argument.getExpression();
 	}
 	
-	protected double calculateDistance(double[] startPos, double[] endPos) {
-		return Math.sqrt(Math.pow(endPos[0]-startPos[0], 2) + Math.pow(endPos[1]-startPos[1], 2));
-	}
-	
 	protected double performBinaryDoubleOp(BiFunction<Double, Double, Double> func) {
-		return func.apply(myParameters.get(0).returnDoubleValue(), myParameters.get(1).returnDoubleValue());
+		return myUtil.performBinaryDoubleOp(myParameters, func);
 	}
 	
 	protected double performUnaryDoubleOp(Function<Double, Double> func) {
-		return func.apply(myParameters.get(0).returnDoubleValue());
+		return myUtil.performUnaryDoubleOp(myParameters, func);
 	}
 	
 	protected double performUnaryTrigOp(Function<Double, Double> trigFunc) {
-		return Math.toDegrees(trigFunc.apply(Math.toRadians(myParameters.get(0).returnDoubleValue())));
+		return myUtil.performUnaryTrigOp(myParameters, trigFunc);
 	}
 	
 	protected boolean performBinaryBooleanOp(BiFunction<Double, Double, Boolean> func) {
-		return func.apply(myParameters.get(0).returnDoubleValue(), myParameters.get(1).returnDoubleValue());
+		return myUtil.performBinaryBooleanOp(myParameters, func);
+	}
+	
+	protected double calculateDistance(double[] startPos, double[] endPos) {
+		return Math.sqrt(Math.pow(endPos[0]-startPos[0], 2) + Math.pow(endPos[1]-startPos[1], 2));
 	}
 	
 	protected boolean bitToBoolean(int bit) {
@@ -220,9 +229,5 @@ public abstract class Command {
 	
 	protected int booleanToBit(boolean bool) {
 		return bool ? 1 : 0;
-	}
-	
-	protected void addUpdatedTurtleStatus() {
-		myTurtleUpdates.add(new TurtleStatus(myController));
 	}
 }
