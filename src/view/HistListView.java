@@ -5,7 +5,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 
 
-public class HistListView extends Clickable<ListView> {
+public class HistListView implements Clickable<ListView> {
     private ListView histListView;
 
     public HistListView (TextArea t, ObservableList<String> myHistList) {
@@ -21,7 +21,7 @@ public class HistListView extends Clickable<ListView> {
     }
 
     @Override
-    ListView getClickable () {
+    public ListView getClickable () {
         return histListView;
     }
 }

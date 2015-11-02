@@ -4,7 +4,7 @@ import engine.Controller;
 import javafx.scene.control.Button;
 
 
-public class Reset extends Clickable<Button> {
+public class Reset implements Clickable<Button> {
     private Button reset;
 
     public Reset (Controller controller) {
@@ -13,7 +13,7 @@ public class Reset extends Clickable<Button> {
     }
 
     @Override
-    Button getClickable () {
+    public Button getClickable () {
         return reset;
     }
 }

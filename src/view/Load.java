@@ -10,7 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 
 
-public class Load extends Clickable<Button> {
+public class Load implements Clickable<Button> {
     private Button load;
 
     public Load (TextArea t) {
@@ -60,7 +60,7 @@ public class Load extends Clickable<Button> {
     }
 
     @Override
-    Button getClickable () {
+    public Button getClickable () {
         return load;
     }
 }

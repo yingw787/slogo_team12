@@ -10,7 +10,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 
-public class PickImage extends Clickable<Button> {
+public class PickImage implements Clickable<Button> {
     private Button pickImage;
     private FileChooser fileChooser;
 
@@ -39,7 +39,7 @@ public class PickImage extends Clickable<Button> {
     }
 
     @Override
-    Button getClickable () {
+    public Button getClickable () {
         return pickImage;
     }
 }

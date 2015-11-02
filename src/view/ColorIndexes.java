@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 
-public class ColorIndexes extends Clickable<ComboBox> {
+public class ColorIndexes implements Clickable<ComboBox> {
     private ComboBox paneColorSelect;
     private Controller controller;
     public ColorIndexes (Pane canvasBox,
@@ -25,12 +25,14 @@ public class ColorIndexes extends Clickable<ComboBox> {
        
 
     }
+    @Override
+    public
+     ComboBox getClickable () {
+        return paneColorSelect;
+    }
 
    
 
 
-    @Override
-    ComboBox getClickable () {
-        return paneColorSelect;
-    }
+
 }

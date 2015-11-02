@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 
-public class NewWindow extends Clickable<Button> {
+public class NewWindow implements Clickable<Button> {
     private Button newWindow;
 
     public NewWindow (Controller controller) {
@@ -14,7 +14,7 @@ public class NewWindow extends Clickable<Button> {
     }
 
     @Override
-    Button getClickable () {
+    public Button getClickable () {
         return newWindow;
     }
 }

@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
 
-public class Go extends Clickable<Button> {
+public class Go implements Clickable<Button> {
     private Button go;
 
     public Go (TextArea t, Controller controller) {
@@ -14,7 +14,7 @@ public class Go extends Clickable<Button> {
     }
 
     @Override
-    Button getClickable () {
+    public Button getClickable () {
         return go;
     }
 

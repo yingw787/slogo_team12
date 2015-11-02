@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-public class ColorViews extends Clickable<ComboBox> {
+public class ColorViews implements Clickable<ComboBox> {
     private ComboBox penColorSelect;
     private Map<Integer, Color> myColors;
     private Controller controller;
@@ -28,7 +28,7 @@ public class ColorViews extends Clickable<ComboBox> {
 
 
     @Override
-    ComboBox getClickable () {
+    public ComboBox getClickable () {
         return penColorSelect;
     }
 

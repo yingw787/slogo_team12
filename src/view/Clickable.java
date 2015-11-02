@@ -1,9 +1,11 @@
+//This entire file is part of my masterpiece
+//Daniel Celebucki
 package view;
 
 import javafx.scene.control.Button;
 
 
-public abstract class Clickable<T> {
+public interface Clickable<T> {
 
-    abstract T getClickable ();
+     T getClickable ();
 }

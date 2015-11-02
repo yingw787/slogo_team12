@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 
 
-public class Save extends Clickable<Button> {
+public class Save implements Clickable<Button> {
     private Button save;
 
     public Save (Controller controller, TextArea t) {
@@ -26,7 +26,7 @@ public class Save extends Clickable<Button> {
     }
 
     @Override
-    Button getClickable () {
+    public Button getClickable () {
         return save;
     }
 }

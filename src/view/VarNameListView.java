@@ -8,7 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 
 
-public class VarNameListView extends Clickable<ListView> {
+public class VarNameListView implements Clickable<ListView> {
     private Controller myController;
     private ObservableList<String> myVariableNames;
     private ListView variableNames;
@@ -50,7 +50,7 @@ public class VarNameListView extends Clickable<ListView> {
     }
 
     @Override
-    ListView getClickable () {
+    public ListView getClickable () {
         return variableNames;
     }
 
