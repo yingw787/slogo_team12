@@ -1,6 +1,6 @@
 package model;
 
-import engine.Controller;
+import engine.IController;
 
 public class TurtleStatus {
 	
@@ -9,7 +9,7 @@ public class TurtleStatus {
 	private boolean isPenDown;
 	private boolean isTurtleShowing;
 
-	public TurtleStatus(Controller controller) {
+	public TurtleStatus(IController controller) {
 		turtlePosition = controller.getTurtlePosition();
 		turtleDirection = controller.getTurtleDirection();
 		isPenDown = controller.isTurtlePenDown();

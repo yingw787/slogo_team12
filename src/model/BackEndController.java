@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import commands.UserCommand;
-import engine.Controller;
+import engine.IController;
 import exceptions.CommandNotFoundException;
 import exceptions.PopupError;
 
@@ -18,11 +18,11 @@ public class BackEndController {
 	private static final String PATH = "src/userPrograms/";
 	private static final String EXTENSION = ".logo";
 	private ParseModel myParser;
-	private Controller myController;
+	private IController myController;
 	Map<String,UserCommand> myUserCommands;
 	private List<Integer> myActiveTurtles;
 	
-	public BackEndController(Controller controller) {
+	public BackEndController(IController controller) {
 		myController = controller;
 		myUserCommands = new HashMap<String,UserCommand>();
 		myActiveTurtles = new ArrayList<Integer>();

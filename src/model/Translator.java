@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import commands.Command;
 import commands.CommandFactory;
 import commands.UserCommand;
-import engine.Controller;
+import engine.IController;
 import exceptions.CommandNotFoundException;
 import exceptions.NotEnoughParametersException;
 import exceptions.PopupError;
@@ -19,13 +19,13 @@ import exceptions.PopupError;
 public class Translator {
 	private List<ExpressionNode> myCommandList;
 	private CommandFactory myCommandFactory;
-	private Controller myController;
+	private IController myController;
 	private Map<String,Double> myVariables;
 	private Queue<TurtleStatus> myTurtleUpdates;
 	private List<Integer> myActiveTurtles;
 	private Map<String, UserCommand> myUserCommands;
 	
-	public Translator(List<ExpressionNode> commands, Map<String,UserCommand> userCommands, List<Integer> activeTurtles, Map<String,Double> variablesMap, Controller controller) {
+	public Translator(List<ExpressionNode> commands, Map<String,UserCommand> userCommands, List<Integer> activeTurtles, Map<String,Double> variablesMap, IController controller) {
 		myCommandList = commands;
 		myController = controller;
 		myUserCommands = userCommands;

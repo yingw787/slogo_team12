@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import engine.Controller;
+import engine.IController;
 import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -45,7 +46,7 @@ public class GUI extends Application {
 
     public static final String DEFAULT_RESOURCE_PACKAGE = "resources.languages/";
     private ResourceBundle myResources;
-    private Controller myController;
+    private IController myController;
     private BorderPane root;
     private static final double SCREEN_WIDTH = 800;
     private static final double SCREEN_HEIGHT = 600;
@@ -69,7 +70,7 @@ public class GUI extends Application {
 
     private Slider mySlider;
 
-    public GUI (Controller controller, String language, ReadOnlyIntegerProperty myActiveTurtleNum) {
+    public GUI (IController controller, String language, ReadOnlyIntegerProperty myActiveTurtleNum) {
 
         setUpTurtles(myActiveTurtleNum);
         initializeHistVarAndColorsLists();
@@ -302,9 +303,9 @@ public class GUI extends Application {
                                  tempTurtle.setPastXPos(tempTurtle.getCurrentXPos());
                                  tempTurtle.setPastYPos(tempTurtle.getCurrentYPos());
                                  tempTurtle.setCurrentXPos(tempTurtle.getCurrentXPos() +
-                                                           (deltaX) / 10);
+                                                           (deltaX) / 100);
                                  tempTurtle.setCurrentYPos(tempTurtle.getCurrentYPos() +
-                                                           (deltaY) / 10);
+                                                           (deltaY) / 100);
 
                                  if (tempTurtle.isPenDown()) {
                                      drawLine(tempTurtle);
@@ -318,9 +319,10 @@ public class GUI extends Application {
                                  }
 
                              });
-        animation = new Timeline();
-        animation.setCycleCount(10);
+        //animation = new Timeline();
+        animation.setCycleCount(100);
         animation.getKeyFrames().add(frame);
+       // animation.setOnFinished(e-> notifyAll());
         animation.play();
 
     }
@@ -349,8 +351,19 @@ public class GUI extends Application {
     }
 
     public void setTurtleDirection (double angle) {
-        // turtle = turtleList.get(activeTurtleNumber.get()-1);
-        turtle.setDirection(angle);
+        Turtle  myTurtle = turtleList.get(activeTurtleNumber.get()-1);
+        
+        /*
+        if(animation.getStatus() == Status.RUNNING || animation.getStatus() == Status.PAUSED){
+        	try {
+        		wait(ANIMATION_DURATION);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        */
+        myTurtle.setDirection(angle);
     }
 
     public boolean getPenBool () {

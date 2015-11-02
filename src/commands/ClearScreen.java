@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class ClearScreen extends TurtleCommand {
 	private static final double[] END_POSITION = { 0, 0 };
@@ -11,7 +11,7 @@ public class ClearScreen extends TurtleCommand {
 		super();
 	}
 	
-	public ClearScreen(Controller controller, String expression, List<Command> parameters) {
+	public ClearScreen(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 

@@ -2,19 +2,20 @@ package view;
 
 import java.util.Optional;
 import java.util.function.BiConsumer;
-import engine.Controller;
+
+import engine.IController;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 
 
 public class VarValueListView extends Clickable<ListView> {
-    private Controller myController;
+    private IController myController;
     private ObservableList<String> myVariableValues;
     private ListView variableValues;
     private GUI gui;
 
-    public VarValueListView (Controller myController,
+    public VarValueListView (IController myController,
                              ObservableList<String> myVariableValues,
                              GUI gui) {
         this.myController = myController;

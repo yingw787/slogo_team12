@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class DoTimes extends SpecialForm {
 
@@ -10,7 +10,7 @@ public class DoTimes extends SpecialForm {
 		super();
 	}
 	
-	public DoTimes(Controller controller, String expression, List<Command> parameters) {
+	public DoTimes(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class IfElse extends SpecialForm {
 
@@ -10,7 +10,7 @@ public class IfElse extends SpecialForm {
 		super();
 	}
 	
-	public IfElse(Controller controller, String expression, List<Command> parameters) {
+	public IfElse(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

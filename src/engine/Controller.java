@@ -12,7 +12,7 @@ import model.BackEndController;
 import view.GUI;
 
 
-public class Controller extends Application {
+public class Controller extends Application implements IController{
 
     private GUI myGUI;
     private BackEndController myBackend;
@@ -25,40 +25,34 @@ public class Controller extends Application {
         myVariablesMap = new HashMap<String, Double>();
     }
 
-    @Override
+   
+	@Override
     public void start (Stage primaryStage) throws Exception {
 
         myStage = primaryStage;
-        // import model.Backend;
-        // import view.GUI;
-
-        // discussed in lecture -- Observable!
-        // sets up observable relationships
-        // for making modular, for instace, history pane, canvas, both
-        // want to know when something has changed (something obervable)
-        // then act everytime change
-
+     
         initializeActiveTurtleProperty();
-        myGUI = new GUI(this, myLanguage, myActiveTurtle);
-        myBackend = new BackEndController(this);
-
-        // init gui to set up everything, call this part of it last
-        myGUI.setAndShowScene(myStage);
+        reset();
 
     }
 
-    public void reset () {
+  
+    @Override
+	public void reset () {
         initializeActiveTurtleProperty();
-        myGUI = new GUI(this, myLanguage, myActiveTurtle);
+        myGUI = new GUI(new ControllerWrapperFront(this), myLanguage, myActiveTurtle);
+        myBackend = new BackEndController(new ControllerWrapperBack(this));
         myGUI.setAndShowScene(myStage);
-        myBackend = new BackEndController(this);
+      
 
         // clear history, reset turtle, clear everythibg.
         // just make new Gui object and set it? decide what to do
 
     }
 
-    public void submit (String stringFromGUI, String myLanguage) {
+    
+    @Override
+	public void submit (String stringFromGUI, String myLanguage) {
 
         if (stringFromGUI.trim().length() > 0) {
             myGUI.addToHistory(stringFromGUI);
@@ -67,9 +61,11 @@ public class Controller extends Application {
         }
     }
 
-    public void makeNewWindow (Stage s) {
+ 
+    @Override
+	public void makeNewWindow (Stage s) {
 
-        Controller anotherController = new Controller();
+        IController anotherController = new Controller();
         try {
             anotherController.start(s);
         }
@@ -80,125 +76,178 @@ public class Controller extends Application {
 
     }
 
-    public int getActiveTurtleID () {
+
+    @Override
+	public int getActiveTurtleID () {
         return myActiveTurtle.get();
     }
 
-    public void setActiveTurtleID (int newID) {
+  
+    @Override
+	public void setActiveTurtleID (int newID) {
         myActiveTurtle.set(newID);
 
     }
 
-    public Map<String, Double> getUnmodifiableVariablesMap () {
+    @Override
+	public Map<String, Double> getUnmodifiableVariablesMap () {
         return Collections.unmodifiableMap(myVariablesMap);
     }
 
-    public Map<String, Double> getVariablesMap () {
+  
+    @Override
+	public Map<String, Double> getVariablesMap () {
         return myVariablesMap;
     }
 
-    public void setVariablesMap (Map<String, Double> variablesMap) {
+  
+    @Override
+	public void setVariablesMap (Map<String, Double> variablesMap) {
         myVariablesMap = variablesMap;
     }
 
-    public void changeVariableName (String oldName, String newName) {
+ 
+    @Override
+	public void changeVariableName (String oldName, String newName) {
         double value = myVariablesMap.get(oldName);
         myVariablesMap.remove(oldName);
         myVariablesMap.put(newName, value);
     }
 
-    public void changeVariableValue (String key, String newValue) {
+  
+    @Override
+	public void changeVariableValue (String key, String newValue) {
         myVariablesMap.put(key, Double.parseDouble(newValue));
     }
 
     // ELIZABETH'S ADDITIONS FOR CONNECTING TURTLE TO COMMANDS
-    public void setBackgroundColor (int index) {
+  
+    @Override
+	public void setBackgroundColor (int index) {
         myGUI.setBackgroundColor(index);
     }
 
-    public void setPenColor (int index) {
+
+    @Override
+	public void setPenColor (int index) {
         myGUI.setTurtlePenColor(index);
     }
 
-    public void setPenSize (double pixels) {
+ 
+    @Override
+	public void setPenSize (double pixels) {
         // TODO sets pen stroke size to pixels value
     }
 
-    public void setShape (int index) {
+  
+    @Override
+	public void setShape (int index) {
         // TODO sets shape of turtle to that represented by index
     }
 
-    public void setPalette (int index, Color newColor) {
+ 
+    @Override
+	public void setPalette (int index, Color newColor) {
         myGUI.setPalette(index, newColor);
     }
 
-    public int getPenColor () {
+   
+    @Override
+	public int getPenColor () {
         return myGUI.getTurtlePenIndex();
     }
 
-    public int getShape () {
+  
+    @Override
+	public int getShape () {
         // TODO returns the index of the active turtle's shape
         return 0;
     }
 
-    public void makeStamp () {
+   
+    @Override
+	public void makeStamp () {
         // TODO makes a stamp of the active turtle
     }
 
-    public int getNumStamps () {
+  
+    @Override
+	public int getNumStamps () {
         // TODO returns number of stamps on the canvas
         return 0;
     }
 
-    public void clearStamps () {
+  
+    @Override
+	public void clearStamps () {
         // TODO clears all stamps off the canvas (similar to clearLines())
     }
 
-    public int getNumTurtles () {
+  
+    @Override
+	public int getNumTurtles () {
         // TODO get the max turtle ID aka number of turtles
         return myGUI.getNumTurtles();
     }
 
-    public void clear () {
+  
+    @Override
+	public void clear () {
         myGUI.clearLines();
     }
 
-    public double getTurtleDirection () {
+  
+    @Override
+	public double getTurtleDirection () {
 
         return myGUI.getTurtleDirection();
     }
 
-    public void setTurtleDirection (double angle) {
+
+    @Override
+	public void setTurtleDirection (double angle) {
 
         myGUI.setTurtleDirection(angle);
 
     }
 
-    public double[] getTurtlePosition () {
+ 
+    @Override
+	public double[] getTurtlePosition () {
         return myGUI.getTurtlePosition();
 
     }
 
-    public void setTurtlePosition (double[] newPos) {
+ 
+    @Override
+	public void setTurtlePosition (double[] newPos) {
         myGUI.updateTurtle(newPos, myActiveTurtle.get());
        
     }
 
-    public boolean isTurtlePenDown () {
+
+    @Override
+	public boolean isTurtlePenDown () {
         // returns true if pen is down
         return myGUI.getPenBool();
     }
 
-    public void setIsTurtlePenDown (boolean penDown) {
+ 
+    @Override
+	public void setIsTurtlePenDown (boolean penDown) {
         myGUI.setTurtlePen(penDown);
         // sets turtle's "pen down" boolean
     }
 
-    public boolean isTurtleShowing () {
+ 
+    @Override
+	public boolean isTurtleShowing () {
         return myGUI.getTurtleVisible();
     }
 
-    public void setIsTurtleShowing (boolean showing) {
+
+    @Override
+	public void setIsTurtleShowing (boolean showing) {
 
         myGUI.setTurtleVisible(showing);
         // sets turtle's "hidden" boolean
@@ -208,7 +257,9 @@ public class Controller extends Application {
         myActiveTurtle = new SimpleIntegerProperty(1);
     }
 
-    public void onSave (String input, String programTitle) {
+ 
+    @Override
+	public void onSave (String input, String programTitle) {
         myBackend.saveProgram(input, programTitle);
     }
 

@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 import model.BackEndProperties;
 
 public abstract class TurtleQuery extends Command {
@@ -11,7 +11,7 @@ public abstract class TurtleQuery extends Command {
 		//do nothing
 	}
 	
-	public TurtleQuery(Controller controller, String expression, List<Command> commandList) {
+	public TurtleQuery(IController controller, String expression, List<Command> commandList) {
 		super(controller, expression, commandList);
 	}
 	

@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class Towards extends TurtleCommand {
 	
@@ -10,7 +10,7 @@ public class Towards extends TurtleCommand {
 		super();
 	}
 	
-	public Towards(Controller controller, String expression, List<Command> parameters) {
+	public Towards(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

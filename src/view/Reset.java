@@ -1,13 +1,13 @@
 package view;
 
-import engine.Controller;
+import engine.IController;
 import javafx.scene.control.Button;
 
 
 public class Reset extends Clickable<Button> {
     private Button reset;
 
-    public Reset (Controller controller) {
+    public Reset (IController controller) {
         reset = new Button("Reset");
         reset.setOnAction(e -> controller.reset());
     }

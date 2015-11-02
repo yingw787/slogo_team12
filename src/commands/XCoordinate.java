@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class XCoordinate extends TurtleQuery{
 
@@ -10,7 +10,7 @@ public class XCoordinate extends TurtleQuery{
 		super();
 	}
 	
-	public XCoordinate(Controller controller, String expression, List<Command> parameters) {
+	public XCoordinate(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

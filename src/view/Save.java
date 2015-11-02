@@ -1,7 +1,8 @@
 package view;
 
 import java.util.Optional;
-import engine.Controller;
+
+import engine.IController;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
@@ -10,12 +11,12 @@ import javafx.scene.control.TextInputDialog;
 public class Save extends Clickable<Button> {
     private Button save;
 
-    public Save (Controller controller, TextArea t) {
+    public Save (IController controller, TextArea t) {
         save = new Button("Save");
         save.setOnAction(e -> this.saveMethod(controller, t));
     }
 
-    private void saveMethod (Controller myController, TextArea t) {
+    private void saveMethod (IController myController, TextArea t) {
         TextInputDialog textDialog = new TextInputDialog();
         textDialog.setTitle("Program Name");
         textDialog.setHeaderText("Enter the name for your program");

@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class MakeVariable extends SpecialForm {
 
@@ -10,7 +10,7 @@ public class MakeVariable extends SpecialForm {
 		super();
 	}
 	
-	public MakeVariable(Controller controller, String expression, List<Command> parameters) {
+	public MakeVariable(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import engine.Controller;
+import engine.IController;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
@@ -19,7 +20,7 @@ public class ClickableManager {
     private ObservableList<Integer> colorsList;
     private ObservableList<Rectangle> colorView;
     private Map<Integer,Color> myColors;
-    private Controller controller;
+    private IController controller;
     private TextArea t;
     private ObservableList<String> myHistList;
     private ObservableList<String> myVariableNames;
@@ -35,7 +36,7 @@ public class ClickableManager {
                              ObservableList<Integer> ColorsList,
                              Map<Integer,Color> myColors,
                              ObservableList<Rectangle> colorView,
-                             Controller controller,
+                             IController myController,
                              TextArea t,
                              ObservableList<String> myHistList,
                              ObservableList<String> myVariableNames,
@@ -46,7 +47,7 @@ public class ClickableManager {
         this.myColors = myColors;
         this.colorView = colorView;
         this.turtle = turtle;
-        this.controller = controller;
+        this.controller = myController;
         this.t = t;
         this.myHistList = myHistList;
         this.myVariableNames = myVariableNames;

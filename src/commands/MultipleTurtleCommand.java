@@ -3,7 +3,7 @@ package commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 import model.BackEndProperties;
 
 public abstract class MultipleTurtleCommand extends Command {
@@ -12,7 +12,7 @@ public abstract class MultipleTurtleCommand extends Command {
 		//do nothing
 	}
 	
-	public MultipleTurtleCommand(Controller controller, String expression, List<Command> commandList) {
+	public MultipleTurtleCommand(IController controller, String expression, List<Command> commandList) {
 		super(controller, expression, commandList);
 	}
 	

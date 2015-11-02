@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class SetPosition extends TurtleCommand {
 
@@ -10,7 +10,7 @@ public class SetPosition extends TurtleCommand {
 		super();
 	}
 	
-	public SetPosition(Controller controller, String expression, List<Command> parameters) {
+	public SetPosition(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

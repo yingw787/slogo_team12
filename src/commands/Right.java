@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class Right extends TurtleCommand {
 
@@ -10,7 +10,7 @@ public class Right extends TurtleCommand {
 		super();
 	}
 	
-	public Right(Controller controller, String expression, List<Command> parameters) {
+	public Right(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

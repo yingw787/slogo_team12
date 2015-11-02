@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class Heading extends TurtleQuery {
 
@@ -10,7 +10,7 @@ public class Heading extends TurtleQuery {
 		super();
 	}
 	
-	public Heading(Controller controller, String expression, List<Command> parameters) {
+	public Heading(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class For extends SpecialForm {
 
@@ -10,7 +10,7 @@ public class For extends SpecialForm {
 		super();
 	}
 	
-	public For(Controller controller, String expression, List<Command> parameters) {
+	public For(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

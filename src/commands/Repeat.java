@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class Repeat extends SpecialForm {
 	private static final String REP_COUNT = ":repcount";
@@ -11,7 +11,7 @@ public class Repeat extends SpecialForm {
 		super();
 	}
 	
-	public Repeat(Controller controller, String expression, List<Command> parameters) {
+	public Repeat(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

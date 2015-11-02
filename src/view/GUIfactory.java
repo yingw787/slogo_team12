@@ -2,7 +2,8 @@ package view;
 
 import java.util.List;
 import java.util.ResourceBundle;
-import engine.Controller;
+
+import engine.IController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,9 +22,9 @@ import javafx.scene.layout.VBox;
 public class GUIfactory {
 
     private ResourceBundle myResources;
-    private Controller myController;
+    private IController myController;
 
-    public GUIfactory (ResourceBundle bundle, Controller control) {
+    public GUIfactory (ResourceBundle bundle, IController control) {
         myController = control;
         // need to decide if controller should be passed to it
         // if not then all the button handlers, etc need to be set in GUI

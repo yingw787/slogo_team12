@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import engine.Controller;
+import engine.IController;
 import exceptions.NotEnoughParametersException;
 import model.BackEndProperties;
 import model.TurtleStatus;
@@ -15,7 +15,7 @@ import model.TurtleStatus;
 public abstract class Command {
 	private String myExpression;
 	private List<Command> myParameters;
-	private Controller myController;
+	private IController myController;
 	private Map<String,Double> myVariables;
 	private Map<String,UserCommand> myUserCommands;
 	private List<Integer> myActiveTurtles;
@@ -34,7 +34,7 @@ public abstract class Command {
 		myParameters = params;
 	}
 	
-	public Command(Controller controller, String expression, List<Command> params) {
+	public Command(IController controller, String expression, List<Command> params) {
 		myExpression = expression;
 		myParameters = params;
 		myController = controller;
@@ -107,7 +107,7 @@ public abstract class Command {
 		return myParameters;
 	}
 	
-	public Controller getController() {
+	public IController getController() {
 		return myController;
 	}
 	
@@ -135,7 +135,7 @@ public abstract class Command {
 		this.myParameters = commandList;
 	}
 	
-	public void setController(Controller controller) {
+	public void setController(IController controller) {
 		this.myController = controller;
 	}
 	

@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class SetHeading extends TurtleCommand {
 
@@ -10,7 +10,7 @@ public class SetHeading extends TurtleCommand {
 		super();
 	}
 	
-	public SetHeading(Controller controller, String expression, List<Command> parameters) {
+	public SetHeading(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

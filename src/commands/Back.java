@@ -2,7 +2,7 @@ package commands;
 
 import java.util.List;
 
-import engine.Controller;
+import engine.IController;
 
 public class Back extends TurtleCommand {
 
@@ -10,7 +10,7 @@ public class Back extends TurtleCommand {
 		super();
 	}
 	
-	public Back(Controller controller, String expression, List<Command> parameters) {
+	public Back(IController controller, String expression, List<Command> parameters) {
 		super(controller, expression, parameters);
 	}
 	

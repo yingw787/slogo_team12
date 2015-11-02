@@ -1,7 +1,8 @@
 package view;
 
 import java.util.Map;
-import engine.Controller;
+
+import engine.IController;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -12,10 +13,10 @@ import javafx.scene.text.Text;
 
 public class ColorIndexes extends Clickable<ComboBox> {
     private ComboBox paneColorSelect;
-    private Controller controller;
+    private IController controller;
     public ColorIndexes (Pane canvasBox,
                             ObservableList<Integer> colorsList,
-                            Controller controller) {
+                            IController controller) {
         this.controller = controller;
         paneColorSelect = new ComboBox();
         // paneColorSelect.setVal
