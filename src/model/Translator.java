@@ -8,12 +8,12 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 import commands.Command;
-import commands.CommandFactory;
 import commands.UserCommand;
 import engine.Controller;
 import exceptions.CommandNotFoundException;
 import exceptions.NotEnoughParametersException;
 import exceptions.PopupError;
+import masterpiece.CommandFactory;
 
 // Translator extends Observable as exception handling results must be forwarded to the view 
 public class Translator {

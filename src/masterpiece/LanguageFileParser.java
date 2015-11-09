@@ -1,4 +1,8 @@
-package model;
+// this entire file is part of my masterpiece. 
+// YING WANG 
+// YING WANG
+
+package masterpiece;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,13 +55,13 @@ public class LanguageFileParser{
 		return map; 
 	}
 	
-	public static void main(String[] args){ // for unit testing 
-		
-		LanguageFileParser englishParser = new LanguageFileParser("English");
-		HashMap<String, String> map = englishParser.retrieveMap();
-		for(String key: map.keySet()){
-			System.out.println(key + ", " + map.get(key));
-		}
-	}
+//	public static void main(String[] args){ // for unit testing 
+//		
+//		LanguageFileParser englishParser = new LanguageFileParser("English");
+//		HashMap<String, String> map = englishParser.retrieveMap();
+//		for(String key: map.keySet()){
+//			System.out.println(key + ", " + map.get(key));
+//		}
+//	}
 
 }

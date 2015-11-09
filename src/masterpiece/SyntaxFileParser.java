@@ -1,4 +1,7 @@
-package model;
+// this entire file is part of my masterpiece. 
+// YING WANG
+
+package masterpiece;
 
 import java.io.File;
 import java.io.IOException;

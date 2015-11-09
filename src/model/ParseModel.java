@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Stack;
 
 import commands.Command;
-import commands.CommandFactory;
 import commands.UserCommand;
 import exceptions.PopupError;
+import masterpiece.CommandFactory;
 
 public class ParseModel {
 	public static final String VARIABLE = "Variable";
