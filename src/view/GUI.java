@@ -293,45 +293,49 @@ public class GUI extends Application {
     public void updateTurtle (double[] Pos, int ID) {
 
         Turtle tempTurtle = turtleList.get(ID - 1);
-        double deltaX = Pos[0] - tempTurtle.getCurrentXPos();
-        double deltaY = Pos[1] - tempTurtle.getCurrentYPos();
+//        double deltaX = Pos[0] - tempTurtle.getCurrentXPos();
+//        double deltaY = Pos[1] - tempTurtle.getCurrentYPos();
+//
+//        
+//        frame = new KeyFrame(Duration.millis(ANIMATION_DURATION),
+//                             e -> {
+//
+//                                 tempTurtle.setPastXPos(tempTurtle.getCurrentXPos());
+//                                 tempTurtle.setPastYPos(tempTurtle.getCurrentYPos());
+//                                 tempTurtle.setCurrentXPos(tempTurtle.getCurrentXPos() +
+//                                                           (deltaX) / 10);
+//                                 tempTurtle.setCurrentYPos(tempTurtle.getCurrentYPos() +
+//                                                           (deltaY) / 10);
+//
+//                                 if (tempTurtle.isPenDown()) {
+//                                     drawLine(tempTurtle);
+//                                 }
+//
+//                                 
+//                                 if (Math.abs(tempTurtle.getCurrentXPos() - Pos[0]) < 0.009) {
+//                                     tempTurtle.setCurrentXPos(Pos[0]);
+//                                 }
+//                                 if (Math.abs(tempTurtle.getCurrentYPos() - Pos[1]) < 0.009) {
+//                                     tempTurtle.setCurrentYPos(Pos[1]);
+//                                 }
+//
+//                             });
+//        animation = new Timeline();
+//        animation.setCycleCount(10);
+//        animation.getKeyFrames().add(frame);
+//        animation.play();
 
         
-        frame = new KeyFrame(Duration.millis(ANIMATION_DURATION),
-                             e -> {
-
-                                 tempTurtle.setPastXPos(tempTurtle.getCurrentXPos());
-                                 tempTurtle.setPastYPos(tempTurtle.getCurrentYPos());
-                                 tempTurtle.setCurrentXPos(tempTurtle.getCurrentXPos() +
-                                                           (deltaX) / 10);
-                                 tempTurtle.setCurrentYPos(tempTurtle.getCurrentYPos() +
-                                                           (deltaY) / 10);
-
-                                 if (tempTurtle.isPenDown()) {
-                                     drawLine(tempTurtle);
-                                 }
-
-                                 
-                                 if (Math.abs(tempTurtle.getCurrentXPos() - Pos[0]) < 0.009) {
-                                     tempTurtle.setCurrentXPos(Pos[0]);
-                                 }
-                                 if (Math.abs(tempTurtle.getCurrentYPos() - Pos[1]) < 0.009) {
-                                     tempTurtle.setCurrentYPos(Pos[1]);
-                                 }
-
-                             });
-        animation = new Timeline();
-        animation.setCycleCount(10);
-        animation.getKeyFrames().add(frame);
-        animation.play();
-
-        /*
         tempTurtle.setPastXPos(tempTurtle.getCurrentXPos());
         tempTurtle.setPastYPos(tempTurtle.getCurrentYPos());
         tempTurtle.setCurrentXPos(Pos[0]);
         tempTurtle.setCurrentYPos(Pos[1]);
         drawLine(tempTurtle);
-		*/
+		
+    }
+    
+    public void setTurtleFence(boolean isFenced) {
+    	turtle.setFenced(isFenced);
     }
 
     public double[] getTurtlePosition () {

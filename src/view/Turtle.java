@@ -23,14 +23,16 @@ public class Turtle {
 	private ImageView turtleImage;
 	private List<String> statsList;
 	private Tooltip statsTooltip;
+	private boolean isFenced;
 
 	public Turtle(double d, double e, Image image, int ID) {
-		this.CANVAS_HEIGHT = e;
-		this.CANVAS_WIDTH = d;
+		this.CANVAS_HEIGHT = 405;
+		this.CANVAS_WIDTH = 575;
 		this.penColor = Color.BLACK;
 		this.penDown = true;
 		this.direction = 0;
 		this.turtleID = ID;
+		this.isFenced = false;
 	
 		statsList = new ArrayList<String>();
 		
@@ -49,6 +51,10 @@ public class Turtle {
 		}
 		
 		updateTooltip();
+	}
+	
+	public void setFenced(boolean fenced) {
+		isFenced = fenced;
 	}
 
 
@@ -94,7 +100,11 @@ public class Turtle {
 	}
 
 	public void setCurrentXPos(double currentXPos) {
-
+		if (currentXPos > CANVAS_WIDTH && isFenced) {
+			currentXPos = CANVAS_WIDTH;
+		} else if (currentXPos < 0 && isFenced) {
+			currentXPos = 0;
+		}
 		this.currentXPos = currentXPos;
 		turtleImage.setX(currentXPos);
 		updateTooltip();
@@ -105,6 +115,11 @@ public class Turtle {
 	}
 
 	public void setCurrentYPos(double currentYPos) {
+		if (currentYPos > CANVAS_HEIGHT && isFenced) {
+			currentYPos = CANVAS_HEIGHT;
+		} else if (currentYPos < 0 && isFenced) {
+			currentYPos = 0;
+		}
 		this.currentYPos = currentYPos;
 		turtleImage.setY(currentYPos);
 		updateTooltip();
