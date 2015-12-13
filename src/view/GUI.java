@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.geometry.Orientation;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -27,6 +28,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -133,9 +135,41 @@ public class GUI extends Application {
                 animation.play();
             }
         }));
+        
+        optionsBox.getChildren().add(myFactory.makeButton("New view", e -> {
+        	newView();
+        }));
     }
 
-    private void initHistory (VBox historyBox, TextArea t, List<Clickable> historyBoxClickables) {
+    private void newView() {
+    	Stage s = new Stage();
+		s.setX(100);
+		s.setY(100);
+		s.setTitle("Change Turtle Images");
+		
+		Group root = new Group();
+		Scene scene = new Scene(root, 500, 500, Color.WHITE);
+
+		VBox mainBox = new VBox();
+		root.getChildren().add(mainBox);
+
+		for(Turtle e: turtleList){
+			
+			VBox temp = new VBox();
+			mainBox.getChildren().add(temp);
+			ImageView tempIV = e.getTurtleImage();
+			temp.getChildren().add(tempIV);
+			temp.setOnMouseClicked(v -> {
+				e.setTurtleImage(new Image("cute.jpg"));
+		
+			});
+			
+		}
+		s.setScene(scene);
+		s.show();
+	}
+
+	private void initHistory (VBox historyBox, TextArea t, List<Clickable> historyBoxClickables) {
         root.setRight(historyBox);
         historyBox.setMaxWidth(SCREEN_WIDTH / 4);
         historyBox.getChildren().add(new Text("History"));
