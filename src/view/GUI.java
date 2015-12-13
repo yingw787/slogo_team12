@@ -1,5 +1,6 @@
 package view;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -155,13 +157,32 @@ public class GUI extends Application {
 
 		for(Turtle e: turtleList){
 			
-			VBox temp = new VBox();
+			HBox temp = new HBox();
 			mainBox.getChildren().add(temp);
-			ImageView tempIV = e.getTurtleImage();
+			ImageView tempIV = new ImageView(e.getTurtleImage().getImage());
+			tempIV.setFitWidth(100);
+			tempIV.setFitHeight(100);
 			temp.getChildren().add(tempIV);
 			temp.setOnMouseClicked(v -> {
-				e.setTurtleImage(new Image("cute.jpg"));
-		
+				
+					FileChooser fileChooser = new FileChooser();
+					File file = fileChooser.showOpenDialog(null);
+			        if (file != null) {
+			            Image image1 = new Image(file.toURI().toString());
+			            temp.getChildren().clear();
+			            
+			            tempIV.setImage(image1);
+			           // e.setTurtleImage(image1);
+			            
+			            temp.getChildren().add(tempIV);
+			            
+			            canvasBox.getChildren().remove(e.getTurtleImage());
+			            e.setTurtleImage(image1);
+			            canvasBox.getChildren().add(e.getTurtleImage());
+			        }
+				
+				
+			
 			});
 			
 		}
