@@ -4,6 +4,7 @@
 
 package masterpiece;
 
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 import commands.*;
@@ -43,7 +44,11 @@ public class CommandFactory {
 		builder.append(command);
 				
 		try {
-			Command commandObject = (Command) Class.forName(builder.toString()).getConstructor().newInstance();
+			String commandName = builder.toString();
+			Class<?> myClass = Class.forName(commandName);
+			Constructor<?> myConstructor = myClass.getConstructor();
+			Command commandObject = (Command) myConstructor.newInstance();
+			
 			return commandObject;
 //			System.out.println(command.getClass().getMethods());
 		} catch (Exception e) {

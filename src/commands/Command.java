@@ -53,7 +53,7 @@ public abstract class Command {
 			myActiveTurtles.add(1);
 		}
 		if(this.myParameters.size() == 0){
-			throw new NotEnoughParametersException(); 
+			//throw new NotEnoughParametersException(); 
 		}
 		
 		
