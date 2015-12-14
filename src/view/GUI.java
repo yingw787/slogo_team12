@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.geometry.Orientation;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -27,6 +28,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -58,6 +60,7 @@ public class GUI extends Application {
     private ObservableList<Rectangle> colorView;
     private Pane canvasBox;
     private List<Turtle> turtleList;
+    private Pane turtleView;
     private Turtle turtle;
     private Stage myStage;
     private Image image;
@@ -78,6 +81,24 @@ public class GUI extends Application {
         myFactory = new GUIfactory(myResources, myController);
         layOutGUI();
 
+    }
+
+    public void turtleView () {
+        turtleView = new Pane();
+        Stage newStage = new Stage();
+        Group newRoot = new Group();
+        newRoot.getChildren().add(turtleView);
+        newStage.setScene(new Scene(newRoot, 200, 200, false));
+        newStage.show();
+        for (Turtle t : turtleList) {
+            ImageView newImage = new ImageView(t.getTurtleImage().getImage());
+            turtleView.getChildren().add(newImage);
+            newImage.setOnMouseClicked(e -> {
+                if (PickImage.imagePrompt(canvasBox, t)) {
+                    newImage.setImage(t.getTurtleImage().getImage());
+                }
+            });
+        }
     }
 
     private void layOutGUI () {
@@ -152,22 +173,22 @@ public class GUI extends Application {
         myColorsIndex = FXCollections.observableArrayList();
         colorView = FXCollections.observableArrayList();
         myColors = new HashMap<Integer, Color>();
-        initColors(myColorsIndex,colorView,myColors);
+        initColors(myColorsIndex, colorView, myColors);
     }
 
     private void initColors (ObservableList<Integer> myColorsIndex,
                              ObservableList<Rectangle> colorView,
                              Map<Integer, Color> myColors) {
-       myColorsIndex.addAll(1, 2, 3, 4,5);
-       myColors.put(1, Color.rgb(255, 0, 0));
-       myColors.put(2, Color.rgb(0, 255, 0));
-       myColors.put(3, Color.rgb(0, 0, 255));
-       myColors.put(4, Color.rgb(0, 0, 0));
-       myColors.put(5, Color.rgb(255, 255, 255));
+        myColorsIndex.addAll(1, 2, 3, 4, 5);
+        myColors.put(1, Color.rgb(255, 0, 0));
+        myColors.put(2, Color.rgb(0, 255, 0));
+        myColors.put(3, Color.rgb(0, 0, 255));
+        myColors.put(4, Color.rgb(0, 0, 0));
+        myColors.put(5, Color.rgb(255, 255, 255));
         for (Color g : myColors.values()) {
             colorView.add(new Rectangle(10, 10, g));
         }
-        
+
     }
 
     private void setUpTurtles (ReadOnlyIntegerProperty myActiveTurtleNum) {

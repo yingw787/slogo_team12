@@ -12,7 +12,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class PickImage extends Clickable<Button> {
     private Button pickImage;
-    private FileChooser fileChooser;
+    private static FileChooser fileChooser;
 
     public PickImage (Pane canvasBox, Turtle turtle) {
         fileChooser = initFileChooser();
@@ -21,14 +21,20 @@ public class PickImage extends Clickable<Button> {
 
     }
 
-    private void imagePrompt (Pane canvasBox, Turtle turtle) {
+
+    public static boolean imagePrompt (Pane canvasBox, Turtle turtle) {
         File file = fileChooser.showOpenDialog(null);
         if (file != null) {
             Image image1 = new Image(file.toURI().toString());
             canvasBox.getChildren().remove(turtle.getTurtleImage());
             turtle.setTurtleImage(image1);
             canvasBox.getChildren().add(turtle.getTurtleImage());
+            return true;
+        }else{
+            return false;
         }
+
+
     }
 
     private FileChooser initFileChooser () {

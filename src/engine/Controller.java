@@ -6,6 +6,8 @@ import java.util.Map;
 import javafx.application.Application;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Group;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.BackEndController;
@@ -44,7 +46,7 @@ public class Controller extends Application {
 
         // init gui to set up everything, call this part of it last
         myGUI.setAndShowScene(myStage);
-
+        myGUI.turtleView();
     }
 
     public void reset () {
